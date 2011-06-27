@@ -12,6 +12,9 @@
 {
     unsigned numMasterPages;
     unsigned numDetailPages;
+    
+    NSArray *testDetailPages;
+    
 }
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

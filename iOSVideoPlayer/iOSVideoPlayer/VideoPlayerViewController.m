@@ -50,8 +50,11 @@
     //TODO: fill array of detail view controllers (all null though)
     
     //TODO: to be set by data returned from server
+     
+    testDetailPages = [NSArray arrayWithObjects:[NSNumber numberWithInt:1],[NSNumber numberWithInt:2],[NSNumber numberWithInt:3],[NSNumber numberWithInt:4],[NSNumber numberWithInt:5],nil];
+    
     numMasterPages = 5;
-    numDetailPages = 2; //TODO: linked to master page so when master changes this changes
+    numDetailPages = [[testDetailPages objectAtIndex:0] integerValue];
     
     self.masterPageControl.numberOfPages = numMasterPages;
     self.masterPageControl.currentPage = 0;
@@ -109,13 +112,17 @@
 - (void)scrollViewDidScroll:(UIScrollView *)sender
 {
     CGFloat pageWidth = self.masterScrollView.frame.size.width;
-    
-    //this is ok if all scroll views are screen width
     int pageNum = floor((sender.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     
-    //this is ok as long as there aren't more page controls
     if ([sender isEqual:self.masterScrollView])
+    {
         self.masterPageControl.currentPage = pageNum;
+        numDetailPages = [[testDetailPages objectAtIndex:pageNum] integerValue];
+        self.detailPageControl.numberOfPages = numDetailPages;
+        self.detailPageControl.currentPage = 0;
+        self.detailScrollView.contentSize = CGSizeMake(numDetailPages * self.detailScrollView.frame.size.width, self.detailScrollView.frame.size.height);
+        self.detailScrollView.contentOffset = CGPointMake(0,0);
+    }
     else 
         self.detailPageControl.currentPage = pageNum;
     
