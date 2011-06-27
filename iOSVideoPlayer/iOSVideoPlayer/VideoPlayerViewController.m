@@ -38,6 +38,8 @@
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     self.managedObjectContext = delegate.managedObjectContext;
     
+    //TODO: singleton settings class that loads from .plist
+    
     //TODO: load data from last viewing so user can use app right away
     //          add new stuff, remove old stuff, change updated stuff
     //              fill in text data, load thumbnails async
@@ -47,9 +49,10 @@
     //          setup slave ui view to reload when master scroll view scrolls
     
    
-    //TODO: fill array of detail view controllers (all null though)
+    //TODO; create custom view controller class to hold vid thumbnails
+    //TODO: fill array of above view controllers (all null)
     
-    //TODO: to be set by data returned from server
+    //TODO: create uiview in nib for queue, non-scrollable
      
     testDetailPages = [NSArray arrayWithObjects:[NSNumber numberWithInt:1],[NSNumber numberWithInt:2],[NSNumber numberWithInt:3],[NSNumber numberWithInt:4],[NSNumber numberWithInt:5],nil];
     
