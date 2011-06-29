@@ -7,8 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
-#import "VideoPlayerViewController.h"
+#import "RootViewController.h"
 #import <CoreData/CoreData.h>
 
 @implementation AppDelegate
@@ -23,7 +22,7 @@
 {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.viewController = [[VideoPlayerViewController alloc] initWithNibName:@"VideoPlayerViewController" bundle:nil]; 
+    self.viewController = [[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil]; 
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;

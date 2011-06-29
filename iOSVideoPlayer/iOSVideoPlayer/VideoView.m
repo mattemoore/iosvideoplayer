@@ -6,9 +6,9 @@
 //  Copyright 2011 Matt Moore. All rights reserved.
 //
 
-#import "ViewView.h"
+#import "VideoView.h"
 
-@implementation ViewView
+@implementation VideoView
 
 @synthesize titleLabel = __titleLabel;
 @synthesize summaryLabel = __summaryLabel;
@@ -20,9 +20,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        
+        //TODO layout labels and such size agnostic
     }
     return self;
 }
+
+//TODO: handle resizing and rotating (only show long description above certain size?)
 
 /*
 // Only override drawRect: if you perform custom drawing.

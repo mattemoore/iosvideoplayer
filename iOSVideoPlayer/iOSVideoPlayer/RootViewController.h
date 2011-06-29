@@ -8,13 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VideoPlayerViewController : UIViewController <UIScrollViewDelegate>
+@interface RootViewController : UIViewController <UIScrollViewDelegate>
 {
     unsigned numMasterPages;
     unsigned numDetailPages;
-    
-    NSArray *testDetailPages;
-    
+    NSMutableArray *testDetailPages; //TODO: remove after loading from data model implemented
 }
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

@@ -6,9 +6,9 @@
 //  Copyright 2011 Matt Moore. All rights reserved.
 //
 
-#import "VideoDetailViewController.h"
+#import "VideoPageViewController.h"
 
-@implementation VideoDetailViewController
+@implementation VideoPageViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

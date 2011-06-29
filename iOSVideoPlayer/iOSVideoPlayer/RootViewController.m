@@ -6,10 +6,10 @@
 //  Copyright 2011 Matt Moore. All rights reserved.
 //
 
-#import "VideoPlayerViewController.h"
+#import "RootViewController.h"
 #import "AppDelegate.h"
 
-@implementation VideoPlayerViewController
+@implementation RootViewController
 
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize masterScrollView = __masterScrollView;
@@ -45,19 +45,22 @@
     //              fill in text data, load thumbnails async
     //
     
-    //TODO: set two ui scroll views' content width to scroll view bounds width * num pages
-    //          setup slave ui view to reload when master scroll view scrolls
-    
-   
-    //TODO; create custom view controller class to hold vid thumbnails
-    //TODO: fill array of above view controllers (all null)
     
     //TODO: create uiview in nib for queue, non-scrollable
-     
-    testDetailPages = [NSArray arrayWithObjects:[NSNumber numberWithInt:1],[NSNumber numberWithInt:2],[NSNumber numberWithInt:3],[NSNumber numberWithInt:4],[NSNumber numberWithInt:5],nil];
+    
     
     numMasterPages = 5;
-    numDetailPages = [[testDetailPages objectAtIndex:0] integerValue];
+    //TODO: fill array of videopageview controllers (null to start)
+        //load them when needed and pass in data from model to videodetail
+    
+    //TODO: factor out the resetting of detail view controller array and detailviewscrollview
+    //          so that it may be called in init as well as a masterscrollview event
+    
+    self.detailViewControllers = [[NSMutableArray alloc] init];
+    for (int i = 0; i < numMasterPages; i++) {
+        [self.detailViewControllers addObject:[NSNull null]];
+    }
+    
     
     self.masterPageControl.numberOfPages = numMasterPages;
     self.masterPageControl.currentPage = 0;
@@ -71,6 +74,10 @@
     self.detailScrollView.scrollsToTop = NO;
     
     //TODO: load page 1 and page 2
+    testDetailPages = [NSArray arrayWithObjects:[NSNumber numberWithInt:1],[NSNumber numberWithInt:2],[NSNumber numberWithInt:3],[NSNumber numberWithInt:4],[NSNumber numberWithInt:5],nil];
+    
+    numDetailPages = [[testDetailPages objectAtIndex:0] integerValue];
+    
 }
 
 - (void)viewDidUnload
