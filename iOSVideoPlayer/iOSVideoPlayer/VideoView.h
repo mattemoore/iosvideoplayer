@@ -12,7 +12,7 @@
 
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *summaryLabel;
-@property (strong, nonatomic) UIImageView *thumbnailImage;
+@property (strong, nonatomic) UIImageView *videoScreenshot;
 @property (strong, nonatomic) UIImageView *playButtonOverlayImage;
 
 @end
