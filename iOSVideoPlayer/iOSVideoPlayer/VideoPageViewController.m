@@ -10,11 +10,12 @@
 
 @implementation VideoPageViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithVideos:(NSArray*)videos
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithNibName:@"VideoPageViewController" bundle:nil];
     if (self) {
-        // Custom initialization
+        
+        //TODO: init with video entity array passed in to create VideoViews...
     }
     return self;
 }

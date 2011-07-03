@@ -24,4 +24,6 @@
 @property (strong, nonatomic) IBOutlet UIView *masterPageControlView;
 @property (strong, nonatomic) IBOutlet UIView *detailPageControlView;
 
+-(void)loadVideoPage:(NSArray*)videos;
+
 @end

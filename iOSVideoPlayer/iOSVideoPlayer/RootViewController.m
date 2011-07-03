@@ -74,6 +74,8 @@
     self.detailScrollView.scrollsToTop = NO;
     
     //TODO: load page 1 and page 2
+    //[self.loadVideoPage:...
+    
     testDetailPages = [NSArray arrayWithObjects:[NSNumber numberWithInt:1],[NSNumber numberWithInt:2],[NSNumber numberWithInt:3],[NSNumber numberWithInt:4],[NSNumber numberWithInt:5],nil];
     
     numDetailPages = [[testDetailPages objectAtIndex:0] integerValue];
@@ -138,5 +140,12 @@
     
     //TODO: load -1 and +1 pages
 }
+
+-(void)loadVideoPage:(NSArray *)videos
+{
+    
+    
+}
+
 
 @end
