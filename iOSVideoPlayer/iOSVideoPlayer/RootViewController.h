@@ -12,7 +12,6 @@
 {
     unsigned numMasterPages;
     unsigned numDetailPages;
-    NSMutableArray *testDetailPages; //TODO: remove after loading from data model implemented
 }
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -23,7 +22,11 @@
 @property (strong, nonatomic) IBOutlet UIPageControl *detailPageControl;
 @property (strong, nonatomic) IBOutlet UIView *masterPageControlView;
 @property (strong, nonatomic) IBOutlet UIView *detailPageControlView;
+@property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) NSArray *videos; //array of video array that index to categories array
 
--(void)loadVideoPage:(NSArray*)videos;
+-(void)loadVideoPage:(int)pageNumber;
+-(NSArray*)loadVideoEntities;
+-(void)loadTestData;
 
 @end

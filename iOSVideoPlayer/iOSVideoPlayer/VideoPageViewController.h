@@ -11,6 +11,7 @@
 
 @interface VideoPageViewController : UIViewController
 
+- (id)initWithVideos:(NSArray*)videos;
 -(void)zoomVideo: (VideoView *)videoView;
 -(void)addVideoToQueue: (VideoView*)videoView;
 -(void)playVideo: (VideoView*)videoView;

@@ -1,5 +1,5 @@
 //
-//  iOSVideoPlayerViewController.m
+//  RootViewController.m
 //  iOSVideoPlayer
 //
 //  Created by Matthew Moore on 11-06-22.
@@ -8,6 +8,12 @@
 
 #import "RootViewController.h"
 #import "AppDelegate.h"
+#import <CoreData/CoreData.h>
+#import "Video.h"
+#import "VideoCategory.h"
+#import "VideoPageViewController.h"
+
+#define kNumberOfVideosPerPage 1
 
 @implementation RootViewController
 
@@ -19,6 +25,8 @@
 @synthesize detailPageControl = __detailPageControl;
 @synthesize masterPageControlView = __masterPageControlView;
 @synthesize detailPageControlView = __detailPageControlView;
+@synthesize categories = __categories;
+@synthesize videos = __videos;
 
 - (void)didReceiveMemoryWarning
 {
@@ -38,20 +46,18 @@
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     self.managedObjectContext = delegate.managedObjectContext;
     
-    //TODO: singleton settings class that loads from .plist
     
-    //TODO: load data from last viewing so user can use app right away
-    //          add new stuff, remove old stuff, change updated stuff
-    //              fill in text data, load thumbnails async
-    //
+    //TODO: load old videos from store
+    //          get updated list from network
+    //              compare two lists, add (set isNew) and remove as necessary, update exisiting (keep isRead)
+    //do fetch requests to get all categories and put in categories array
+    //do fetch request for all videos in each category and put in each index of videos array
     
+    NSArray *savedVideos = [self loadVideoEntities];
     
-    //TODO: create uiview in nib for queue, non-scrollable
+    [self loadTestData];
     
-    
-    numMasterPages = 5;
-    //TODO: fill array of videopageview controllers (null to start)
-        //load them when needed and pass in data from model to videodetail
+    numMasterPages = self.categories.count;
     
     //TODO: factor out the resetting of detail view controller array and detailviewscrollview
     //          so that it may be called in init as well as a masterscrollview event
@@ -60,7 +66,6 @@
     for (int i = 0; i < numMasterPages; i++) {
         [self.detailViewControllers addObject:[NSNull null]];
     }
-    
     
     self.masterPageControl.numberOfPages = numMasterPages;
     self.masterPageControl.currentPage = 0;
@@ -73,12 +78,9 @@
     self.detailScrollView.contentSize = CGSizeMake(numDetailPages * self.detailScrollView.frame.size.width, self.detailScrollView.frame.size.height);
     self.detailScrollView.scrollsToTop = NO;
     
-    //TODO: load page 1 and page 2
-    //[self.loadVideoPage:...
-    
-    testDetailPages = [NSArray arrayWithObjects:[NSNumber numberWithInt:1],[NSNumber numberWithInt:2],[NSNumber numberWithInt:3],[NSNumber numberWithInt:4],[NSNumber numberWithInt:5],nil];
-    
-    numDetailPages = [[testDetailPages objectAtIndex:0] integerValue];
+    [self loadVideoPage:0];
+    [self loadVideoPage:1];
+    numDetailPages = [[self.videos objectAtIndex:0] count] / kNumberOfVideosPerPage;
     
 }
 
@@ -129,7 +131,7 @@
     if ([sender isEqual:self.masterScrollView])
     {
         self.masterPageControl.currentPage = pageNum;
-        numDetailPages = [[testDetailPages objectAtIndex:pageNum] integerValue];
+        numDetailPages = [[self.videos objectAtIndex:pageNum] count] / kNumberOfVideosPerPage;;
         self.detailPageControl.numberOfPages = numDetailPages;
         self.detailPageControl.currentPage = 0;
         self.detailScrollView.contentSize = CGSizeMake(numDetailPages * self.detailScrollView.frame.size.width, self.detailScrollView.frame.size.height);
@@ -138,14 +140,54 @@
     else 
         self.detailPageControl.currentPage = pageNum;
     
-    //TODO: load -1 and +1 pages
+    [self loadVideoPage:pageNum + 1];
 }
 
--(void)loadVideoPage:(NSArray *)videos
+-(void)loadVideoPage:(int)pageNumber
 {
-    
-    
+    VideoPageViewController *videoPage = [self.detailViewControllers objectAtIndex:pageNumber];
+    if (videoPage == nil)
+    {
+        videoPage = [[VideoPageViewController alloc] initWithVideos:[self.videos objectAtIndex:pageNumber]];
+        [self.detailViewControllers replaceObjectAtIndex:pageNumber withObject:videoPage];
+    }
+
+    //if (videoPage.view.superview == nil)
+    //{
+        CGRect frame = self.detailScrollView.frame;
+        frame.origin.x = frame.size.width * pageNumber;
+        frame.origin.y = 0;
+        videoPage.view.frame = frame;
+        [self.detailScrollView addSubview:videoPage.view];
+    //}
 }
 
+#pragma mark - Core Data Calls
+
+-(NSArray*)loadVideoEntities {
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Video" inManagedObjectContext:self.managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = entityDescription;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Title like[cd] '*'"];
+    fetchRequest.predicate = predicate;
+    NSError *error;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (results == nil)
+        NSLog(@"%@", error.description);
+    return results;
+}
+
+-(void)loadTestData
+{
+    self.categories = [[NSArray alloc] initWithObjects:@"Category1", @"Category2", @"Category3", nil];
+    
+    Video *testVideo = (Video*)[NSEntityDescription insertNewObjectForEntityForName:@"Video" inManagedObjectContext:self.managedObjectContext];
+    testVideo.Title = @"Test Title";
+    testVideo.Description = @"Test description...";
+    NSArray *category1videos = [[NSArray alloc] initWithObjects:testVideo, nil];
+    NSArray *category2videos = [[NSArray alloc] initWithObjects:testVideo, testVideo, nil];
+    NSArray *category3videos = [[NSArray alloc] initWithObjects:testVideo, testVideo, testVideo, nil];
+    self.videos = [[NSArray alloc] initWithObjects:category1videos, category2videos, category3videos, nil];
+}
 
 @end
