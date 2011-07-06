@@ -12,7 +12,7 @@
 
 - (id)initWithVideos:(NSArray*)videos
 {
-    self = [super initWithNibName:@"VideoPageViewController" bundle:nil];
+    self = [super initWithNibName:@"VideoPageViewController" bundle:[NSBundle mainBundle]];
     if (self) {
         
         //TODO: init with video entity array passed in to create VideoViews...

@@ -12,6 +12,8 @@
 {
     unsigned numMasterPages;
     unsigned numDetailPages;
+    unsigned currentMasterPageNum;
+    unsigned currentDetailPageNum;
 }
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -25,8 +27,9 @@
 @property (strong, nonatomic) NSArray *categories;
 @property (strong, nonatomic) NSArray *videos; //array of video array that index to categories array
 
--(void)loadVideoPage:(int)pageNumber;
+-(void)loadDetailPageNumber:(int)detailPageNum;
 -(NSArray*)loadVideoEntities;
 -(void)loadTestData;
+-(void)resetDetailScrollView;
 
 @end

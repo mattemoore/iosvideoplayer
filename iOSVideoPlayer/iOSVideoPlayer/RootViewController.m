@@ -15,6 +15,8 @@
 
 #define kNumberOfVideosPerPage 1
 
+#define kNumberOfTestCategories 3
+
 @implementation RootViewController
 
 @synthesize managedObjectContext = __managedObjectContext;
@@ -45,7 +47,7 @@
     
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     self.managedObjectContext = delegate.managedObjectContext;
-    
+    self.detailViewControllers = [[NSMutableArray alloc] init];
     
     //TODO: load old videos from store
     //          get updated list from network
@@ -53,35 +55,25 @@
     //do fetch requests to get all categories and put in categories array
     //do fetch request for all videos in each category and put in each index of videos array
     
-    NSArray *savedVideos = [self loadVideoEntities];
+    //NSArray *savedVideos = [self loadVideoEntities];
     
     [self loadTestData];
     
+    //TODO: create method for loadMasterPage that will change category labels (don't need view controller yet as it has only label)
+    
     numMasterPages = self.categories.count;
-    
-    //TODO: factor out the resetting of detail view controller array and detailviewscrollview
-    //          so that it may be called in init as well as a masterscrollview event
-    
-    self.detailViewControllers = [[NSMutableArray alloc] init];
-    for (int i = 0; i < numMasterPages; i++) {
-        [self.detailViewControllers addObject:[NSNull null]];
-    }
+    numDetailPages = ceil((float)[[self.videos objectAtIndex:0] count] / (float)kNumberOfVideosPerPage);
     
     self.masterPageControl.numberOfPages = numMasterPages;
+    currentMasterPageNum = 0;
     self.masterPageControl.currentPage = 0;
-    self.detailPageControl.numberOfPages = numDetailPages;
-    self.detailPageControl.currentPage = 0;
     
     self.masterScrollView.contentSize = CGSizeMake(numMasterPages * self.masterScrollView.frame.size.width, self.masterScrollView.frame.size.height);
     self.masterScrollView.scrollsToTop = NO;
     
-    self.detailScrollView.contentSize = CGSizeMake(numDetailPages * self.detailScrollView.frame.size.width, self.detailScrollView.frame.size.height);
-    self.detailScrollView.scrollsToTop = NO;
+    self.detailScrollView.scrollsToTop = NO; 
     
-    [self loadVideoPage:0];
-    [self loadVideoPage:1];
-    numDetailPages = [[self.videos objectAtIndex:0] count] / kNumberOfVideosPerPage;
-    
+    [self resetDetailScrollView];
 }
 
 - (void)viewDidUnload
@@ -130,64 +122,117 @@
     
     if ([sender isEqual:self.masterScrollView])
     {
+        currentMasterPageNum = pageNum;
         self.masterPageControl.currentPage = pageNum;
-        numDetailPages = [[self.videos objectAtIndex:pageNum] count] / kNumberOfVideosPerPage;;
-        self.detailPageControl.numberOfPages = numDetailPages;
-        self.detailPageControl.currentPage = 0;
-        self.detailScrollView.contentSize = CGSizeMake(numDetailPages * self.detailScrollView.frame.size.width, self.detailScrollView.frame.size.height);
-        self.detailScrollView.contentOffset = CGPointMake(0,0);
+        numDetailPages = ceil((float)[[self.videos objectAtIndex:pageNum] count] / (float)kNumberOfVideosPerPage);
+        [self resetDetailScrollView];  
     }
     else 
+    {
+        currentDetailPageNum = pageNum;
         self.detailPageControl.currentPage = pageNum;
-    
-    [self loadVideoPage:pageNum + 1];
+        [self loadDetailPageNumber:pageNum+1];
+    }
 }
 
--(void)loadVideoPage:(int)pageNumber
+
+//set currentMasterPageNum and numDetailPages first and then call this to reset detail scroll view
+- (void)resetDetailScrollView
 {
-    VideoPageViewController *videoPage = [self.detailViewControllers objectAtIndex:pageNumber];
-    if (videoPage == nil)
+    self.detailViewControllers = [[NSMutableArray alloc] init];
+    for (int i = 0; i < numDetailPages; i++) {
+        [self.detailViewControllers addObject:[NSNull null]];
+    }
+    
+    self.detailScrollView.contentSize = CGSizeMake(numDetailPages * self.detailScrollView.frame.size.width, self.detailScrollView.frame.size.height);
+    self.detailScrollView.contentOffset = CGPointMake(0,0);
+    
+    self.detailPageControl.numberOfPages = numDetailPages;
+    currentDetailPageNum = 0;
+    self.detailPageControl.currentPage = 0;
+    
+    [self loadDetailPageNumber:0];
+    [self loadDetailPageNumber:1];
+}
+
+
+//set currentMasterPageNum and numDetailPages first and then call this to load a detail page
+-(void)loadDetailPageNumber:(int)detailPageNum 
+{
+    if (detailPageNum < 0)
+        return;
+    if (detailPageNum >= numDetailPages)
+        return;
+    
+    VideoPageViewController *videoPage = [self.detailViewControllers objectAtIndex:detailPageNum];
+    if ((NSNull *)videoPage == [NSNull null])
     {
-        videoPage = [[VideoPageViewController alloc] initWithVideos:[self.videos objectAtIndex:pageNumber]];
-        [self.detailViewControllers replaceObjectAtIndex:pageNumber withObject:videoPage];
+        NSArray *videosForCurrentMasterPage = [self.videos objectAtIndex:currentMasterPageNum];
+        int numVideosForCurrentMasterPage = [videosForCurrentMasterPage count];
+        
+        NSInteger lengthOfRange = MIN(kNumberOfVideosPerPage, numVideosForCurrentMasterPage - (detailPageNum * kNumberOfVideosPerPage));
+        NSRange rangeOfVideos = NSMakeRange(detailPageNum * kNumberOfVideosPerPage, lengthOfRange);
+        NSIndexSet *videosToInit = [NSIndexSet indexSetWithIndexesInRange:rangeOfVideos];
+        
+        videoPage = [[VideoPageViewController alloc] initWithVideos:[videosForCurrentMasterPage objectsAtIndexes:videosToInit]];
+        [self.detailViewControllers replaceObjectAtIndex:detailPageNum withObject:videoPage];
     }
 
-    //if (videoPage.view.superview == nil)
-    //{
+    if (videoPage.view.superview == nil)
+    {
         CGRect frame = self.detailScrollView.frame;
-        frame.origin.x = frame.size.width * pageNumber;
+        frame.origin.x = frame.size.width * detailPageNum;
         frame.origin.y = 0;
         videoPage.view.frame = frame;
         [self.detailScrollView addSubview:videoPage.view];
-    //}
+    }
 }
 
 #pragma mark - Core Data Calls
 
 -(NSArray*)loadVideoEntities {
+    
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Video" inManagedObjectContext:self.managedObjectContext];
+    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = entityDescription;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Title like[cd] '*'"];
     fetchRequest.predicate = predicate;
+    
     NSError *error;
     NSArray *results = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
     if (results == nil)
         NSLog(@"%@", error.description);
+    
     return results;
 }
 
+//loads some test data, 3 videos added per test category, i.e. category1 = 3 videos, category2 = 6 videos...
 -(void)loadTestData
 {
-    self.categories = [[NSArray alloc] initWithObjects:@"Category1", @"Category2", @"Category3", nil];
+    NSMutableArray *testCategories = [[NSMutableArray alloc] init];
+    NSMutableArray *testVideos = [[NSMutableArray alloc] init];
     
-    Video *testVideo = (Video*)[NSEntityDescription insertNewObjectForEntityForName:@"Video" inManagedObjectContext:self.managedObjectContext];
-    testVideo.Title = @"Test Title";
-    testVideo.Description = @"Test description...";
-    NSArray *category1videos = [[NSArray alloc] initWithObjects:testVideo, nil];
-    NSArray *category2videos = [[NSArray alloc] initWithObjects:testVideo, testVideo, nil];
-    NSArray *category3videos = [[NSArray alloc] initWithObjects:testVideo, testVideo, testVideo, nil];
-    self.videos = [[NSArray alloc] initWithObjects:category1videos, category2videos, category3videos, nil];
+    for (int i = 0; i < kNumberOfTestCategories; i++) 
+    {
+        
+        NSString *categoryTitle = [NSString stringWithFormat:@"Category%d",i];
+        [testCategories addObject:categoryTitle];
+        
+        NSMutableArray *testVideosForThisCategory = [[NSMutableArray alloc] init];
+        for(int y=0; y < (i + 1) * 3; y++)
+        {
+            Video *testVideo = (Video*)[NSEntityDescription insertNewObjectForEntityForName:@"Video" inManagedObjectContext:self.managedObjectContext];
+            testVideo.Title = [NSString stringWithFormat:@"T1", categoryTitle];
+            testVideo.Description = @"Test description..."; 
+            [testVideosForThisCategory addObject:testVideo];
+        }     
+        [testVideos addObject:testVideosForThisCategory];
+    }
+    
+    self.categories = [[NSArray alloc] initWithArray:testCategories];
+    self.videos = [[NSArray alloc] initWithArray:testVideos];
 }
 
 @end
