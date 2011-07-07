@@ -19,17 +19,22 @@
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) IBOutlet UIScrollView *masterScrollView;
 @property (strong, nonatomic) IBOutlet UIScrollView *detailScrollView;
+@property (strong, nonatomic) NSArray *masterViewControllers;
 @property (strong, nonatomic) NSMutableArray *detailViewControllers;
+
+@property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) NSArray *videos; //array of video array that index to categories array
+
+//TODO: To be removed on launch...
 @property (strong, nonatomic) IBOutlet UIPageControl *masterPageControl;
 @property (strong, nonatomic) IBOutlet UIPageControl *detailPageControl;
 @property (strong, nonatomic) IBOutlet UIView *masterPageControlView;
 @property (strong, nonatomic) IBOutlet UIView *detailPageControlView;
-@property (strong, nonatomic) NSArray *categories;
-@property (strong, nonatomic) NSArray *videos; //array of video array that index to categories array
 
 -(void)loadDetailPageNumber:(int)detailPageNum;
 -(NSArray*)loadVideoEntities;
 -(void)loadTestData;
 -(void)resetDetailScrollView;
+- (NSMutableArray *)loadMasterViewControllers;
 
 @end

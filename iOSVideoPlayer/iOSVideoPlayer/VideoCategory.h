@@ -14,7 +14,7 @@
 @interface VideoCategory : NSManagedObject {
 @private
 }
-@property (nonatomic, retain) NSString * Name;
+@property (nonatomic, retain) NSString *Name;
 @property (nonatomic, retain) NSSet *Videos;
 @end
 
