@@ -13,6 +13,7 @@
 #import "VideoCategory.h"
 #import "VideoPageViewController.h"
 #import "CategoryViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define kNumberOfVideosPerPage 4
 #define kNumberOfTestCategories 3
@@ -65,9 +66,13 @@
     self.masterPageControl.currentPage = 0;
     
     self.masterViewControllers = [self loadMasterViewControllers];  
-    self.masterScrollView.contentSize = CGSizeMake(numMasterPages * self.masterScrollView.frame.size.width, self.masterScrollView.frame.size.height);
     self.masterScrollView.scrollsToTop = NO;
+    self.masterScrollView.layer.borderColor = [UIColor greenColor].CGColor;
+    self.masterScrollView.layer.borderWidth = 3.0;
     
+    //TODO: extract below into 'resetMasterDetailScrollView'
+    //TODO: call both reset methods when orientation changes
+    self.masterScrollView.contentSize = CGSizeMake(numMasterPages * self.masterScrollView.frame.size.width, self.masterScrollView.frame.size.height);
     for (int i = 0; i < numMasterPages; i++) {
         
         CGRect frame = self.masterScrollView.frame;
@@ -150,8 +155,7 @@
     NSMutableArray *categoryViewControllers = [[NSMutableArray alloc] init];
     
     for (int i=0; i < self.categories.count ; i++) 
-    {
-        
+    {   
         VideoCategory *category = (VideoCategory*)[self.categories objectAtIndex:i];
         NSString *currentLabel = category.Name;
         
@@ -255,8 +259,7 @@
     NSMutableArray *testVideos = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < kNumberOfTestCategories; i++) 
-    {
-        
+    {   
         NSString *categoryTitle = [NSString stringWithFormat:@"Category%d",i];
         VideoCategory *videoCategory = [NSEntityDescription insertNewObjectForEntityForName:@"VideoCategory" inManagedObjectContext:self.managedObjectContext];
         videoCategory.Name = categoryTitle;
