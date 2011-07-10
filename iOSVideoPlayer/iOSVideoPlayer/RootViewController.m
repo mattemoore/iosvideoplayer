@@ -14,7 +14,7 @@
 #import "VideoPageViewController.h"
 #import "CategoryViewController.h"
 
-#define kNumberOfVideosPerPage 1
+#define kNumberOfVideosPerPage 4
 #define kNumberOfTestCategories 3
 
 @implementation RootViewController
@@ -60,8 +60,10 @@
     //setup master scroll view, content fully preloaded as master view pages are not complex
     numMasterPages = self.categories.count;
     currentMasterPageNum = 0;
+    
     self.masterPageControl.numberOfPages = numMasterPages;
     self.masterPageControl.currentPage = 0;
+    
     self.masterViewControllers = [self loadMasterViewControllers];  
     self.masterScrollView.contentSize = CGSizeMake(numMasterPages * self.masterScrollView.frame.size.width, self.masterScrollView.frame.size.height);
     self.masterScrollView.scrollsToTop = NO;
@@ -72,9 +74,6 @@
         frame.origin.x = frame.size.width * i;
         frame.origin.y = 0;
         CategoryViewController *categoryViewController = [self.masterViewControllers objectAtIndex:i];
-        categoryViewController.currentCategoryLabel.text = @"Foo";
-        categoryViewController.nextCategoryLabel.text = @"Foo";
-        categoryViewController.previousCategoryLabel.text = @"Foo";
         categoryViewController.view.frame = frame;
         [self.masterScrollView addSubview:categoryViewController.view];
     }
@@ -250,7 +249,6 @@
     return results;
 }
 
-//loads some test data, 3 videos added per test category, i.e. category1 = 3 videos, category2 = 6 videos...
 -(void)loadTestData
 {
     NSMutableArray *testCategories = [[NSMutableArray alloc] init];
@@ -268,7 +266,7 @@
         for(int y=0; y < (i + 1) * 3; y++)
         {
             Video *testVideo = (Video*)[NSEntityDescription insertNewObjectForEntityForName:@"Video" inManagedObjectContext:self.managedObjectContext];
-            testVideo.Title = [NSString stringWithFormat:@"T1", categoryTitle];
+            testVideo.Title = [NSString stringWithFormat:@"T%d-%@", y, categoryTitle];
             testVideo.Description = @"Test description..."; 
             [testVideosForThisCategory addObject:testVideo];
         }     

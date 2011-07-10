@@ -11,7 +11,14 @@
 
 @interface VideoPageViewController : UIViewController
 
-- (id)initWithVideos:(NSArray*)videos;
+@property (nonatomic, strong) NSArray* videos;
+@property (nonatomic, strong) IBOutlet VideoView* videoView1;
+@property (nonatomic, strong) IBOutlet VideoView* videoView2;
+@property (nonatomic, strong) IBOutlet VideoView* videoView3;
+@property (nonatomic, strong) IBOutlet VideoView* videoView4;
+
+
+-(id)initWithVideos:(NSArray*)videos;
 -(void)zoomVideo: (VideoView *)videoView;
 -(void)addVideoToQueue: (VideoView*)videoView;
 -(void)playVideo: (VideoView*)videoView;

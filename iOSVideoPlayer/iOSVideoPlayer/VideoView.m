@@ -20,24 +20,29 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height * 0.1)];
-        self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        
-        self.videoScreenshot = [[UIImageView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.titleLabel.frame), frame.size.width, frame.size.height * 0.7)];
-        
-        self.playButtonOverlayImage = [[UIImageView alloc] initWithFrame:self.videoScreenshot.frame];
-        self.playButtonOverlayImage.alpha = 0.75;
-        
-        self.summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.videoScreenshot.frame), frame.size.width, frame.size.height * 0.2)];
-        self.summaryLabel.lineBreakMode = UILineBreakModeTailTruncation;
-        
-        [self addSubview:self.titleLabel];
-        [self addSubview:self.videoScreenshot];
-        [self addSubview:self.playButtonOverlayImage];
-        [self addSubview:self.summaryLabel];
     }
     return self;
+}
+
+-(void)awakeFromNib
+{
+    [super awakeFromNib];
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height * 0.1)];
+    self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    
+    self.videoScreenshot = [[UIImageView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.titleLabel.frame), self.frame.size.width, self.frame.size.height * 0.7)];
+    
+    self.playButtonOverlayImage = [[UIImageView alloc] initWithFrame:self.videoScreenshot.frame];
+    self.playButtonOverlayImage.alpha = 0.75;
+    
+    self.summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.videoScreenshot.frame), self.frame.size.width, self.frame.size.height * 0.2)];
+    self.summaryLabel.lineBreakMode = UILineBreakModeTailTruncation;
+    
+    [self addSubview:self.titleLabel];
+    [self addSubview:self.videoScreenshot];
+    [self addSubview:self.playButtonOverlayImage];
+    [self addSubview:self.summaryLabel];
+
 }
 
 //TODO: handle resizing and rotating (only show long description above certain size?)

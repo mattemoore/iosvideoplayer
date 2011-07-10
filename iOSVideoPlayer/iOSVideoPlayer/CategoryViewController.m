@@ -10,7 +10,9 @@
 
 @implementation CategoryViewController
 
-@synthesize previousCategoryLabel, currentCategoryLabel, nextCategoryLabel;
+@synthesize previousCategoryLabel = __previousCategoryLabel;
+@synthesize currentCategoryLabel = __currentCategoryLabel;
+@synthesize nextCategoryLabel = __nextCategoryLabel;
 @synthesize nextCategoryName = __nextCategoryName;
 @synthesize currentCategoryName = __currentCategoryName;
 @synthesize previousCategoryName = __previousCategoryName;
@@ -42,9 +44,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    currentCategoryLabel.text = self.currentCategoryName;
-    nextCategoryLabel.text = self.nextCategoryName;
-    previousCategoryLabel.text = self.previousCategoryName;
+    self.currentCategoryLabel.text = self.currentCategoryName;
+    self.nextCategoryLabel.text = self.nextCategoryName;
+    self.previousCategoryLabel.text = self.previousCategoryName;
 }
 
 - (void)viewDidUnload

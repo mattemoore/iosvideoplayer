@@ -9,15 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface CategoryViewController : UIViewController
-{
-    UILabel *previousCategoryLabel;
-    UILabel *currentCategoryLabel;
-    UILabel *nextCategoryLabel;
-}
 
-@property (nonatomic, retain) IBOutlet UILabel *previousCategoryLabel;
-@property (nonatomic, retain) IBOutlet UILabel *currentCategoryLabel;
-@property (nonatomic, retain) IBOutlet UILabel *nextCategoryLabel;
+@property (nonatomic, strong) IBOutlet UILabel *previousCategoryLabel;
+@property (nonatomic, strong) IBOutlet UILabel *currentCategoryLabel;
+@property (nonatomic, strong) IBOutlet UILabel *nextCategoryLabel;
 @property (nonatomic, strong) NSString *previousCategoryName;
 @property (nonatomic, strong) NSString *currentCategoryName;
 @property (nonatomic, strong) NSString *nextCategoryName;
