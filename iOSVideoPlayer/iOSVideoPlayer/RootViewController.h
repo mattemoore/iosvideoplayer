@@ -35,6 +35,7 @@
 -(NSArray*)loadVideoEntities;
 -(void)loadTestData;
 -(void)resetDetailScrollView;
-- (NSMutableArray *)loadMasterViewControllers;
+-(void)resetMasterScrollView;
+-(NSMutableArray *)loadMasterViewControllers;
 
 @end

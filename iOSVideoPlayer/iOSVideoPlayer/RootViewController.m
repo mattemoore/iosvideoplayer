@@ -69,20 +69,8 @@
     self.masterScrollView.scrollsToTop = NO;
     self.masterScrollView.layer.borderColor = [UIColor greenColor].CGColor;
     self.masterScrollView.layer.borderWidth = 3.0;
+    [self resetMasterScrollView];
     
-    //TODO: extract below into 'resetMasterDetailScrollView'
-    //TODO: call both reset methods when orientation changes
-    self.masterScrollView.contentSize = CGSizeMake(numMasterPages * self.masterScrollView.frame.size.width, self.masterScrollView.frame.size.height);
-    for (int i = 0; i < numMasterPages; i++) {
-        
-        CGRect frame = self.masterScrollView.frame;
-        frame.origin.x = frame.size.width * i;
-        frame.origin.y = 0;
-        CategoryViewController *categoryViewController = [self.masterViewControllers objectAtIndex:i];
-        categoryViewController.view.frame = frame;
-        [self.masterScrollView addSubview:categoryViewController.view];
-    }
-
     //setup detail scroll view, lazy loading after each page turn
     self.detailViewControllers = [[NSMutableArray alloc] init];
     numDetailPages = ceil((float)[[self.videos objectAtIndex:0] count] / (float)kNumberOfVideosPerPage);
@@ -126,6 +114,11 @@
     return YES;
 }
 
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self resetMasterScrollView];
+    [self resetDetailScrollView];
+}
 
 #pragma mark - Scroll View Handling
 
@@ -133,7 +126,6 @@
 {
     CGFloat pageWidth = self.masterScrollView.frame.size.width;
     int pageNum = floor((sender.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    
     if ([sender isEqual:self.masterScrollView])
     {
         currentMasterPageNum = pageNum;
@@ -180,6 +172,21 @@
     return categoryViewControllers;
 }
 
+//set numberOfMasterPages first and then call this to reset master scroll
+-(void) resetMasterScrollView 
+{
+    self.masterScrollView.contentSize = CGSizeMake(numMasterPages * self.masterScrollView.frame.size.width, self.masterScrollView.frame.size.height);
+   
+    for (int i = 0; i < numMasterPages; i++) {
+        CGRect frame = self.masterScrollView.frame;
+        frame.origin.x = frame.size.width * i;
+        frame.origin.y = 0;
+        self.masterScrollView.contentOffset = CGPointMake(0, 0);
+        CategoryViewController *categoryViewController = [self.masterViewControllers objectAtIndex:i];
+        categoryViewController.view.frame = frame;
+        [self.masterScrollView addSubview:categoryViewController.view];
+    }
+}
 
 //set currentMasterPageNum and numDetailPages first and then call this to reset detail scroll view
 - (void)resetDetailScrollView
