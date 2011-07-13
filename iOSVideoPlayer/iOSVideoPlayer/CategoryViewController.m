@@ -46,8 +46,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.view.layer.borderColor = [UIColor greenColor].CGColor;
-    self.view.layer.borderWidth = 3.0;
+    //self.view.layer.borderColor = [UIColor greenColor].CGColor;
+    //self.view.layer.borderWidth = 3.0;
     
     self.currentCategoryLabel.text = self.currentCategoryName;
     self.nextCategoryLabel.text = self.nextCategoryName;
