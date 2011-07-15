@@ -14,5 +14,9 @@
 @property (strong, nonatomic) UILabel *summaryLabel;
 @property (strong, nonatomic) UIImageView *videoScreenshot;
 @property (strong, nonatomic) UIImageView *playButtonOverlayImage;
+@property (strong, nonatomic, getter = getNewVideoImage) UIImageView *newVideoImage;
+@property (strong, nonatomic) UIImageView *watchedVideoImage;
+
+- (void)drawBorders;
 
 @end
