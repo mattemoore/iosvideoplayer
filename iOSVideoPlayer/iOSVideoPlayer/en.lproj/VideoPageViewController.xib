@@ -40,8 +40,8 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIView" id="238632989">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{51, 42}, {280, 240}}</string>
+						<int key="NSvFlags">310</int>
+						<string key="NSFrame">{{20, 20}, {345, 370}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="824481271"/>
@@ -54,8 +54,8 @@
 					</object>
 					<object class="IBUIView" id="94561884">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{51, 373}, {280, 240}}</string>
+						<int key="NSvFlags">286</int>
+						<string key="NSFrame">{{20, 408}, {345, 370}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="551916371"/>
@@ -65,18 +65,19 @@
 					</object>
 					<object class="IBUIView" id="551916371">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{428, 373}, {280, 240}}</string>
+						<int key="NSvFlags">283</int>
+						<string key="NSFrame">{{400, 408}, {345, 370}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:198</string>
 						<reference key="IBUIBackgroundColor" ref="1063104507"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
 					<object class="IBUIView" id="824481271">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{428, 42}, {280, 240}}</string>
+						<int key="NSvFlags">307</int>
+						<string key="NSFrame">{{400, 20}, {345, 370}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="94561884"/>
@@ -85,7 +86,7 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
 				</object>
-				<string key="NSFrameSize">{768, 636}</string>
+				<string key="NSFrameSize">{768, 797}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="238632989"/>
@@ -173,8 +174,8 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="238632989"/>
-							<reference ref="94561884"/>
 							<reference ref="824481271"/>
+							<reference ref="94561884"/>
 							<reference ref="551916371"/>
 						</object>
 						<reference key="parent" ref="0"/>

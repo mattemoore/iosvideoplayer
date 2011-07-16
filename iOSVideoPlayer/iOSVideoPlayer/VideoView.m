@@ -32,7 +32,6 @@
     [super awakeFromNib];
     
     self.clipsToBounds = YES;
-    
     self.backgroundColor = [UIColor clearColor];
     
     //init sections of view

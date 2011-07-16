@@ -51,6 +51,7 @@
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
 								<string key="NSFrame">{{365, -5}, {38, 36}}</string>
 								<reference key="NSSuperview" ref="1063246878"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:644</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -59,7 +60,7 @@
 								<int key="IBUINumberOfPages">3</int>
 							</object>
 						</object>
-						<string key="NSFrame">{{0, 823}, {768, 23}}</string>
+						<string key="NSFrame">{{0, 981}, {768, 23}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSNextKeyView" ref="44556021"/>
 						<string key="NSReuseIdentifierKey">_NS:198</string>
@@ -115,7 +116,7 @@
 					<object class="IBUIScrollView" id="1025086363">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">318</int>
-						<string key="NSFrame">{{0, 187}, {768, 636}}</string>
+						<string key="NSFrame">{{0, 187}, {768, 797}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSNextKeyView" ref="1063246878"/>
 						<string key="NSReuseIdentifierKey">_NS:192</string>
@@ -249,9 +250,9 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="1025086363"/>
-							<reference ref="1063246878"/>
 							<reference ref="752727414"/>
 							<reference ref="336949360"/>
+							<reference ref="1063246878"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
