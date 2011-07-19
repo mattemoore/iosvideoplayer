@@ -25,7 +25,6 @@
 @property (strong, nonatomic) NSArray *categories;
 @property (strong, nonatomic) NSArray *videos; //array of video array that index to categories array
 
-//TODO: To be removed on launch...
 @property (strong, nonatomic) IBOutlet UIPageControl *masterPageControl;
 @property (strong, nonatomic) IBOutlet UIPageControl *detailPageControl;
 @property (strong, nonatomic) IBOutlet UIView *masterPageControlView;

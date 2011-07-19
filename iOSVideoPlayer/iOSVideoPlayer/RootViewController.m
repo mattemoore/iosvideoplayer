@@ -67,8 +67,6 @@
     
     self.masterViewControllers = [self loadMasterViewControllers];  
     self.masterScrollView.scrollsToTop = NO;
-    //self.masterScrollView.layer.borderColor = [UIColor greenColor].CGColor;
-    //self.masterScrollView.layer.borderWidth = 3.0;
     [self resetMasterScrollView];
     
     //setup detail scroll view, lazy loading after each page turn
