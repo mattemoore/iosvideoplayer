@@ -7,14 +7,20 @@
 //
 
 #import "VideoPlayerViewController.h"
+#import "Video.h"
 
 @implementation VideoPlayerViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+@synthesize titleLabel = __titleLabel;
+@synthesize summaryLabel = __summaryLabel;
+@synthesize videoWebView = __videoWebView;
+@synthesize video = __video;
+
+- (id)initWithVideo: (Video*)video
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithNibName:@"VideoPlayerViewController" bundle:[NSBundle mainBundle]];
     if (self) {
-        // Custom initialization
+        self.video = video;
     }
     return self;
 }
@@ -32,8 +38,33 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    self.titleLabel.text = self.video.Title;
+    self.summaryLabel.text = self.video.Summary;
+    [self embedYouTube:self.video.URL];
 }
+
+- (void)embedYouTube:(NSString*)url {  
+    NSString* embedHTML = @"\
+    <html><head>\
+    <style type=\"text/css\">\
+    body {\
+    background-color: transparent;\
+    color: white;\
+    }\
+    </style>\
+    </head><body style=\"margin:0\">\
+    <embed id=\"yt\" src=\"%@\" type=\"application/x-shockwave-flash\" \
+    width=\"%0.0f\" height=\"%0.0f\"></embed>\
+    </body></html>";  
+    NSString* html = [NSString stringWithFormat:embedHTML, url, self.videoWebView.frame.size.width, self.videoWebView.frame.size.height];  
+    [self.videoWebView loadHTMLString:html baseURL:nil];  
+    
+    /*
+    NSString *htmlString = @"<html><head>
+    <meta name = \"viewport\" content = \"initial-scale = 1.0, user-scalable = no, width = 212\"/></head><body style=\"background:#F00;margin-top:0px;margin-left:0px\"><div><object width=\"212\" height=\"172\"><param name=\"movie\" value=\"http://www.youtube.com/v/oHg5SJYRHA0&f=gdata_videos&c=ytapi-my-clientID&d=nGF83uyVrg8eD4rfEkk22mDOl3qUImVMV6ramM\"></param><param name=\"wmode\" value=\"transparent\"></param><embed src=\"http://www.youtube.com/v/oHg5SJYRHA0&f=gdata_videos&c=ytapi-my-clientID&d=nGF83uyVrg8eD4rfEkk22mDOl3qUImVMV6ramM\"type=\"application/x-shockwave-flash\" wmode=\"transparent\" width=\"212\" height=\"172\"></embed></object></div></body></html>";
+    */
+}  
 
 - (void)viewDidUnload
 {

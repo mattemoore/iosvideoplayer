@@ -21,6 +21,9 @@
 @synthesize videoView3 = __videoView3;
 @synthesize videoView4 = __videoVIew4;
 
+//TODO: implement touch events to catch touch of VideoThumbnailView and load VideoPlayerViewController
+//      modally
+
 - (id)initWithVideos:(NSArray*)videos
 {
     self = [super initWithNibName:@"VideoPageViewController" bundle:[NSBundle mainBundle]];
