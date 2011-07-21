@@ -8,7 +8,7 @@
 
 #import "VideoPageViewController.h"
 #import "RootViewController.h"
-#import "VideoView.h"
+#import "VideoThumbnailView.h"
 #import "Video.h"
 
 #define kNumberOfVideosPerPage 4
@@ -47,7 +47,7 @@
     
     for (int i = 0; i < kNumberOfVideosPerPage; i++)
     {
-        VideoView *videoView = [self valueForKey:[NSString stringWithFormat:@"videoView%d", i+1]];
+        VideoThumbnailView *videoView = [self valueForKey:[NSString stringWithFormat:@"videoView%d", i+1]];
         if (i < self.videos.count)
         {
             Video *video = (Video*)[self.videos objectAtIndex:i];

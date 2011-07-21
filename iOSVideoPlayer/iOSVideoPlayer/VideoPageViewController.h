@@ -7,21 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "VideoView.h"
+#import "VideoThumbnailView.h"
 
 @interface VideoPageViewController : UIViewController
 
 @property (nonatomic, strong) NSArray* videos;
-@property (nonatomic, strong) IBOutlet VideoView* videoView1;
-@property (nonatomic, strong) IBOutlet VideoView* videoView2;
-@property (nonatomic, strong) IBOutlet VideoView* videoView3;
-@property (nonatomic, strong) IBOutlet VideoView* videoView4;
+@property (nonatomic, strong) IBOutlet VideoThumbnailView* videoView1;
+@property (nonatomic, strong) IBOutlet VideoThumbnailView* videoView2;
+@property (nonatomic, strong) IBOutlet VideoThumbnailView* videoView3;
+@property (nonatomic, strong) IBOutlet VideoThumbnailView* videoView4;
 
 
 -(id)initWithVideos:(NSArray*)videos;
--(void)zoomVideo: (VideoView *)videoView;
--(void)addVideoToQueue: (VideoView*)videoView;
--(void)playVideo: (VideoView*)videoView;
+-(void)zoomVideo: (VideoThumbnailView *)videoView;
+-(void)addVideoToQueue: (VideoThumbnailView*)videoView;
+-(void)playVideo: (VideoThumbnailView*)videoView;
 
 
 @end

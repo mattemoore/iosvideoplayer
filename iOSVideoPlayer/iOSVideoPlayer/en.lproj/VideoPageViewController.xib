@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="7.10">
 	<data>
-		<int key="IBDocument.SystemTarget">1280</int>
+		<int key="IBDocument.SystemTarget">1056</int>
 		<string key="IBDocument.SystemVersion">11A494a</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1864</string>
+		<string key="IBDocument.InterfaceBuilderVersion">904</string>
 		<string key="IBDocument.AppKitVersion">1128</string>
 		<string key="IBDocument.HIToolboxVersion">564.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">865</string>
+			<string key="NS.object.0">141</string>
 		</object>
-		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
+		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>IBProxyObject</string>
-			<string>IBUIView</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -34,7 +32,7 @@
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIView" id="766721923">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -43,7 +41,6 @@
 						<int key="NSvFlags">310</int>
 						<string key="NSFrame">{{20, 20}, {345, 370}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="824481271"/>
 						<string key="NSReuseIdentifierKey">_NS:198</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="1063104507">
@@ -57,7 +54,6 @@
 						<int key="NSvFlags">286</int>
 						<string key="NSFrame">{{20, 408}, {345, 370}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="551916371"/>
 						<string key="NSReuseIdentifierKey">_NS:198</string>
 						<reference key="IBUIBackgroundColor" ref="1063104507"/>
@@ -68,8 +64,6 @@
 						<int key="NSvFlags">283</int>
 						<string key="NSFrame">{{400, 408}, {345, 370}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:198</string>
 						<reference key="IBUIBackgroundColor" ref="1063104507"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -79,7 +73,6 @@
 						<int key="NSvFlags">307</int>
 						<string key="NSFrame">{{400, 20}, {345, 370}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="94561884"/>
 						<string key="NSReuseIdentifierKey">_NS:198</string>
 						<reference key="IBUIBackgroundColor" ref="1063104507"/>
@@ -87,8 +80,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{768, 797}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="238632989"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
@@ -96,7 +87,6 @@
 				</object>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
-					<int key="IBUIInterfaceOrientation">3</int>
 					<int key="interfaceOrientation">3</int>
 				</object>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -238,16 +228,16 @@
 					<string>UIResponder</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>VideoView</string>
+					<string>VideoThumbnailView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>IBBuiltInLabel-Red</string>
-					<string>VideoView</string>
+					<string>VideoThumbnailView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>IBBuiltInLabel-Orange</string>
-					<string>VideoView</string>
+					<string>VideoThumbnailView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>IBBuiltInLabel-Red</string>
-					<string>VideoView</string>
+					<string>VideoThumbnailView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>IBBuiltInLabel-Orange</string>
 				</object>
@@ -255,13 +245,17 @@
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<reference key="dict.sortedKeys" ref="0"/>
-				<reference key="dict.values" ref="0"/>
+				<object class="NSMutableArray" key="dict.values">
+					<bool key="EncodedWithXMLCoder">YES</bool>
+				</object>
 			</object>
 			<nil key="activeLocalization"/>
 			<object class="NSMutableDictionary" key="localizations">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<reference key="dict.sortedKeys" ref="0"/>
-				<reference key="dict.values" ref="0"/>
+				<object class="NSMutableArray" key="dict.values">
+					<bool key="EncodedWithXMLCoder">YES</bool>
+				</object>
 			</object>
 			<nil key="sourceID"/>
 			<int key="maxID">11</int>
@@ -283,10 +277,10 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>VideoView</string>
-							<string>VideoView</string>
-							<string>VideoView</string>
-							<string>VideoView</string>
+							<string>VideoThumbnailView</string>
+							<string>VideoThumbnailView</string>
+							<string>VideoThumbnailView</string>
+							<string>VideoThumbnailView</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -302,19 +296,19 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
 								<string key="name">videoView1</string>
-								<string key="candidateClassName">VideoView</string>
+								<string key="candidateClassName">VideoThumbnailView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">videoView2</string>
-								<string key="candidateClassName">VideoView</string>
+								<string key="candidateClassName">VideoThumbnailView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">videoView3</string>
-								<string key="candidateClassName">VideoView</string>
+								<string key="candidateClassName">VideoThumbnailView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">videoView4</string>
-								<string key="candidateClassName">VideoView</string>
+								<string key="candidateClassName">VideoThumbnailView</string>
 							</object>
 						</object>
 					</object>
@@ -324,11 +318,11 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">VideoView</string>
+					<string key="className">VideoThumbnailView</string>
 					<string key="superclassName">UIView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/VideoView.h</string>
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
 					</object>
 				</object>
 			</object>
@@ -340,7 +334,8 @@
 			<integer value="3100" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
+		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<string key="IBCocoaTouchPluginVersion">865</string>
+		<string key="IBCocoaTouchPluginVersion">141</string>
 	</data>
 </archive>

@@ -6,10 +6,10 @@
 //  Copyright 2011 Matt Moore. All rights reserved.
 //
 
-#import "VideoView.h"
+#import "VideoThumbnailView.h"
 #import <QuartzCore/QuartzCore.h>
 
-@implementation VideoView
+@implementation VideoThumbnailView
 
 @synthesize titleLabel = __titleLabel;
 @synthesize summaryLabel = __summaryLabel;
