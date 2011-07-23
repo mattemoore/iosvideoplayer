@@ -215,6 +215,7 @@
         return;
     
     VideoPageViewController *videoPage = [self.detailViewControllers objectAtIndex:detailPageNum];
+    
     if ((NSNull *)videoPage == [NSNull null])
     {
         NSArray *videosForCurrentMasterPage = [self.videos objectAtIndex:currentMasterPageNum];
@@ -225,6 +226,7 @@
         NSIndexSet *videosToInit = [NSIndexSet indexSetWithIndexesInRange:rangeOfVideos];
         
         videoPage = [[VideoPageViewController alloc] initWithVideos:[videosForCurrentMasterPage objectsAtIndexes:videosToInit]];
+        videoPage.rootViewController = self;
         [self.detailViewControllers replaceObjectAtIndex:detailPageNum withObject:videoPage];
     }
 

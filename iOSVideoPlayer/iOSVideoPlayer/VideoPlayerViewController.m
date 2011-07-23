@@ -16,6 +16,8 @@
 @synthesize videoWebView = __videoWebView;
 @synthesize video = __video;
 
+//TODO: put in a close button in nib 
+
 - (id)initWithVideo: (Video*)video
 {
     self = [super initWithNibName:@"VideoPlayerViewController" bundle:[NSBundle mainBundle]];
@@ -37,11 +39,11 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
     self.titleLabel.text = self.video.Title;
-    self.summaryLabel.text = self.video.Summary;
+    self.summaryLabel.text = self.video.Description;
     [self embedYouTube:self.video.URL];
+    
+     [super viewDidLoad];
 }
 
 - (void)embedYouTube:(NSString*)url {  

@@ -16,12 +16,14 @@
 @property (nonatomic, strong) IBOutlet VideoThumbnailView* videoView2;
 @property (nonatomic, strong) IBOutlet VideoThumbnailView* videoView3;
 @property (nonatomic, strong) IBOutlet VideoThumbnailView* videoView4;
-
+@property (nonatomic, strong) UITapGestureRecognizer* tapGestureRecognizer;
+@property (nonatomic, strong) UIViewController* rootViewController;
 
 -(id)initWithVideos:(NSArray*)videos;
 -(void)zoomVideo: (VideoThumbnailView *)videoView;
 -(void)addVideoToQueue: (VideoThumbnailView*)videoView;
 -(void)playVideo: (VideoThumbnailView*)videoView;
+- (void)hanldeTapGesture:(UITapGestureRecognizer *)sender;
 
 
 @end

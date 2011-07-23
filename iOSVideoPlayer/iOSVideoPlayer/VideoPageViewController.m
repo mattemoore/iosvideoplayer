@@ -10,6 +10,7 @@
 #import "RootViewController.h"
 #import "VideoThumbnailView.h"
 #import "Video.h"
+#import "VideoPlayerViewController.h"
 
 #define kNumberOfVideosPerPage 4
 
@@ -17,18 +18,19 @@
 
 @synthesize videos = __videos;
 @synthesize videoView1 = __videoView1;
-@synthesize videoView2 = __videoVIew2;
+@synthesize videoView2 = __videoView2;
 @synthesize videoView3 = __videoView3;
-@synthesize videoView4 = __videoVIew4;
-
-//TODO: implement touch events to catch touch of VideoThumbnailView and load VideoPlayerViewController
-//      modally
+@synthesize videoView4 = __videoView4;
+@synthesize tapGestureRecognizer = __tapGestureRecognizer;
+@synthesize rootViewController = __rootViewController;
 
 - (id)initWithVideos:(NSArray*)videos
 {
     self = [super initWithNibName:@"VideoPageViewController" bundle:[NSBundle mainBundle]];
     if (self) {
         self.videos = videos;
+        self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+        [self.view addGestureRecognizer:self.tapGestureRecognizer];
     }
     return self;
 }
@@ -51,6 +53,7 @@
     for (int i = 0; i < kNumberOfVideosPerPage; i++)
     {
         VideoThumbnailView *videoView = [self valueForKey:[NSString stringWithFormat:@"videoView%d", i+1]];
+         
         if (i < self.videos.count)
         {
             Video *video = (Video*)[self.videos objectAtIndex:i];
@@ -61,8 +64,27 @@
         {
             [videoView removeFromSuperview];
         }
-        
     }
+}
+
+- (IBAction)handleTapGesture:(UIGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateEnded)  
+    { 
+        for (int i = 0; i < self.videos.count; i++)
+        {
+            VideoThumbnailView *videoView = [self valueForKey:[NSString stringWithFormat:@"videoView%d", i+1]];
+            CGPoint tapLocation = [sender locationInView:self.view];
+            if (CGRectIntersectsRect(videoView.frame, CGRectMake(tapLocation.x, tapLocation.y, 1, 1)))
+            {
+                VideoPlayerViewController *player = [[VideoPlayerViewController alloc] initWithVideo:[self.videos objectAtIndex:i]];
+                player.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                player.modalPresentationStyle = UIModalPresentationFullScreen;
+                [self.rootViewController presentModalViewController:player animated:YES];
+            }
+        }
+    }
+    
 }
 
 - (void)viewDidUnload
