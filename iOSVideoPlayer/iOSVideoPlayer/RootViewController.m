@@ -14,6 +14,7 @@
 #import "VideoPageViewController.h"
 #import "CategoryViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "VideoPlayerViewController.h"
 
 #define kNumberOfVideosPerPage 4
 #define kNumberOfTestCategories 3
@@ -114,8 +115,7 @@
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self resetMasterScrollView];
-    [self resetDetailScrollView];
+    [self resetScrollViews];
 }
 
 #pragma mark - Scroll View Handling
@@ -168,6 +168,12 @@
     }
     
     return categoryViewControllers;
+}
+
+-(void) resetScrollViews
+{
+    [self resetMasterScrollView];
+    [self resetDetailScrollView];
 }
 
 //set numberOfMasterPages first and then call this to reset master scroll

@@ -33,6 +33,7 @@
 -(void)loadDetailPageNumber:(int)detailPageNum;
 -(NSArray*)loadVideoEntities;
 -(void)loadTestData;
+-(void)resetScrollViews;
 -(void)resetDetailScrollView;
 -(void)resetMasterScrollView;
 -(NSMutableArray *)loadMasterViewControllers;

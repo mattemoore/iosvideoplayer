@@ -15,8 +15,7 @@
 @synthesize summaryLabel = __summaryLabel;
 @synthesize videoWebView = __videoWebView;
 @synthesize video = __video;
-
-//TODO: put in a close button in nib 
+@synthesize rootViewController = __rootViewController;
 
 - (id)initWithVideo: (Video*)video
 {
@@ -39,11 +38,11 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
     self.titleLabel.text = self.video.Title;
     self.summaryLabel.text = self.video.Description;
     [self embedYouTube:self.video.URL];
-    
-     [super viewDidLoad];
 }
 
 - (void)embedYouTube:(NSString*)url {  
@@ -67,6 +66,11 @@
     <meta name = \"viewport\" content = \"initial-scale = 1.0, user-scalable = no, width = 212\"/></head><body style=\"background:#F00;margin-top:0px;margin-left:0px\"><div><object width=\"212\" height=\"172\"><param name=\"movie\" value=\"http://www.youtube.com/v/oHg5SJYRHA0&f=gdata_videos&c=ytapi-my-clientID&d=nGF83uyVrg8eD4rfEkk22mDOl3qUImVMV6ramM\"></param><param name=\"wmode\" value=\"transparent\"></param><embed src=\"http://www.youtube.com/v/oHg5SJYRHA0&f=gdata_videos&c=ytapi-my-clientID&d=nGF83uyVrg8eD4rfEkk22mDOl3qUImVMV6ramM\"type=\"application/x-shockwave-flash\" wmode=\"transparent\" width=\"212\" height=\"172\"></embed></object></div></body></html>";
     */
 }  
+
+- (IBAction)closePlayer:(id)sender
+{
+    [self.rootViewController dismissViewControllerAnimated:YES completion:NULL];
+}
 
 - (void)viewDidUnload
 {

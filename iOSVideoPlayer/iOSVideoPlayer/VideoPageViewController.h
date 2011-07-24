@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "VideoThumbnailView.h"
+#import "RootViewController.h"
 
 @interface VideoPageViewController : UIViewController
 
@@ -17,7 +18,7 @@
 @property (nonatomic, strong) IBOutlet VideoThumbnailView* videoView3;
 @property (nonatomic, strong) IBOutlet VideoThumbnailView* videoView4;
 @property (nonatomic, strong) UITapGestureRecognizer* tapGestureRecognizer;
-@property (nonatomic, strong) UIViewController* rootViewController;
+@property (nonatomic, strong) RootViewController* rootViewController;
 
 -(id)initWithVideos:(NSArray*)videos;
 -(void)zoomVideo: (VideoThumbnailView *)videoView;

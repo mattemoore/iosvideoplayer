@@ -79,8 +79,9 @@
             {
                 VideoPlayerViewController *player = [[VideoPlayerViewController alloc] initWithVideo:[self.videos objectAtIndex:i]];
                 player.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-                player.modalPresentationStyle = UIModalPresentationFullScreen;
-                [self.rootViewController presentModalViewController:player animated:YES];
+                player.modalPresentationStyle = UIModalPresentationCurrentContext;
+                player.rootViewController = self.rootViewController;
+                [player.rootViewController presentViewController:player animated:YES completion:NULL];
             }
         }
     }
