@@ -48,9 +48,11 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    //setup core data
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     self.managedObjectContext = delegate.managedObjectContext;
+    self.detailScrollView.scrollsToTop = NO; 
+    self.masterScrollView.scrollsToTop = NO;
+    
     //TODO: load old videos from store
     //          get updated list from network
     //              compare two lists, add (set isNew) and remove as necessary, update exisiting (keep isRead)
@@ -62,19 +64,17 @@
     //setup master scroll view, content fully preloaded as master view pages are not complex
     numMasterPages = self.categories.count;
     currentMasterPageNum = 0;
-    
     self.masterPageControl.numberOfPages = numMasterPages;
     self.masterPageControl.currentPage = 0;
-    
     self.masterViewControllers = [self loadMasterViewControllers];  
-    self.masterScrollView.scrollsToTop = NO;
-    [self resetMasterScrollView];
+    [self initMasterScrollView];
     
     //setup detail scroll view, lazy loading after each page turn
     self.detailViewControllers = [[NSMutableArray alloc] init];
-    numDetailPages = ceil((float)[[self.videos objectAtIndex:0] count] / (float)kNumberOfVideosPerPage);
-    self.detailScrollView.scrollsToTop = NO; 
-    [self resetDetailScrollView];
+    numDetailPages = [self getNumberOfDetailPages];
+    [self setDetailPageToZero];
+    
+    isManualScroll = YES;
 }
 
 - (void)viewDidUnload
@@ -115,21 +115,30 @@
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self resetScrollViews];
+    [self handleRotate];
 }
 
 #pragma mark - Scroll View Handling
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender
 {
+    //TODO: there is a bug when you switch from portrait to landscape on the last masterpage
+    //      seems that a call gets in here before didRotate... thus isManualScroll is YES
+    //      pageWidth is 1024 but the contentOffset.x is from the portrait setup so pageNum is set wrong
+    //      e.g. (from 2 to 1 if numMasterPages is 2)
+    //      probably due to stretching horizontally the master scroll view when it is at 'last page'
+    //      need to trap this occurence and break out of this method
+    
+    if (!isManualScroll) return;
+    
     CGFloat pageWidth = self.masterScrollView.frame.size.width;
     int pageNum = floor((sender.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     if ([sender isEqual:self.masterScrollView])
     {
         currentMasterPageNum = pageNum;
         self.masterPageControl.currentPage = pageNum;
-        numDetailPages = ceil((float)[[self.videos objectAtIndex:pageNum] count] / (float)kNumberOfVideosPerPage);
-        [self resetDetailScrollView];  
+        numDetailPages = [self getNumberOfDetailPages];
+        [self setDetailPageToZero];
     }
     else 
     {
@@ -137,6 +146,41 @@
         self.detailPageControl.currentPage = pageNum;
         [self loadDetailPageNumber:pageNum+1];
     }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    isManualScroll = YES;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    isManualScroll = YES;
+}
+
+- (void)handleRotate
+{
+    isManualScroll = NO;  
+    [self initMasterScrollView];
+    [self initDetailScrollView];
+    [self loadDetailPageNumber:currentDetailPageNum];
+    [self loadDetailPageNumber:currentDetailPageNum + 1];
+    [self loadDetailPageNumber:currentDetailPageNum - 1];
+}
+
+- (void)setDetailPageToZero
+{
+    self.detailPageControl.currentPage = 0;
+    self.detailPageControl.numberOfPages = numDetailPages;
+    currentDetailPageNum = 0;
+    [self initDetailScrollView];  
+    [self loadDetailPageNumber:0];
+    [self loadDetailPageNumber:1];
+}
+
+- (int)getNumberOfDetailPages 
+{
+    return ceil((float)[[self.videos objectAtIndex:currentMasterPageNum] count] / (float)kNumberOfVideosPerPage);
 }
 
 //init categories and then call this to load categories into master view controllers
@@ -170,14 +214,8 @@
     return categoryViewControllers;
 }
 
--(void) resetScrollViews
-{
-    [self resetMasterScrollView];
-    [self resetDetailScrollView];
-}
-
 //set numberOfMasterPages first and then call this to reset master scroll
--(void) resetMasterScrollView 
+-(void) initMasterScrollView 
 {
     self.masterScrollView.contentSize = CGSizeMake(numMasterPages * self.masterScrollView.frame.size.width, self.masterScrollView.frame.size.height);
    
@@ -185,7 +223,7 @@
         CGRect frame = self.masterScrollView.frame;
         frame.origin.x = frame.size.width * i;
         frame.origin.y = 0;
-        self.masterScrollView.contentOffset = CGPointMake(0, 0);
+        self.masterScrollView.contentOffset = CGPointMake(frame.size.width * currentMasterPageNum, 0);
         CategoryViewController *categoryViewController = [self.masterViewControllers objectAtIndex:i];
         categoryViewController.view.frame = frame;
         [self.masterScrollView addSubview:categoryViewController.view];
@@ -193,7 +231,7 @@
 }
 
 //set currentMasterPageNum and numDetailPages first and then call this to reset detail scroll view
-- (void)resetDetailScrollView
+- (void)initDetailScrollView
 {
     self.detailViewControllers = [[NSMutableArray alloc] init];
     for (int i = 0; i < numDetailPages; i++) {
@@ -201,14 +239,7 @@
     }
     
     self.detailScrollView.contentSize = CGSizeMake(numDetailPages * self.detailScrollView.frame.size.width, self.detailScrollView.frame.size.height);
-    self.detailScrollView.contentOffset = CGPointMake(0,0);
-    
-    self.detailPageControl.numberOfPages = numDetailPages;
-    currentDetailPageNum = 0;
-    self.detailPageControl.currentPage = 0;
-    
-    [self loadDetailPageNumber:0];
-    [self loadDetailPageNumber:1];
+    self.detailScrollView.contentOffset = CGPointMake(self.detailScrollView.frame.size.width * currentDetailPageNum,0);
 }
 
 

@@ -14,6 +14,7 @@
     unsigned numDetailPages;
     unsigned currentMasterPageNum;
     unsigned currentDetailPageNum;
+    bool isManualScroll;
 }
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -30,12 +31,14 @@
 @property (strong, nonatomic) IBOutlet UIView *masterPageControlView;
 @property (strong, nonatomic) IBOutlet UIView *detailPageControlView;
 
+-(int)getNumberOfDetailPages; 
+-(void)setDetailPageToZero;
 -(void)loadDetailPageNumber:(int)detailPageNum;
 -(NSArray*)loadVideoEntities;
 -(void)loadTestData;
--(void)resetScrollViews;
--(void)resetDetailScrollView;
--(void)resetMasterScrollView;
+-(void)initDetailScrollView;
+-(void)initMasterScrollView;
 -(NSMutableArray *)loadMasterViewControllers;
+-(void)handleRotate;
 
 @end

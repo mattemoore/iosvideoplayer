@@ -70,6 +70,7 @@
 - (IBAction)closePlayer:(id)sender
 {
     [self.rootViewController dismissViewControllerAnimated:YES completion:NULL];
+    [self.rootViewController handleRotate];
 }
 
 - (void)viewDidUnload
@@ -83,6 +84,12 @@
 {
     // Return YES for supported orientations
 	return YES;
+}
+
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    
 }
 
 @end
