@@ -15,6 +15,14 @@
     [super setUp];
     
     // Set-up code here.
+    
+    //TODO: load example test file into string
+    //      total results (search)
+    //      test extraction of entries into array 
+    //      test extraction of id, title, summary, thumbnail, flash/3gp url   
+    //      test conversion into Video core data objects
+    //      test iterating through all keywords in all vids to build categories list
+    
 }
 
 - (void)tearDown
