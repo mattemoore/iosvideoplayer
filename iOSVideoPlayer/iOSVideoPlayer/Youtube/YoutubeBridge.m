@@ -13,18 +13,62 @@
 
 @implementation YoutubeBridge
 
-//TODO: implement NSXMLParser
-//      implement NSURLConnection for google api
+@synthesize parser = __parser;
+@synthesize currentVideo = __currentVideo;
+@synthesize currentString = __currentString;
+@synthesize videos = __videos;
 
-
-- (id)init
+- (id)initWithURL: (NSURL*)url
 {
     self = [super init];
     if (self) {
-        // Initialization code here.
+        
+        self.parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
+        [self.parser parse];
     }
     
     return self;
 }
+
+- (void)parserDidStartDocument:(NSXMLParser *)parser;
+{
+    
+    
+}
+
+- (void)parserDidEndDocument:(NSXMLParser *)parser;
+{
+    parseSuccess = YES;
+    
+}
+
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
+{
+    
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
+{
+    
+}
+
+
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string;
+{
+    
+}
+
+- (void)parser:(NSXMLParser *)parser foundIgnorableWhitespace:(NSString *)whitespaceString;
+{
+    
+}
+
+
+- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError;
+{
+    parseSuccess = NO;
+}
+
 
 @end

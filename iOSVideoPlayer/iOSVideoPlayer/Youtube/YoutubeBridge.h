@@ -7,8 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-@interface YoutubeBridge : NSObject
+#import "Video.h"
+
+@interface YoutubeBridge : NSObject <NSXMLParserDelegate>
 {
-    NSString *foo; 
+    BOOL parseSuccess;
 }
+
+@property (nonatomic, strong) NSXMLParser *parser;
+@property (nonatomic, strong) NSMutableArray *videos;
+@property (nonatomic, strong) Video *currentVideo;
+@property (nonatomic, strong) NSString *currentString;
+
+- (id)initWithURL: (NSURL*)url;
+
 @end

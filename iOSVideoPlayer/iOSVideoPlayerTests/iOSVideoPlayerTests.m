@@ -7,6 +7,7 @@
 //
 
 #import "iOSVideoPlayerTests.h"
+#import "YoutubeBridge.h"
 
 @implementation iOSVideoPlayerTests
 
@@ -32,9 +33,11 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testParseAuthor
 {
-    STFail(@"Unit tests are not implemented yet in iOSVideoPlayerTests");
+    YoutubeBridge *bridge = [[YoutubeBridge alloc] initWithURL:[NSURL fileURLWithPath:@"TestYouTubeFeed.tx"]];
+    [
+
 }
 
 @end
