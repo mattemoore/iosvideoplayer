@@ -17,34 +17,41 @@
 @synthesize currentVideo = __currentVideo;
 @synthesize currentString = __currentString;
 @synthesize videos = __videos;
+@synthesize parseError = __parseError;
+@synthesize parseSuccess = __parseSuccess;
 
 - (id)initWithURL: (NSURL*)url
 {
     self = [super init];
     if (self) {
-        
+        self.videos = [[NSMutableArray alloc] init];
         self.parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
-        [self.parser parse];
+        self.parser.delegate = self;    
     }
     
     return self;
 }
 
+- (void)requestAndParse
+{   
+    [self.parser parse];
+}
+
 - (void)parserDidStartDocument:(NSXMLParser *)parser;
 {
-    
-    
+        
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser;
 {
-    parseSuccess = YES;
-    
+    self.parseSuccess = YES;
 }
 
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
+    
+    
     
 }
 
@@ -67,8 +74,10 @@
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError;
 {
-    parseSuccess = NO;
+    self.parseSuccess = NO;
+    self.parseError = parseError;
 }
+
 
 
 @end

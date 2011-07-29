@@ -11,18 +11,16 @@
 
 @implementation iOSVideoPlayerTests
 
+@synthesize bridge = __bridge;
+
 - (void)setUp
 {
     [super setUp];
     
-    // Set-up code here.
-    
-    //TODO: load example test file into string
-    //      total results (search)
-    //      test extraction of entries into array 
-    //      test extraction of id, title, summary, thumbnail, flash/3gp url   
-    //      test conversion into Video core data objects
-    //      test iterating through all keywords in all vids to build categories list
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSString *path = [mainBundle pathForResource:@"TestYouTubeFeed" ofType:@"xml"];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    self.bridge = [[YoutubeBridge alloc] initWithURL:url];
     
 }
 
@@ -35,9 +33,8 @@
 
 - (void)testParseAuthor
 {
-    YoutubeBridge *bridge = [[YoutubeBridge alloc] initWithURL:[NSURL fileURLWithPath:@"TestYouTubeFeed.tx"]];
-    [
-
+    [self.bridge requestAndParse];
+    assert(self.bridge.parseSuccess);
 }
 
 @end

@@ -11,14 +11,16 @@
 
 @interface YoutubeBridge : NSObject <NSXMLParserDelegate>
 {
-    BOOL parseSuccess;
 }
 
 @property (nonatomic, strong) NSXMLParser *parser;
 @property (nonatomic, strong) NSMutableArray *videos;
 @property (nonatomic, strong) Video *currentVideo;
 @property (nonatomic, strong) NSString *currentString;
+@property (nonatomic, strong) NSError *parseError;
+@property BOOL parseSuccess;
 
 - (id)initWithURL: (NSURL*)url;
+- (void)requestAndParse;
 
 @end

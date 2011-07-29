@@ -7,7 +7,10 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
+#import "YoutubeBridge.h"
 
 @interface iOSVideoPlayerTests : SenTestCase
+
+@property (strong, nonatomic) YoutubeBridge *bridge;
 
 @end
