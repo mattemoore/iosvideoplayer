@@ -297,6 +297,11 @@
     return results;
 }
 
+//TODO: write method that invokes YoutubeBridge to get list of current videos
+
+//TODO: write method that compares saved list of vids to newly retrieved list of vids to mark
+//      which ones are new, watched etc.
+
 -(void)loadTestData
 {
     NSMutableArray *testCategories = [[NSMutableArray alloc] init];

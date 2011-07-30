@@ -50,20 +50,48 @@
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
+    self.currentString = @"";
     
+    if ([elementName isEqualToString:@"entry"])
+    {
+        self.currentVideo = [[NSMutableDictionary alloc] init];
+    }
     
+    if ([elementName isEqualToString:@"media:player"])
+    {
+        [self.currentVideo setValue:[attributeDict objectForKey:@"url"] forKey:@"url"];
+    }
     
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
+    if ([elementName isEqualToString:@"entry"])
+    {
+        [self.videos addObject:self.currentVideo];
+    }
+    
+    if ([elementName isEqualToString:@"title"])
+    {
+        [self.currentVideo setValue:self.currentString forKey:@"title"];
+    }
+    
+    if ([elementName isEqualToString:@"media:description"])
+    {
+        [self.currentVideo setValue:[self.currentString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] forKey:@"summary"];
+    }
+    
+    if ([elementName isEqualToString:@"yt:videoid"])
+    {
+        [self.currentVideo setValue:self.currentString forKey:@"id"];
+    } 
     
 }
 
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string;
 {
-    
+    self.currentString  = [string stringByAppendingString:self.currentString];
 }
 
 - (void)parser:(NSXMLParser *)parser foundIgnorableWhitespace:(NSString *)whitespaceString;
@@ -71,13 +99,10 @@
     
 }
 
-
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError;
 {
     self.parseSuccess = NO;
     self.parseError = parseError;
 }
-
-
 
 @end

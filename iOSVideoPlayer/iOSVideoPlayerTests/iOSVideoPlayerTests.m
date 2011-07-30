@@ -8,6 +8,7 @@
 
 #import "iOSVideoPlayerTests.h"
 #import "YoutubeBridge.h"
+#import "Video.h"
 
 @implementation iOSVideoPlayerTests
 
@@ -34,7 +35,12 @@
 - (void)testParseAuthor
 {
     [self.bridge requestAndParse];
+    
+    assert(self.bridge.videos.count == 1);
     assert(self.bridge.parseSuccess);
+    
+    NSDictionary *video = [self.bridge.videos objectAtIndex:0];
+    assert([[video valueForKey:@"title"] isEqualToString:@"Shopping For Coats"]);
 }
 
 @end
