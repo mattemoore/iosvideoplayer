@@ -60,6 +60,12 @@
     if ([elementName isEqualToString:@"media:player"])
     {
         [self.currentVideo setValue:[attributeDict objectForKey:@"url"] forKey:@"url"];
+    } 
+    
+    if (([elementName isEqualToString:@"media:thumbnail"]) )
+    {
+        if ([[attributeDict objectForKey:@"width"]isEqualToString:@"320"])
+            [self.currentVideo setValue:[attributeDict objectForKey:@"url"] forKey:@"thumbnailurl"];
     }
     
 }

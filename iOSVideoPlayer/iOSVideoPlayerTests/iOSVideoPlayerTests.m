@@ -18,10 +18,7 @@
 {
     [super setUp];
     
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    NSString *path = [mainBundle pathForResource:@"TestYouTubeFeed" ofType:@"xml"];
-    NSURL *url = [NSURL fileURLWithPath:path];
-    self.bridge = [[YoutubeBridge alloc] initWithURL:url];
+    
     
 }
 
@@ -32,15 +29,44 @@
     [super tearDown];
 }
 
-- (void)testParseAuthor
+- (void)testSingleEntryParse
 {
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSString *path = [mainBundle pathForResource:@"TestYouTubeFeed" ofType:@"xml"];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    self.bridge = [[YoutubeBridge alloc] initWithURL:url];
     [self.bridge requestAndParse];
     
     assert(self.bridge.videos.count == 1);
     assert(self.bridge.parseSuccess);
     
     NSDictionary *video = [self.bridge.videos objectAtIndex:0];
-    assert([[video valueForKey:@"title"] isEqualToString:@"Shopping For Coats"]);
+    assert([[video valueForKey:@"title"] isEqualToString:@"Shopping for Coats"]);
+    assert([[video valueForKey:@"url"] isEqualToString:@"https://www.youtube.com/watch?v=ZTUVgYoeN_b"]);
+    assert([[video valueForKey:@"summary"] isEqualToString:@"What could make for more exciting video?"]);
+    assert([[video valueForKey:@"thumbnailurl"] isEqualToString:@"http://img.youtube.com/vi/ZTUVgYoeN_b/0.jpg"]);
+    assert([[video valueForKey:@"id"] isEqualToString:@"ZTUVgYoeN_b"]);
+}
+
+
+- (void)testMultiEntryParse
+{
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSString *path = [mainBundle pathForResource:@"TestYouTubeFeedMultiEntry" ofType:@"xml"];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    self.bridge = [[YoutubeBridge alloc] initWithURL:url];
+    [self.bridge requestAndParse];
+    
+    assert(self.bridge.videos.count == 2);
+    assert(self.bridge.parseSuccess);
+    
+    NSDictionary *video = [self.bridge.videos objectAtIndex:1];
+    assert([[video valueForKey:@"title"] isEqualToString:@"Shopping for CoatsXXX"]);
+    assert([[video valueForKey:@"url"] isEqualToString:@"https://www.youtube.com/watch?v=ZTUVgYoeN_bXXX"]);
+    assert([[video valueForKey:@"summary"] isEqualToString:@"What could make for more exciting video?XXX"]);
+    assert([[video valueForKey:@"thumbnailurl"] isEqualToString:@"http://img.youtube.com/vi/ZTUVgYoeN_b/0.jpgXXX"]);
+    assert([[video valueForKey:@"id"] isEqualToString:@"ZTUVgYoeN_bXXX"]);
+    
 }
 
 @end
