@@ -7,7 +7,7 @@
 //
 
 #import "iOSVideoPlayerTests.h"
-#import "YoutubeBridge.h"
+#import "YoutubeParser.h"
 #import "Video.h"
 
 @implementation iOSVideoPlayerTests
@@ -34,11 +34,11 @@
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSString *path = [mainBundle pathForResource:@"TestYouTubeFeed" ofType:@"xml"];
     NSURL *url = [NSURL fileURLWithPath:path];
-    self.bridge = [[YoutubeBridge alloc] initWithURL:url];
+    self.bridge = [[YoutubeParser alloc] initWithURL:url];
     [self.bridge requestAndParse];
     
     assert(self.bridge.videos.count == 1);
-    assert(self.bridge.parseSuccess);
+    assert(self.bridge.isSuccess);
     
     NSDictionary *video = [self.bridge.videos objectAtIndex:0];
     assert([[video valueForKey:@"title"] isEqualToString:@"Shopping for Coats"]);
@@ -54,11 +54,11 @@
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSString *path = [mainBundle pathForResource:@"TestYouTubeFeedMultiEntry" ofType:@"xml"];
     NSURL *url = [NSURL fileURLWithPath:path];
-    self.bridge = [[YoutubeBridge alloc] initWithURL:url];
+    self.bridge = [[YoutubeParser alloc] initWithURL:url];
     [self.bridge requestAndParse];
     
     assert(self.bridge.videos.count == 2);
-    assert(self.bridge.parseSuccess);
+    assert(self.bridge.isSuccess);
     
     NSDictionary *video = [self.bridge.videos objectAtIndex:1];
     assert([[video valueForKey:@"title"] isEqualToString:@"Shopping for CoatsXXX"]);

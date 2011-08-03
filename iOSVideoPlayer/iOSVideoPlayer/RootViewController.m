@@ -15,6 +15,7 @@
 #import "CategoryViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "VideoPlayerViewController.h"
+#import "YoutubeFetcher.h"
 
 #define kNumberOfVideosPerPage 4
 #define kNumberOfTestCategories 3
@@ -59,7 +60,8 @@
     //do fetch requests to get all categories and put in categories array
     //do fetch request for all videos in each category and put in each index of videos array
     //NSArray *savedVideos = [self loadVideoEntities];
-    [self loadTestData];
+    //[self loadTestData];
+    [self loadYoutubeVideos];
     
     //setup master scroll view, content fully preloaded as master view pages are not complex
     numMasterPages = self.categories.count;
@@ -293,8 +295,25 @@
     
     if (results == nil)
         NSLog(@"%@", error.description);
+        //TODO: show error actions sheet
     
     return results;
+}
+
+-(NSArray*)loadYoutubeVideos
+{
+    YoutubeFetcher *fetcher = [[YoutubeFetcher alloc] init];
+    [fetcher fetch]
+    
+    if (!fetcher.isSuccess)
+    {
+        //TODO: show error actions sheet
+        NSLog(@"%@", fetcher.error.description);
+    }
+    else
+    {
+        return fetcher.videos;
+    }
 }
 
 //TODO: write method that invokes YoutubeBridge to get list of current videos

@@ -7,19 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "YoutubeBridge.h"
+#import "YoutubeParser.h"
 
-#define kApiKey AI39si6AIfVaikIH6D3Yw_TX2rFNzPEsuMb1yvWefpPGghgLB4h2EciSsV1qPP_SntqkUfg9pAN3bpGrq8rUWpwF2dphr3EvKQ
 
-@implementation YoutubeBridge
+
+@implementation YoutubeParser
 
 @synthesize parser = __parser;
 @synthesize currentVideo = __currentVideo;
 @synthesize currentString = __currentString;
 @synthesize videos = __videos;
-@synthesize parseError = __parseError;
-@synthesize parseSuccess = __parseSuccess;
+@synthesize error = __error;
+@synthesize isSuccess = __isSuccess;
+@synthesize userUploadsQuery = __userUploadsQuery;
+@synthesize urlConnection = __urlConnection;
+@synthesize dataContainer = __dataContainer;
+@synthesize authenticationURL = __authenticationURL;
 
+
+//TODO: change this to accept a NSData
 - (id)initWithURL: (NSURL*)url
 {
     self = [super init];
@@ -37,6 +43,8 @@
     [self.parser parse];
 }
 
+#pragma mark - XML Parsing
+
 - (void)parserDidStartDocument:(NSXMLParser *)parser;
 {
         
@@ -44,7 +52,7 @@
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser;
 {
-    self.parseSuccess = YES;
+    self.isSuccess = YES;
 }
 
 
@@ -107,8 +115,8 @@
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError;
 {
-    self.parseSuccess = NO;
-    self.parseError = parseError;
+    self.isSuccess = NO;
+    self.error = parseError;
 }
 
 @end

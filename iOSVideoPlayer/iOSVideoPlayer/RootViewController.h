@@ -35,6 +35,7 @@
 -(void)setDetailPageToZero;
 -(void)loadDetailPageNumber:(int)detailPageNum;
 -(NSArray*)loadVideoEntities;
+-(NSArray*)loadYoutubeVideos;
 -(void)loadTestData;
 -(void)initDetailScrollView;
 -(void)initMasterScrollView;
