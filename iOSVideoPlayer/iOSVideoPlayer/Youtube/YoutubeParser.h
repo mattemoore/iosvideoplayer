@@ -13,14 +13,10 @@
 }
 
 @property (nonatomic, strong) NSXMLParser *parser;
-@property (nonatomic, strong) NSURLConnection *urlConnection;
-@property (nonatomic, strong) NSMutableArray *videos;
+@property (nonatomic, strong) NSMutableArray *parsedVideos;
 @property (nonatomic, strong) NSMutableDictionary *currentVideo;
 @property (nonatomic, strong) NSString *currentString;
 @property (nonatomic, strong) NSError *error;
-@property (nonatomic, strong) NSURL *userUploadsQuery;
-@property (nonatomic, strong) NSURL *authenticationURL;
-@property (nonatomic, strong) NSData *dataContainer;
 @property BOOL isSuccess;
 
 - (id)initWithURL: (NSURL*)url;

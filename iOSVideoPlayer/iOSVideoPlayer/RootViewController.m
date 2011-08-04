@@ -6,16 +6,19 @@
 //  Copyright 2011 Matt Moore. All rights reserved.
 //
 
-#import "RootViewController.h"
-#import "AppDelegate.h"
 #import <CoreData/CoreData.h>
-#import "Video.h"
-#import "VideoCategory.h"
+#import <QuartzCore/QuartzCore.h>
+
+#import "AppDelegate.h"
 #import "VideoPageViewController.h"
 #import "CategoryViewController.h"
-#import <QuartzCore/QuartzCore.h>
 #import "VideoPlayerViewController.h"
-#import "YoutubeFetcher.h"
+#import "RootViewController.h"
+
+#import "Video.h"
+#import "VideoCategory.h"
+
+#import "YoutubeConnection.h"
 
 #define kNumberOfVideosPerPage 4
 #define kNumberOfTestCategories 3
@@ -302,6 +305,10 @@
 
 -(NSArray*)loadYoutubeVideos
 {
+    YoutubeConnection *yconn = [[YoutubeConnection alloc] init];
+    
+    
+    /*
     YoutubeFetcher *fetcher = [[YoutubeFetcher alloc] init];
     [fetcher fetch]
     
@@ -314,6 +321,8 @@
     {
         return fetcher.videos;
     }
+     */
+    return nil;
 }
 
 //TODO: write method that invokes YoutubeBridge to get list of current videos

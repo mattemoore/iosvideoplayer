@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "YoutubeConnection.h"
+#import "YoutubeParser.h"
 
 @interface YoutubeFetcher : NSObject
 {}

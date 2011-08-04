@@ -10,27 +10,21 @@
 #import "YoutubeParser.h"
 
 
-
 @implementation YoutubeParser
 
 @synthesize parser = __parser;
 @synthesize currentVideo = __currentVideo;
 @synthesize currentString = __currentString;
-@synthesize videos = __videos;
+@synthesize parsedVideos = __parsedVideos;
 @synthesize error = __error;
 @synthesize isSuccess = __isSuccess;
-@synthesize userUploadsQuery = __userUploadsQuery;
-@synthesize urlConnection = __urlConnection;
-@synthesize dataContainer = __dataContainer;
-@synthesize authenticationURL = __authenticationURL;
-
 
 //TODO: change this to accept a NSData
 - (id)initWithURL: (NSURL*)url
 {
     self = [super init];
     if (self) {
-        self.videos = [[NSMutableArray alloc] init];
+        self.parsedVideos = [[NSMutableArray alloc] init];
         self.parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
         self.parser.delegate = self;    
     }
@@ -82,7 +76,7 @@
 {
     if ([elementName isEqualToString:@"entry"])
     {
-        [self.videos addObject:self.currentVideo];
+        [self.parsedVideos addObject:self.currentVideo];
     }
     
     if ([elementName isEqualToString:@"title"])

@@ -37,10 +37,10 @@
     self.bridge = [[YoutubeParser alloc] initWithURL:url];
     [self.bridge requestAndParse];
     
-    assert(self.bridge.videos.count == 1);
+    assert(self.bridge.parsedVideos.count == 1);
     assert(self.bridge.isSuccess);
     
-    NSDictionary *video = [self.bridge.videos objectAtIndex:0];
+    NSDictionary *video = [self.bridge.parsedVideos objectAtIndex:0];
     assert([[video valueForKey:@"title"] isEqualToString:@"Shopping for Coats"]);
     assert([[video valueForKey:@"url"] isEqualToString:@"https://www.youtube.com/watch?v=ZTUVgYoeN_b"]);
     assert([[video valueForKey:@"summary"] isEqualToString:@"What could make for more exciting video?"]);
@@ -57,10 +57,10 @@
     self.bridge = [[YoutubeParser alloc] initWithURL:url];
     [self.bridge requestAndParse];
     
-    assert(self.bridge.videos.count == 2);
+    assert(self.bridge.parsedVideos.count == 2);
     assert(self.bridge.isSuccess);
     
-    NSDictionary *video = [self.bridge.videos objectAtIndex:1];
+    NSDictionary *video = [self.bridge.parsedVideos objectAtIndex:1];
     assert([[video valueForKey:@"title"] isEqualToString:@"Shopping for CoatsXXX"]);
     assert([[video valueForKey:@"url"] isEqualToString:@"https://www.youtube.com/watch?v=ZTUVgYoeN_bXXX"]);
     assert([[video valueForKey:@"summary"] isEqualToString:@"What could make for more exciting video?XXX"]);
