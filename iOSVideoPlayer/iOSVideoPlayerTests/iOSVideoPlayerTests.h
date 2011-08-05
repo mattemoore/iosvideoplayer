@@ -7,10 +7,10 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "YoutubeParser.h"
+#import "YoutubeFetcher.h"
 
 @interface iOSVideoPlayerTests : SenTestCase
 
-@property (strong, nonatomic) YoutubeParser *bridge;
+@property (strong, nonatomic) YoutubeFetcher *fetcher;
 
 @end

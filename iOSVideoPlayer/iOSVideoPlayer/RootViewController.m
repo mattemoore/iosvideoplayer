@@ -14,11 +14,9 @@
 #import "CategoryViewController.h"
 #import "VideoPlayerViewController.h"
 #import "RootViewController.h"
-
 #import "Video.h"
 #import "VideoCategory.h"
-
-#import "YoutubeConnection.h"
+#import "YoutubeFetcher.h"
 
 #define kNumberOfVideosPerPage 4
 #define kNumberOfTestCategories 3
@@ -64,7 +62,11 @@
     //do fetch request for all videos in each category and put in each index of videos array
     //NSArray *savedVideos = [self loadVideoEntities];
     //[self loadTestData];
-    [self loadYoutubeVideos];
+    
+    //TODO: this should be done in block so to not block on parsing
+    YoutubeFetcher *youtubeFetcher = [[YoutubeFetcher alloc] init];
+    youtubeFetcher.delegate = self;
+    [youtubeFetcher connectAndParse];
     
     //setup master scroll view, content fully preloaded as master view pages are not complex
     numMasterPages = self.categories.count;
@@ -303,29 +305,13 @@
     return results;
 }
 
--(NSArray*)loadYoutubeVideos
+-(void)finishedConnectAndParse:(NSArray*)videos withError:(NSError*)error;
 {
-    YoutubeConnection *yconn = [[YoutubeConnection alloc] init];
-    
-    
-    /*
-    YoutubeFetcher *fetcher = [[YoutubeFetcher alloc] init];
-    [fetcher fetch]
-    
-    if (!fetcher.isSuccess)
+    if (videos.count > 0)
     {
-        //TODO: show error actions sheet
-        NSLog(@"%@", fetcher.error.description);
+        NSDictionary *video = [videos objectAtIndex:0];
     }
-    else
-    {
-        return fetcher.videos;
-    }
-     */
-    return nil;
 }
-
-//TODO: write method that invokes YoutubeBridge to get list of current videos
 
 //TODO: write method that compares saved list of vids to newly retrieved list of vids to mark
 //      which ones are new, watched etc.

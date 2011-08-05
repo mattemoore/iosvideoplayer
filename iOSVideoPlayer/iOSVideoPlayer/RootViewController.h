@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YoutubeFetcher.h"
 
-@interface RootViewController : UIViewController <UIScrollViewDelegate>
+@interface RootViewController : UIViewController <UIScrollViewDelegate, YoutubeFetcherDelegate>
 {
     unsigned numMasterPages;
     unsigned numDetailPages;
@@ -35,7 +36,6 @@
 -(void)setDetailPageToZero;
 -(void)loadDetailPageNumber:(int)detailPageNum;
 -(NSArray*)loadVideoEntities;
--(NSArray*)loadYoutubeVideos;
 -(void)loadTestData;
 -(void)initDetailScrollView;
 -(void)initMasterScrollView;
