@@ -21,7 +21,7 @@
 @property (nonatomic, strong) RootViewController* rootViewController;
 
 -(id)initWithVideos:(NSArray*)videos;
--(void)playVideo: (VideoThumbnailView*)videoView;
+-(void)playVideo: (VideoThumbnailView*)videoView;  //TODO: need to implement this?
 - (void)hanldeTapGesture:(UITapGestureRecognizer *)sender;
 
 

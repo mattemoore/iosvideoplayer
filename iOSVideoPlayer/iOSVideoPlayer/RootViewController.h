@@ -25,6 +25,7 @@
 @property (strong, nonatomic) NSMutableArray *detailViewControllers;
 
 @property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) NSArray *savedVideos;
 @property (strong, nonatomic) NSArray *videos; //array of video array that index to categories array
 
 @property (strong, nonatomic) IBOutlet UIPageControl *masterPageControl;

@@ -34,6 +34,7 @@
 @synthesize detailPageControlView = __detailPageControlView;
 @synthesize categories = __categories;
 @synthesize videos = __videos;
+@synthesize savedVideos = __savedVideos;
 
 - (void)didReceiveMemoryWarning
 {
@@ -54,13 +55,8 @@
     self.managedObjectContext = delegate.managedObjectContext;
     self.detailScrollView.scrollsToTop = NO; 
     self.masterScrollView.scrollsToTop = NO;
+    self.savedVideos = [self loadVideoEntities];
     
-    //TODO: load old videos from store
-    //          get updated list from network
-    //              compare two lists, add (set isNew) and remove as necessary, update exisiting (keep isRead)
-    //do fetch requests to get all categories and put in categories array
-    //do fetch request for all videos in each category and put in each index of videos array
-    //NSArray *savedVideos = [self loadVideoEntities];
     //[self loadTestData];
     
     //TODO: this should be done in block so to not block on parsing
@@ -305,19 +301,34 @@
     return results;
 }
 
--(void)finishedConnectAndParse:(NSArray*)videos withError:(NSError*)error;
+-(void)finishedConnectAndParse:(NSArray*)videos withError:(NSError*)error
 {
-    if (videos.count > 0)
+    if (videos.count > 0) //TODO: action sheet saying no videos available
     {
         NSDictionary *video = [videos objectAtIndex:0];
     }
 }
 
-//TODO: write method that compares saved list of vids to newly retrieved list of vids to mark
-//      which ones are new, watched etc.
+-(void)mergeNewVideos
+{
+    
+    //TODO: write method that compares saved list of vids to newly retrieved list of vids to mark
+    //      which ones are new, watched etc.
+    
+    //TODO: load old videos from store
+    //          get updated list from network
+    //              compare two lists, add (set isNew) and remove as necessary, update exisiting (keep isRead)
+    //do fetch requests to get all categories and put in categories array
+    //do fetch request for all videos in each category and put in each index of videos array
+   
+    //TODO: put videos up as in loadTestData
+}
+
 
 -(void)loadTestData
 {
+    //TODO: put in fake url of video so we can test playing
+    
     NSMutableArray *testCategories = [[NSMutableArray alloc] init];
     NSMutableArray *testVideos = [[NSMutableArray alloc] init];
     
