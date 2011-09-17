@@ -33,14 +33,21 @@
 @property (strong, nonatomic) IBOutlet UIView *masterPageControlView;
 @property (strong, nonatomic) IBOutlet UIView *detailPageControlView;
 
+-(void)initDetailScrollView;
+-(void)initMasterScrollView;
+-(void)handleRotate;
+
+-(NSMutableArray *)loadMasterViewControllers;
+
 -(int)getNumberOfDetailPages; 
 -(void)setDetailPageToZero;
 -(void)loadDetailPageNumber:(int)detailPageNum;
--(NSArray*)loadVideoEntities;
+
+-(NSArray*)loadSavedVideos;
+-(void)mergeVideos:(NSArray*)newVideos:(NSArray*)savedVideos;
+
 -(void)loadTestData;
--(void)initDetailScrollView;
--(void)initMasterScrollView;
--(NSMutableArray *)loadMasterViewControllers;
--(void)handleRotate;
+
+
 
 @end

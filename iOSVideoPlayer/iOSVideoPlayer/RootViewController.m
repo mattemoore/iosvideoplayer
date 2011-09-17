@@ -55,15 +55,15 @@
     self.managedObjectContext = delegate.managedObjectContext;
     self.detailScrollView.scrollsToTop = NO; 
     self.masterScrollView.scrollsToTop = NO;
-    self.savedVideos = [self loadVideoEntities];
+    self.savedVideos = [self loadSavedVideos];
     
     //[self loadTestData];
     
-    //TODO: this should be done in block so to not block on parsing
     YoutubeFetcher *youtubeFetcher = [[YoutubeFetcher alloc] init];
     youtubeFetcher.delegate = self;
     [youtubeFetcher connectAndParse];
     
+    //TODO: run this after video merge
     //setup master scroll view, content fully preloaded as master view pages are not complex
     numMasterPages = self.categories.count;
     currentMasterPageNum = 0;
@@ -282,7 +282,65 @@
 
 #pragma mark - Core Data Calls
 
--(NSArray*)loadVideoEntities {
+
+-(void)finishedConnectAndParse:(NSArray*)rawVideos withError:(NSError*)error
+{
+    if (error)
+    {
+        NSLog(@"%@", error.description);
+        return;     //TODO: show error actions sheet
+    }
+    
+    if (rawVideos.count == 0) 
+    {
+        NSDictionary *video = [rawVideos objectAtIndex:0];
+        return;     //TODO: action sheet saying no videos available
+    }
+    
+    //convert video in xml to managed objects
+    NSMutableArray *managedVideos = [[NSMutableArray alloc] init];
+    for(int i = 0; i < rawVideos.count; i++)
+    {   
+        NSDictionary *rawVideo = (NSDictionary*)[rawVideos objectAtIndex:i];
+        
+        Video *managedVideo = (Video*)[NSEntityDescription insertNewObjectForEntityForName:@"Video" inManagedObjectContext:self.managedObjectContext];
+      
+        managedVideo.Title = [rawVideo objectForKey:@"title"];
+        managedVideo.Description = [rawVideo objectForKey:@"summary"];
+        managedVideo.PublicID = [rawVideo objectForKey:@"id"];
+        managedVideo.URL = [rawVideo objectForKey:@"url"];
+        managedVideo.ThumbnailURL = [rawVideo objectForKey:@"thumbnailurl"];
+        [managedVideos addObject:managedVideo];
+    }
+    
+    [self mergeVideos:managedVideos:[self loadSavedVideos]];    
+    
+}
+
+-(void)mergeVideos:(NSArray*) newVideos:(NSMutableArray*) savedVideos
+{
+    for (int i = 0; i < newVideos.count; i++)
+    {
+        BOOL isDupe = false;
+        Video *newVideo = (Video*)[newVideos objectAtIndex:i];
+        for (int y = 0; y < savedVideos.count; y++)
+        {
+            Video *savedVideo = (Video*)[savedVideos objectAtIndex:y];
+            if (newVideo.PublicID == savedVideo.PublicID) 
+                isDupe = true;
+        }
+        
+        if (!isDupe)
+            [savedVideos addObject:newVideo];
+    }
+    
+    self.videos = savedVideos;
+    //TODO: build categories from keywords in videos
+            //multi category split by ','
+            //trim whitespace from keywords
+}
+
+-(NSArray*)loadSavedVideos {
     
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Video" inManagedObjectContext:self.managedObjectContext];
     
@@ -296,34 +354,10 @@
     
     if (results == nil)
         NSLog(@"%@", error.description);
-        //TODO: show error actions sheet
+    //TODO: show error actions sheet
     
     return results;
 }
-
--(void)finishedConnectAndParse:(NSArray*)videos withError:(NSError*)error
-{
-    if (videos.count > 0) //TODO: action sheet saying no videos available
-    {
-        NSDictionary *video = [videos objectAtIndex:0];
-    }
-}
-
--(void)mergeNewVideos
-{
-    
-    //TODO: write method that compares saved list of vids to newly retrieved list of vids to mark
-    //      which ones are new, watched etc.
-    
-    //TODO: load old videos from store
-    //          get updated list from network
-    //              compare two lists, add (set isNew) and remove as necessary, update exisiting (keep isRead)
-    //do fetch requests to get all categories and put in categories array
-    //do fetch request for all videos in each category and put in each index of videos array
-   
-    //TODO: put videos up as in loadTestData
-}
-
 
 -(void)loadTestData
 {

@@ -159,7 +159,6 @@
         if ([[attributeDict objectForKey:@"width"]isEqualToString:@"320"])
             [self.currentVideo setValue:[attributeDict objectForKey:@"url"] forKey:@"thumbnailurl"];
     }
-    
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
@@ -183,6 +182,11 @@
     {
         [self.currentVideo setValue:self.currentString forKey:@"id"];
     } 
+    
+    if ([elementName isEqualToString:@"keywords"])
+    {
+        [self.currentVideo setValue:self.currentString forKey:@"keywords"];
+    }
     
 }
 
