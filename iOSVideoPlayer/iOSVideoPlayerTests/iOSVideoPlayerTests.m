@@ -7,7 +7,7 @@
 //
 
 #import "iOSVideoPlayerTests.h"
-#import "YoutubeFetcher.h"
+#import "UserUploadsFetcher.h"
 @implementation iOSVideoPlayerTests
 
 @synthesize fetcher = fetcher;
@@ -31,7 +31,7 @@
 {
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSString *path = [mainBundle pathForResource:@"TestYouTubeFeed" ofType:@"xml"];
-    self.fetcher = [[YoutubeFetcher alloc] init];
+    self.fetcher = [[UserUploadsFetcher alloc] init];
     [self.fetcher startParsingWithData:[NSData dataWithContentsOfFile:path]];
     
     assert(self.fetcher.parsedVideos.count == 1);
@@ -50,7 +50,7 @@
 {
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSString *path = [mainBundle pathForResource:@"TestYouTubeFeedMultiEntry" ofType:@"xml"];
-    self.fetcher = [[YoutubeFetcher alloc] init];
+    self.fetcher = [[UserUploadsFetcher alloc] init];
     [self.fetcher startParsingWithData:[NSData dataWithContentsOfFile:path]];
   
     assert(self.fetcher.parsedVideos.count == 2);

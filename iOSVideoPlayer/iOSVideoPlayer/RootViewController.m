@@ -15,8 +15,7 @@
 #import "VideoPlayerViewController.h"
 #import "RootViewController.h"
 #import "Video.h"
-#import "VideoCategory.h"
-#import "YoutubeFetcher.h"
+#import "UserUploadsFetcher.h"
 
 #define kNumberOfVideosPerPage 4
 #define kNumberOfTestCategories 3
@@ -40,8 +39,8 @@
 {
     [super didReceiveMemoryWarning];
     // Release any cached data, images, etc that aren't in use.
-    
-    //TODO: save data model
+    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    [delegate saveContext];
 }
 
 #pragma mark - View lifecycle
@@ -59,25 +58,10 @@
     
     //[self loadTestData];
     
-    YoutubeFetcher *youtubeFetcher = [[YoutubeFetcher alloc] init];
+    UserUploadsFetcher *youtubeFetcher = [[UserUploadsFetcher alloc] init];
     youtubeFetcher.delegate = self;
     [youtubeFetcher connectAndParse];
     
-    //TODO: run this after video merge
-    //setup master scroll view, content fully preloaded as master view pages are not complex
-    numMasterPages = self.categories.count;
-    currentMasterPageNum = 0;
-    self.masterPageControl.numberOfPages = numMasterPages;
-    self.masterPageControl.currentPage = 0;
-    self.masterViewControllers = [self loadMasterViewControllers];  
-    [self initMasterScrollView];
-    
-    //setup detail scroll view, lazy loading after each page turn
-    self.detailViewControllers = [[NSMutableArray alloc] init];
-    numDetailPages = [self getNumberOfDetailPages];
-    [self setDetailPageToZero];
-    
-    isManualScroll = YES;
 }
 
 - (void)viewDidUnload
@@ -186,35 +170,22 @@
     return ceil((float)[[self.videos objectAtIndex:currentMasterPageNum] count] / (float)kNumberOfVideosPerPage);
 }
 
-//init categories and then call this to load categories into master view controllers
-- (NSMutableArray *)loadMasterViewControllers {
-    
-    NSMutableArray *categoryViewControllers = [[NSMutableArray alloc] init];
-    
-    for (int i=0; i < self.categories.count ; i++) 
-    {   
-        VideoCategory *category = (VideoCategory*)[self.categories objectAtIndex:i];
-        NSString *currentLabel = category.Name;
-        
-        NSString *previousLabel = nil;
-        if (i > 0) 
-        {
-            VideoCategory *previousCategory = [self.categories objectAtIndex:i - 1];
-            previousLabel = previousCategory.Name;
-        }        
-        
-        NSString *nextLabel = nil;
-        if (i < self.categories.count - 1)
-        {
-            VideoCategory *nextCategory = [self.categories objectAtIndex:i + 1];
-            nextLabel = nextCategory.Name;
-        }
-        
-        CategoryViewController *categoryViewController = [[CategoryViewController alloc] initWithCategory:currentLabel nextCategory:nextLabel previousCategory:previousLabel];
-        [categoryViewControllers addObject:categoryViewController];
-    }
-    
-    return categoryViewControllers;
+- (void)initScrollViews
+{
+    //setup master scroll view, content fully preloaded as master view pages are not complex
+    numMasterPages = self.categories.count;
+    currentMasterPageNum = 0;
+    self.masterPageControl.numberOfPages = numMasterPages;
+    self.masterPageControl.currentPage = 0;
+    self.masterViewControllers = [self loadMasterViewControllers];  
+    [self initMasterScrollView];
+
+    //setup detail scroll view, lazy loading after each page turn
+    self.detailViewControllers = [[NSMutableArray alloc] init];
+    numDetailPages = [self getNumberOfDetailPages];
+    [self setDetailPageToZero];
+
+    isManualScroll = YES;
 }
 
 //set numberOfMasterPages first and then call this to reset master scroll
@@ -243,6 +214,34 @@
     
     self.detailScrollView.contentSize = CGSizeMake(numDetailPages * self.detailScrollView.frame.size.width, self.detailScrollView.frame.size.height);
     self.detailScrollView.contentOffset = CGPointMake(self.detailScrollView.frame.size.width * currentDetailPageNum,0);
+}
+
+
+//init categories and then call this to load categories into master view controllers
+- (NSMutableArray *)loadMasterViewControllers {
+    
+    NSMutableArray *categoryViewControllers = [[NSMutableArray alloc] init];
+    
+    for (int i=0; i < self.categories.count ; i++) 
+    {   
+        NSString *currentLabel = (NSString*)[self.categories objectAtIndex:i];        
+        NSString *previousLabel = nil;
+        if (i > 0) 
+        {
+            previousLabel = (NSString*)[self.categories objectAtIndex:i - 1];
+        }        
+        
+        NSString *nextLabel = nil;
+        if (i < self.categories.count - 1)
+        {
+            nextLabel = (NSString*)[self.categories objectAtIndex:i + 1];        
+        }
+        
+        CategoryViewController *categoryViewController = [[CategoryViewController alloc] initWithCategory:currentLabel nextCategory:nextLabel previousCategory:previousLabel];
+        [categoryViewControllers addObject:categoryViewController];
+    }
+    
+    return categoryViewControllers;
 }
 
 
@@ -280,7 +279,7 @@
     }
 }
 
-#pragma mark - Core Data Calls
+#pragma mark - Loading, Merging, Categorizing Videos...
 
 
 -(void)finishedConnectAndParse:(NSArray*)rawVideos withError:(NSError*)error
@@ -293,7 +292,6 @@
     
     if (rawVideos.count == 0) 
     {
-        NSDictionary *video = [rawVideos objectAtIndex:0];
         return;     //TODO: action sheet saying no videos available
     }
     
@@ -310,15 +308,18 @@
         managedVideo.PublicID = [rawVideo objectForKey:@"id"];
         managedVideo.URL = [rawVideo objectForKey:@"url"];
         managedVideo.ThumbnailURL = [rawVideo objectForKey:@"thumbnailurl"];
+        managedVideo.Categories = [rawVideo objectForKey:@"keywords"];
         [managedVideos addObject:managedVideo];
     }
     
     [self mergeVideos:managedVideos:[self loadSavedVideos]];    
     
+    [self initScrollViews];
 }
 
 -(void)mergeVideos:(NSArray*) newVideos:(NSMutableArray*) savedVideos
 {
+    //merge
     for (int i = 0; i < newVideos.count; i++)
     {
         BOOL isDupe = false;
@@ -334,10 +335,40 @@
             [savedVideos addObject:newVideo];
     }
     
-    self.videos = savedVideos;
-    //TODO: build categories from keywords in videos
-            //multi category split by ','
-            //trim whitespace from keywords
+    //build category list
+    NSString *categoriesString = @"";
+    for (int i=0; i < savedVideos.count; i++)
+    {
+        NSString *category = ((Video*)[savedVideos objectAtIndex:i]).Categories;
+        if (!(category == @"")) 
+            categoriesString = [categoriesString stringByAppendingString:category];
+    }
+    
+    NSArray *splitCategories = [categoriesString componentsSeparatedByString:@","];
+    NSMutableArray *trimmedCategories = [[NSMutableArray alloc] init];
+    for (int j=0; j < splitCategories.count; j++)
+    {
+        [trimmedCategories addObject:[[splitCategories objectAtIndex:j] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+    }
+    self.categories = trimmedCategories;
+    
+    //build video array 
+    NSMutableArray *videos = [[NSMutableArray alloc] init];
+    for (int y=0; y < self.categories.count; y++)
+    {
+        NSString *categoryName = [self.categories objectAtIndex:y];
+        NSMutableArray *videosForThisCategory = [[NSMutableArray alloc] init];
+        for(int z=0; z < savedVideos.count; z++)
+        {
+            Video *video = [savedVideos objectAtIndex:z];
+            if (!
+                NSEqualRanges([video.Categories rangeOfString:categoryName], NSMakeRange(NSNotFound, 0)))
+                [videosForThisCategory addObject:video];
+        }
+        [videos addObject:videosForThisCategory];
+    }
+    self.videos = videos;
+    
 }
 
 -(NSArray*)loadSavedVideos {
@@ -369,9 +400,7 @@
     for (int i = 0; i < kNumberOfTestCategories; i++) 
     {   
         NSString *categoryTitle = [NSString stringWithFormat:@"Category%d",i];
-        VideoCategory *videoCategory = [NSEntityDescription insertNewObjectForEntityForName:@"VideoCategory" inManagedObjectContext:self.managedObjectContext];
-        videoCategory.Name = categoryTitle;
-        [testCategories addObject:videoCategory];
+        [testCategories addObject:categoryTitle];
         
         NSMutableArray *testVideosForThisCategory = [[NSMutableArray alloc] init];
         for(int y=0; y < (i + 1) * 3; y++)

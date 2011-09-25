@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "VideoThumbnailView.h"
 #import "RootViewController.h"
+#import "HttpFetcher.h"
 
-@interface VideoPageViewController : UIViewController
+@interface VideoPageViewController : UIViewController <HttpFetcherDelegate>
 
 @property (nonatomic, strong) NSArray* videos;
 @property (nonatomic, strong) IBOutlet VideoThumbnailView* videoView1;

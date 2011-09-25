@@ -51,20 +51,16 @@
     <style type=\"text/css\">\
     body {\
     background-color: transparent;\
-    color: white;\
+    color: black;\
     }\
     </style>\
     </head><body style=\"margin:0\">\
-    <embed id=\"yt\" src=\"%@\" type=\"application/x-shockwave-flash\" \
-    width=\"%0.0f\" height=\"%0.0f\"></embed>\
+    <iframe width=\"%0.0f\" height=\"%0.0f\" src=\"%@\" frameborder=\"0\" allowfullscreen></iframe>\
     </body></html>";  
-    NSString* html = [NSString stringWithFormat:embedHTML, url, self.videoWebView.frame.size.width, self.videoWebView.frame.size.height];  
+   NSString* html = [NSString stringWithFormat:embedHTML, self.videoWebView.frame.size.width, self.videoWebView.frame.size.height,url];  
     [self.videoWebView loadHTMLString:html baseURL:nil];  
     
-    /*
-    NSString *htmlString = @"<html><head>
-    <meta name = \"viewport\" content = \"initial-scale = 1.0, user-scalable = no, width = 212\"/></head><body style=\"background:#F00;margin-top:0px;margin-left:0px\"><div><object width=\"212\" height=\"172\"><param name=\"movie\" value=\"http://www.youtube.com/v/oHg5SJYRHA0&f=gdata_videos&c=ytapi-my-clientID&d=nGF83uyVrg8eD4rfEkk22mDOl3qUImVMV6ramM\"></param><param name=\"wmode\" value=\"transparent\"></param><embed src=\"http://www.youtube.com/v/oHg5SJYRHA0&f=gdata_videos&c=ytapi-my-clientID&d=nGF83uyVrg8eD4rfEkk22mDOl3qUImVMV6ramM\"type=\"application/x-shockwave-flash\" wmode=\"transparent\" width=\"212\" height=\"172\"></embed></object></div></body></html>";
-    */
+    
 }  
 
 - (IBAction)closePlayer:(id)sender

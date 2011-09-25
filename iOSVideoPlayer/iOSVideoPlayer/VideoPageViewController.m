@@ -59,6 +59,12 @@
             Video *video = (Video*)[self.videos objectAtIndex:i];
             videoView.titleLabel.text = video.Title;
             videoView.summaryLabel.text = video.Description;
+            
+            NSMutableDictionary *customData = [[NSMutableDictionary alloc] init];
+            [customData setObject:videoView forKey:@"view"];
+            HttpFetcher *httpFetcher = [[HttpFetcher alloc] initWithUrl:video.ThumbnailURL userObject:customData];
+            httpFetcher.delegate = self;
+            [httpFetcher fetch];
         }
         else
         {
@@ -86,6 +92,20 @@
         }
     }
     
+}
+
+-(void)finishedFetcher:(NSData*)data userObject:(NSDictionary*)userObject withError:(NSError*)error
+{
+    if (error)
+    {
+        //TODO: display error message
+    }
+    else
+    {
+        VideoThumbnailView *videoView = [userObject objectForKey:@"view"];
+        videoView.videoScreenshot.image = [[UIImage alloc] initWithData:data];
+        videoView.titleLabel.text = @"foo";
+    }
 }
 
 - (void)viewDidUnload

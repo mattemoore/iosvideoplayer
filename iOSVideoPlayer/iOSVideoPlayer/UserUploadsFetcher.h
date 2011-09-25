@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol YoutubeFetcherDelegate <NSObject>
+@protocol UserUploadsFetcherDelegate <NSObject>
 
 -(void)finishedConnectAndParse:(NSArray*)videos withError:(NSError*)error;
 
 @end
 
-@interface YoutubeFetcher : NSObject <NSXMLParserDelegate, NSURLConnectionDataDelegate>
+@interface UserUploadsFetcher : NSObject <NSXMLParserDelegate, NSURLConnectionDataDelegate>
 {
-    id <YoutubeFetcherDelegate> delegate;
+    id <UserUploadsFetcherDelegate> delegate;
 }
 
 @property (nonatomic, strong) id delegate;

@@ -22,6 +22,6 @@
 @property (nonatomic, retain) NSString * ThumbnailURL;
 @property (nonatomic, retain) NSString * Title;
 @property (nonatomic, retain) NSString * URL;
-@property (nonatomic, retain) NSSet *Categories;
+@property (nonatomic, retain) NSString * Categories;
 
 @end

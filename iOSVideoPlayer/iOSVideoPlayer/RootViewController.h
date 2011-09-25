@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "YoutubeFetcher.h"
+#import "UserUploadsFetcher.h"
 
-@interface RootViewController : UIViewController <UIScrollViewDelegate, YoutubeFetcherDelegate>
+@interface RootViewController : UIViewController <UIScrollViewDelegate, UserUploadsFetcherDelegate>
 {
     unsigned numMasterPages;
     unsigned numDetailPages;
@@ -33,6 +33,7 @@
 @property (strong, nonatomic) IBOutlet UIView *masterPageControlView;
 @property (strong, nonatomic) IBOutlet UIView *detailPageControlView;
 
+-(void)initScrollViews;
 -(void)initDetailScrollView;
 -(void)initMasterScrollView;
 -(void)handleRotate;

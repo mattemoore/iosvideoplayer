@@ -66,7 +66,7 @@
      See also applicationDidEnterBackground:.
      */
     
-    //TODO: save data model
+    [self saveContext];
 }
 
 

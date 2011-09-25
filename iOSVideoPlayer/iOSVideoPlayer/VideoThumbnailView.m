@@ -70,8 +70,8 @@
     self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
     
     self.videoScreenshot = [[UIImageView alloc] initWithFrame:videoFrame];
-    UIImage *screenshot = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"videoBackgroundPlaceholder" ofType:@"png"]];
-    self.videoScreenshot.image = screenshot;
+    //UIImage *screenshot = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"videoBackgroundPlaceholder" ofType:@"png"]];
+    //self.videoScreenshot.image = screenshot;
     self.videoScreenshot.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
     
     
