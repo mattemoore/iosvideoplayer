@@ -58,6 +58,15 @@
     
     //[self loadTestData];
     
+    //TODO:show loading screen until fetcher is done
+    
+    //TODO:set isViewed and isNew after events
+    
+    //TODO:fade in vid screenshot
+    //TODO:screenshot shouldn't be stretched in vertical mode?
+    
+    //TODO:review unit tests using actual data from fetchers
+    
     UserUploadsFetcher *youtubeFetcher = [[UserUploadsFetcher alloc] init];
     youtubeFetcher.delegate = self;
     [youtubeFetcher connectAndParse];

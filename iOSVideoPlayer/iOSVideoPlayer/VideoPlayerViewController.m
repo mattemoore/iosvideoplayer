@@ -42,10 +42,12 @@
     
     self.titleLabel.text = self.video.Title;
     self.summaryLabel.text = self.video.Description;
-    [self embedYouTube:self.video.URL];
+    NSArray *youtubeIDComponents = [self.video.PublicID componentsSeparatedByString:@"/"];
+    NSString *youtubeID = [youtubeIDComponents objectAtIndex:youtubeIDComponents.count-1];
+    [self embedYouTube:youtubeID];
 }
 
-- (void)embedYouTube:(NSString*)url {  
+- (void)embedYouTube:(NSString*)youtubeId {  
     NSString* embedHTML = @"\
     <html><head>\
     <style type=\"text/css\">\
@@ -55,11 +57,12 @@
     }\
     </style>\
     </head><body style=\"margin:0\">\
-    <iframe width=\"%0.0f\" height=\"%0.0f\" src=\"%@\" frameborder=\"0\" allowfullscreen></iframe>\
+    <iframe width=\"%0.0f\" height=\"%0.0f\" src=\"http://www.youtube.com/embed/%@?rel=0&amp;hd=1 frameborder=\"0\" allowfullscreen></iframe>\
     </body></html>";  
-   NSString* html = [NSString stringWithFormat:embedHTML, self.videoWebView.frame.size.width, self.videoWebView.frame.size.height,url];  
+   NSString* html = [NSString stringWithFormat:embedHTML, self.videoWebView.frame.size.width, self.videoWebView.frame.size.height, youtubeId];  
     [self.videoWebView loadHTMLString:html baseURL:nil];  
     
+    //TODO: show this gracefully, no white background, fade it in
     
 }  
 

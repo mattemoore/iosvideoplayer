@@ -19,7 +19,7 @@
 @property (nonatomic, strong) IBOutlet UIWebView *videoWebView;
 
 - (id)initWithVideo: (Video*)video;
-- (void)embedYouTube:(NSString*)url;
+- (void)embedYouTube:(NSString*)youtubeId;
 - (IBAction)closePlayer:(id)sender;
 
 @end

@@ -104,7 +104,6 @@
     {
         VideoThumbnailView *videoView = [userObject objectForKey:@"view"];
         videoView.videoScreenshot.image = [[UIImage alloc] initWithData:data];
-        videoView.titleLabel.text = @"foo";
     }
 }
 
