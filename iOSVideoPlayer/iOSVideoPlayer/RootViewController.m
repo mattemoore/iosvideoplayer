@@ -56,20 +56,18 @@
     self.masterScrollView.scrollsToTop = NO;
     self.savedVideos = [self loadSavedVideos];
     
-    //[self loadTestData];
-    
-    //TODO:show loading screen until fetcher is done
-    
-    //TODO:set isViewed and isNew after events
-    
-    //TODO:fade in vid screenshot
+    //TODO:show loading screen until fetcher is done (this page)
+    //TODO:show loading screen until video is loaded (VideoPlayerViewController)
+    //TODO:fade in vid screenshot, check if screenshots are being async fetched
     //TODO:screenshot shouldn't be stretched in vertical mode?
-    
-    //TODO:review unit tests using actual data from fetchers
+    //TODO:rotate whilst video playing is not right, sized based on portrait, should resize on rotate
     
     UserUploadsFetcher *youtubeFetcher = [[UserUploadsFetcher alloc] init];
     youtubeFetcher.delegate = self;
     [youtubeFetcher connectAndParse];
+    
+    //[self loadTestData];
+    //[self initScrollViews];
     
 }
 
@@ -341,7 +339,11 @@
         }
         
         if (!isDupe)
+        {
+            newVideo.IsNew = [NSNumber numberWithInt:1];
+            newVideo.IsWatched = [NSNumber numberWithInt:0];
             [savedVideos addObject:newVideo];
+        }
     }
     
     //build category list
@@ -417,6 +419,10 @@
             Video *testVideo = (Video*)[NSEntityDescription insertNewObjectForEntityForName:@"Video" inManagedObjectContext:self.managedObjectContext];
             testVideo.Title = [NSString stringWithFormat:@"T%d-%@", y, categoryTitle];
             testVideo.Description = @"Test description..."; 
+            testVideo.ThumbnailURL = @"http://www.google.ca/images/srpr/logo3w.png";
+            testVideo.PublicID = @"1HkWTfc4nFs";
+            testVideo.IsNew = [NSNumber numberWithInt:1];
+            testVideo.IsWatched = [NSNumber numberWithInt:1];
             [testVideosForThisCategory addObject:testVideo];
         }     
         [testVideos addObject:testVideosForThisCategory];

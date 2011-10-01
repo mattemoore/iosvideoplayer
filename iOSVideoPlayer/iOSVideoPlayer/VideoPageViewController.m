@@ -60,6 +60,14 @@
             videoView.titleLabel.text = video.Title;
             videoView.summaryLabel.text = video.Description;
             
+            //TODO: replace with proper one after design
+            if (video.IsWatched == [NSNumber numberWithInt:1])
+                videoView.watchedVideoImage.image = [UIImage imageNamed:@"close.png"];
+            
+            if (video.IsNew == [NSNumber numberWithInt:1])
+                videoView.newVideoImage.image = [UIImage imageNamed:@"close.png"];
+                
+            //TODO: this fetches every scroll, should cache image
             NSMutableDictionary *customData = [[NSMutableDictionary alloc] init];
             [customData setObject:videoView forKey:@"view"];
             HttpFetcher *httpFetcher = [[HttpFetcher alloc] initWithUrl:video.ThumbnailURL userObject:customData];
@@ -73,7 +81,7 @@
     }
 }
 
-- (IBAction)handleTapGesture:(UIGestureRecognizer *)sender
+- (IBAction)handleTapGesture:(UITapGestureRecognizer *)sender
 {
     if (sender.state == UIGestureRecognizerStateEnded)  
     { 

@@ -76,7 +76,7 @@
     
     
     self.playButtonOverlayImage = [[UIImageView alloc] initWithFrame:videoFrame];
-    self.playButtonOverlayImage.alpha = 0.60;
+    self.playButtonOverlayImage.alpha = 0.80;
     self.playButtonOverlayImage.contentMode = UIViewContentModeScaleAspectFit;
     UIImage *play = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"videoPlayPlaceholder" ofType:@"png"]];
     self.playButtonOverlayImage.image = play;

@@ -42,6 +42,7 @@
     
     self.titleLabel.text = self.video.Title;
     self.summaryLabel.text = self.video.Description;
+    self.video.IsWatched = [NSNumber numberWithInt:1];
     NSArray *youtubeIDComponents = [self.video.PublicID componentsSeparatedByString:@"/"];
     NSString *youtubeID = [youtubeIDComponents objectAtIndex:youtubeIDComponents.count-1];
     [self embedYouTube:youtubeID];

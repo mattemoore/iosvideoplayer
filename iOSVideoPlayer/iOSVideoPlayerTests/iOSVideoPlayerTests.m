@@ -38,13 +38,13 @@
     assert(self.fetcher.isSuccess);
     
     NSDictionary *video = [self.fetcher.parsedVideos objectAtIndex:0];
-    assert([[video valueForKey:@"title"] isEqualToString:@"Shopping for Coats"]);
-    assert([[video valueForKey:@"url"] isEqualToString:@"https://www.youtube.com/watch?v=ZTUVgYoeN_b"]);
-    assert([[video valueForKey:@"summary"] isEqualToString:@"What could make for more exciting video?"]);
-    assert([[video valueForKey:@"thumbnailurl"] isEqualToString:@"http://img.youtube.com/vi/ZTUVgYoeN_b/0.jpg"]);
-    assert([[video valueForKey:@"id"] isEqualToString:@"ZTUVgYoeN_b"]);
+    assert([[video valueForKey:@"title"] isEqualToString:@"Frozen Synapse Gameplay.."]);
+    assert([[video valueForKey:@"url"] isEqualToString:@"https://www.youtube.com/watch?v=oKkw_AVZMk4&feature=youtube_gdata_player"]);
+    assert([[video valueForKey:@"summary"] isEqualToString:@"My first and only win so far :(\n                \n                Separation between turns isn't obvious but still should give you an idea of how the game works.."]);
+    assert([[video valueForKey:@"thumbnailurl"] isEqualToString:@"http://i.ytimg.com/vi/oKkw_AVZMk4/0.jpg"]);
+    assert([[video valueForKey:@"id"] isEqualToString:@"http://gdata.youtube.com/feeds/api/videos/oKkw_AVZMk4"]);
+    assert([[video valueForKey:@"keywords"] isEqualToString:@"Frozen, Synapse"]);
 }
-
 
 - (void)testMultiEntryParse
 {
@@ -57,11 +57,12 @@
     assert(self.fetcher.isSuccess);
     
     NSDictionary *video = [self.fetcher.parsedVideos objectAtIndex:1];
-    assert([[video valueForKey:@"title"] isEqualToString:@"Shopping for CoatsXXX"]);
-    assert([[video valueForKey:@"url"] isEqualToString:@"https://www.youtube.com/watch?v=ZTUVgYoeN_bXXX"]);
-    assert([[video valueForKey:@"summary"] isEqualToString:@"What could make for more exciting video?XXX"]);
-    assert([[video valueForKey:@"thumbnailurl"] isEqualToString:@"http://img.youtube.com/vi/ZTUVgYoeN_b/0.jpgXXX"]);
-    assert([[video valueForKey:@"id"] isEqualToString:@"ZTUVgYoeN_bXXX"]);
+    assert([[video valueForKey:@"title"] isEqualToString:@"Frozen Synapse Gameplay.."]);
+    assert([[video valueForKey:@"url"] isEqualToString:@"https://www.youtube.com/watch?v=oKkw_AVZMk4&feature=youtube_gdata_player"]);
+    assert([[video valueForKey:@"summary"] isEqualToString:@"My first and only win so far :(\n                \n                Separation between turns isn't obvious but still should give you an idea of how the game works.."]);
+    assert([[video valueForKey:@"thumbnailurl"] isEqualToString:@"http://i.ytimg.com/vi/oKkw_AVZMk4/0.jpg"]);
+    assert([[video valueForKey:@"id"] isEqualToString:@"http://gdata.youtube.com/feeds/api/videos/oKkw_AVZMk4"]);
+    assert([[video valueForKey:@"keywords"] isEqualToString:@"Frozen, Synapse"]);
     
 }
 
