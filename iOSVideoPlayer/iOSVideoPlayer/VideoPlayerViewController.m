@@ -69,7 +69,7 @@
 
 - (IBAction)closePlayer:(id)sender
 {
-    [self.rootViewController dismissViewControllerAnimated:YES completion:NULL];
+    [self.rootViewController dismissModalViewControllerAnimated:YES];
     [self.rootViewController handleRotate];
 }
 

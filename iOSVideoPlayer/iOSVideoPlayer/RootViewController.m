@@ -45,6 +45,13 @@
 
 #pragma mark - View lifecycle
 
+//TODO:show loading screen until fetcher is done (this page)
+//TODO:show loading screen until video is loaded (VideoPlayerViewController)
+//TODO:fade in vid screenshot, check if screenshots are being async fetched
+//TODO:screenshot shouldn't be stretched in vertical mode?
+//TODO:rotate whilst video playing is not right, sized based on portrait, should resize on rotate
+//TODO:check allocations with new category scrolling optimization, videoplayer modal seems to use memory when shown (could just be browser)
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -56,18 +63,12 @@
     self.masterScrollView.scrollsToTop = NO;
     self.savedVideos = [self loadSavedVideos];
     
-    //TODO:show loading screen until fetcher is done (this page)
-    //TODO:show loading screen until video is loaded (VideoPlayerViewController)
-    //TODO:fade in vid screenshot, check if screenshots are being async fetched
-    //TODO:screenshot shouldn't be stretched in vertical mode?
-    //TODO:rotate whilst video playing is not right, sized based on portrait, should resize on rotate
+    //UserUploadsFetcher *youtubeFetcher = [[UserUploadsFetcher alloc] init];
+    //youtubeFetcher.delegate = self;
+    //[youtubeFetcher connectAndParse];
     
-    UserUploadsFetcher *youtubeFetcher = [[UserUploadsFetcher alloc] init];
-    youtubeFetcher.delegate = self;
-    [youtubeFetcher connectAndParse];
-    
-    //[self loadTestData];
-    //[self initScrollViews];
+    [self loadTestData];
+    [self initScrollViews];
     
 }
 
@@ -123,12 +124,15 @@
     //      probably due to stretching horizontally the master scroll view when it is at 'last page'
     //      need to trap this occurence and break out of this method
     
+    
     if (!isManualScroll) return;
     
     CGFloat pageWidth = self.masterScrollView.frame.size.width;
     int pageNum = floor((sender.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     if ([sender isEqual:self.masterScrollView])
     {
+        if (pageNum == currentMasterPageNum) return;
+        
         currentMasterPageNum = pageNum;
         self.masterPageControl.currentPage = pageNum;
         numDetailPages = [self getNumberOfDetailPages];
@@ -136,6 +140,8 @@
     }
     else 
     {
+        if (pageNum == currentDetailPageNum) return;
+        
         currentDetailPageNum = pageNum;
         self.detailPageControl.currentPage = pageNum;
         [self loadDetailPageNumber:pageNum+1];
@@ -313,7 +319,6 @@
         managedVideo.Title = [rawVideo objectForKey:@"title"];
         managedVideo.Description = [rawVideo objectForKey:@"summary"];
         managedVideo.PublicID = [rawVideo objectForKey:@"id"];
-        managedVideo.URL = [rawVideo objectForKey:@"url"];
         managedVideo.ThumbnailURL = [rawVideo objectForKey:@"thumbnailurl"];
         managedVideo.Categories = [rawVideo objectForKey:@"keywords"];
         [managedVideos addObject:managedVideo];
@@ -347,6 +352,10 @@
     }
     
     //build category list
+    
+    //TOOD: this code is weak, redo, also bug when 'Family' and 'Frozen, Synapse' you get two categories 
+    //'FamilyFrozen' and 'Synapse'
+    
     NSString *categoriesString = @"";
     for (int i=0; i < savedVideos.count; i++)
     {

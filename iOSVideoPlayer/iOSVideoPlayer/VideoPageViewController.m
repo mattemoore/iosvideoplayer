@@ -67,7 +67,6 @@
             if (video.IsNew == [NSNumber numberWithInt:1])
                 videoView.newVideoImage.image = [UIImage imageNamed:@"close.png"];
                 
-            //TODO: this fetches every scroll, should cache image
             NSMutableDictionary *customData = [[NSMutableDictionary alloc] init];
             [customData setObject:videoView forKey:@"view"];
             HttpFetcher *httpFetcher = [[HttpFetcher alloc] initWithUrl:video.ThumbnailURL userObject:customData];
@@ -95,7 +94,7 @@
                 player.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
                 player.modalPresentationStyle = UIModalPresentationCurrentContext;
                 player.rootViewController = self.rootViewController;
-                [player.rootViewController presentViewController:player animated:YES completion:NULL];
+                [player.rootViewController presentModalViewController:player animated:YES];
             }
         }
     }
