@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "RootViewController.h"
+#import "TimeViewController.h"
 #import <CoreData/CoreData.h>
 
 @implementation AppDelegate
@@ -22,7 +23,8 @@
 {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.viewController = [[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil]; 
+    //self.viewController = [[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil]; 
+    self.viewController = [[TimeViewController alloc] init];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;
