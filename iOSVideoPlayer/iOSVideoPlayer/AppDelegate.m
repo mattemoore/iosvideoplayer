@@ -24,7 +24,7 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     //self.viewController = [[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil]; 
-    self.viewController = [[TimeViewController alloc] init];
+    self.viewController = [[TimeViewController alloc] initWithNibName:@"TimeViewController" bundle:[NSBundle mainBundle]];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;

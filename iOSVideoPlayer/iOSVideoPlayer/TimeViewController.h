@@ -2,26 +2,18 @@
 //  TimeViewController.h
 //  iOSVideoPlayer
 //
-//  Created by Matthew Moore on 11-10-16.
-//  Copyright 2011 Matt Moore. All rights reserved.
+//  Created by Matt Moore on 11-10-22.
+//  Copyright (c) 2011 Matt Moore. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import "TimeView.h"
+#import "TimeScrollView.h"
 
-@interface TimeViewController : UIViewController
+@interface TimeViewController : UIViewController 
+{}
 
-{
-    
-}
+@property (strong, nonatomic) IBOutlet TimeScrollView *timeScrollView;
 
-@property (strong, nonatomic) UIScrollView* scrollView;
-
-
--(void)initScrollview;
-
-
--(NSArray*) loadTestData;
--(void) addChildNodesToNode:(NSMutableArray*)node numberOfChildNodes:(int)numChildNodes;
--(void) printTestData:(NSArray*)testData;
 
 @end
