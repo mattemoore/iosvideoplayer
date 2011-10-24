@@ -11,18 +11,17 @@
 
 @interface TimeScrollView : UIScrollView <UIScrollViewDelegate>
 {
-    //TODO: delegate is self to handle zoom
-    //TODO: contain instace of TimeView
-    //TODO: hook up TimeView as viewForZooming
-    //TODO: handle zooming 
-    //TODO: handle layoutSubviews to remove views to add view
-    //TODO: handle 'rezolution' changes where content of TimeView is changed
-    
     TimeView *timeView;
-    
 }
 
 @property (nonatomic, assign) TimeView *timeView;
+@property (nonatomic, assign) int maxDetailLevel;
+@property (nonatomic, assign) int currentDetailLevel;
+@property (nonatomic, assign) float detailZoomStep;
+
+
+- (void)updateCurrentDetailLevel;
+
 
 
 @end

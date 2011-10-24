@@ -51,9 +51,7 @@
     timeScrollView.bouncesZoom = YES;
     
     //max zoom in is show full node
-    //TODO: this gets us close but should probably analyze width and height
-    //and redo max zoom scale after rotate
-    CGSize nodeSize = CGSizeMake(300,300);
+    CGSize nodeSize = CGSizeMake(300,300);  
     float factor = timeScrollView.frame.size.width / nodeSize.width;
     timeScrollView.maximumZoomScale = factor;
     
@@ -61,6 +59,11 @@
     factor = timeScrollView.frame.size.width / timeView.frame.size.width;
     timeScrollView.minimumZoomScale = factor;
     timeScrollView.zoomScale = factor;
+    
+    timeScrollView.currentDetailLevel = 0;
+    timeScrollView.maxDetailLevel = 4;
+    timeScrollView.detailZoomStep = (timeScrollView.maximumZoomScale - timeScrollView.minimumZoomScale) / timeScrollView.maxDetailLevel;
+    
     
 }
 
