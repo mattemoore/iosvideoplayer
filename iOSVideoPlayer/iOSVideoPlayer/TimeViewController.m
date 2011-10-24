@@ -37,7 +37,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    
     NSArray *bundle = [[NSBundle mainBundle] loadNibNamed:@"TimeView" owner:self options:nil];
     TimeView *timeView;
     for (id object in bundle)
@@ -51,14 +50,17 @@
     timeScrollView.scrollEnabled = YES;
     timeScrollView.bouncesZoom = YES;
     
-    //TODO: set initial zoom to show all of timeView, 
-    //this should be minimum zoom scale too
+    //max zoom in is show full node
+    //TODO: this gets us close but should probably analyze width and height
+    //and redo max zoom scale after rotate
+    CGSize nodeSize = CGSizeMake(300,300);
+    float factor = timeScrollView.frame.size.width / nodeSize.width;
+    timeScrollView.maximumZoomScale = factor;
     
-    //TODO: max scale should be set that max zoom is where a a node fills screen
-    
-    timeScrollView.zoomScale = 1.0f;
-    timeScrollView.maximumZoomScale = 5.0f;
-    timeScrollView.minimumZoomScale = 0.5f;
+    //max zoom out is show full view
+    factor = timeScrollView.frame.size.width / timeView.frame.size.width;
+    timeScrollView.minimumZoomScale = factor;
+    timeScrollView.zoomScale = factor;
     
 }
 
@@ -73,6 +75,14 @@
 {
     // Return YES for supported orientations
 	return YES;
+}
+
+
+// Notifies when rotation begins, reaches halfway point and ends.
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    
+    //TODO: factor out to a 'reset' type of method if needed
+    timeScrollView.contentSize = [timeScrollView timeView].frame.size;
 }
 
 @end

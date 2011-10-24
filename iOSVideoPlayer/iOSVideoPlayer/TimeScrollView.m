@@ -26,4 +26,9 @@
     [self addSubview:timeView];
 }
 
+- (TimeView *) timeView
+{
+    return timeView;
+}
+
 @end
