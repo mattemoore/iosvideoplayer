@@ -27,7 +27,15 @@
 
 - (void)updateCurrentDetailLevel
 {
-    currentDetailLevel = ([self zoomScale] / detailZoomStep) - 1;
+    
+    //TODO: is zoomScale linear, i.e. is is same amount of "zoom" to get to detail level 1
+    //as it is to get to from detail level n-1 to n?  Doesn't "feel" that way in the simulator
+    currentDetailLevel = (([self zoomScale] - [self minimumZoomScale]) / detailZoomStep);
+    //NSLog(@"Zoom Scale = %f", [self zoomScale]);
+    //NSLog(@"Z delta min= %f", [self zoomScale] - [self minimumZoomScale]);
+    //NSLog(@"Zoom Step  = %f", detailZoomStep);
+    //NSLog(@"Detail Lvl = %d", currentDetailLevel);
+    //NSLog(@"------------------------------------");
     
     //TODO: to be done by node view
     for (id view in timeView.subviews)
@@ -51,6 +59,7 @@
 {
     timeView = theTimeView;
     [self addSubview:timeView];
+    [timeView initGestureRecognizers];
 }
 
 - (TimeView *) timeView

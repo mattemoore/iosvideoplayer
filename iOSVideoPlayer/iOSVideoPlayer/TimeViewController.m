@@ -37,6 +37,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    //TODO: load scroll dynamically rather than from TimeViewController.xib
     NSArray *bundle = [[NSBundle mainBundle] loadNibNamed:@"TimeView" owner:self options:nil];
     TimeView *timeView;
     for (id object in bundle)
@@ -61,8 +62,8 @@
     timeScrollView.zoomScale = factor;
     
     timeScrollView.currentDetailLevel = 0;
-    timeScrollView.maxDetailLevel = 4;
-    timeScrollView.detailZoomStep = (timeScrollView.maximumZoomScale - timeScrollView.minimumZoomScale) / timeScrollView.maxDetailLevel;
+    timeScrollView.maxDetailLevel = 3;
+    timeScrollView.detailZoomStep = (timeScrollView.maximumZoomScale - timeScrollView.minimumZoomScale)  / (timeScrollView.maxDetailLevel);
     
     
 }

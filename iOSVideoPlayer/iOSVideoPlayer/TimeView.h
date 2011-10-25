@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TimeView : UIView
+@interface TimeView : UIView <UIGestureRecognizerDelegate>
+{
+    
+}
 
-//TODO: this is the place to handle taps
+- (void) initGestureRecognizers;
+- (void)handleTap:(UITapGestureRecognizer *)sender;
 
 @end
