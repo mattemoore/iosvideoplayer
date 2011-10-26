@@ -8,6 +8,7 @@
 
 #import "TimeView.h"
 #import "TimeScrollView.h"
+#import "NodeView.h"
 
 @implementation TimeView
 
@@ -26,26 +27,23 @@
     for (id view in self.subviews)
     {
         //TODO: only hook up node views for clicks
-        //if ([view isKindOfClass:[NodeView class]])
-        //{
-        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        if ([view isKindOfClass:[NodeView class]])
+        {
+            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
 
-        [(UIView*) view addGestureRecognizer:tapGestureRecognizer];
-        //}
+            [(UIView*) view addGestureRecognizer:tapGestureRecognizer];
+        }
     }
 }
 
 - (void)handleTap:(UITapGestureRecognizer *)sender 
 {     
     if (sender.state == UIGestureRecognizerStateEnded)     
-    {         // handling code     
+    {   
         CGPoint pointInTimeView = [sender locationInView:self];
         UIView *viewThatWasTapped = [self hitTest:pointInTimeView withEvent:nil];
-        //TODO: node views only
-        //if ([viewThatWasTapped isKindOfClass:[UIView class]])
-        //{
-        [(TimeScrollView*)self.superview zoomToRect:viewThatWasTapped.frame animated:YES];
-        //}
+        if ([viewThatWasTapped isKindOfClass:[NodeView class]])
+            [(TimeScrollView*)self.superview zoomToRect:viewThatWasTapped.frame animated:YES];
     } 
 }
 

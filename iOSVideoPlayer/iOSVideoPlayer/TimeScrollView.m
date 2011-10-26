@@ -8,6 +8,7 @@
 
 #import "TimeScrollView.h"
 #import "TimeView.h"
+#import "NodeView.h"
 
 @implementation TimeScrollView
     
@@ -41,17 +42,19 @@
     for (id view in timeView.subviews)
     {
         UIView *theView = (UIView*)view;
-        
-        if (currentDetailLevel == 0)
-            theView.backgroundColor = [UIColor blackColor];
-        else if (currentDetailLevel == 1)
-            theView.backgroundColor = [UIColor greenColor];
-        else if (currentDetailLevel == 2)
-            theView.backgroundColor = [UIColor redColor];
-        else if (currentDetailLevel == 3)
-            theView.backgroundColor = [UIColor purpleColor];
-        else if (currentDetailLevel == 4)
-            theView.backgroundColor = [UIColor blueColor];
+        if ([theView isKindOfClass:[NodeView class]])
+         {
+            if (currentDetailLevel == 0)
+                theView.backgroundColor = [UIColor blackColor];
+            else if (currentDetailLevel == 1)
+                theView.backgroundColor = [UIColor greenColor];
+            else if (currentDetailLevel == 2)
+                theView.backgroundColor = [UIColor redColor];
+            else if (currentDetailLevel == 3)
+                theView.backgroundColor = [UIColor purpleColor];
+            else if (currentDetailLevel == 4)
+                theView.backgroundColor = [UIColor blueColor];
+         }
     }
 }
 
