@@ -10,13 +10,35 @@
 
 @implementation NodeView
 
+@synthesize maxDetailLevel;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        
     }
     return self;
+}
+
+//TODO: More than 1 type of node then make this base class...
+- (id)awakeAfterUsingCoder:(NSCoder *)aDecoder
+{
+    maxDetailLevel = 2;  
+    return self;
+}
+
+
+-(void)displayDetailLevel:(int)detailLevel
+{
+    if (detailLevel > maxDetailLevel) return;
+    
+    if (detailLevel == 0)
+        self.backgroundColor = [UIColor yellowColor];
+    else if (detailLevel == 1)
+        self.backgroundColor = [UIColor greenColor];
+    else if (detailLevel == 2)
+        self.backgroundColor = [UIColor redColor];
 }
 
 /*

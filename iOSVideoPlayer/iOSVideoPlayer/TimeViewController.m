@@ -48,7 +48,7 @@
     [timeScrollView setTimeView:timeView];
     timeScrollView.contentSize = timeView.frame.size;
     timeScrollView.currentDetailLevel = 0;
-    timeScrollView.maxDetailLevel = 3;
+    timeScrollView.maxDetailLevel = 2;
     
     timeScrollView.delegate = timeScrollView;
     timeScrollView.scrollEnabled = YES;
@@ -57,11 +57,15 @@
     //max ZOOM OUT is show full width of view regardless of orientation
     //TODO: change to height so as to show all all root nodes instead of all children of
     //visible root nodes?
+    //TODO: could be done for both orientations like ZOOM IN by stashing initial size of timeView
+    //in an iVar and use that as sizeContraint
     float factor = timeScrollView.frame.size.width / timeView.frame.size.width;
     timeScrollView.minimumZoomScale = factor;
     timeScrollView.zoomScale = factor;
     
     [self setScrollViewMaxZoom];
+    [timeScrollView updateCurrentDetailLevel];
+    
     
 }
 
@@ -69,6 +73,8 @@
 - (void)setScrollViewMaxZoom
 {
     //max ZOOM IN is show frame of node, dependant on orientation
+    //TODO: these values only need to be calculated once and returned based on orientation
+    //TODO:shouldn't this be done inside of TimeScrollView?
     float scrollViewSizeConstraint;
     if (self.interfaceOrientation == UIInterfaceOrientationPortrait ||
         self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)

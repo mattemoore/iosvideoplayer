@@ -33,28 +33,18 @@
     //as it is to get to from detail level n-1 to n?  Doesn't "feel" that way in the simulator
     currentDetailLevel = (([self zoomScale] - [self minimumZoomScale]) / detailZoomStep);
     NSLog(@"Zoom Scale = %f", [self zoomScale]);
+    NSLog(@"Zoom Min   = %f", [self minimumZoomScale]);
     NSLog(@"Z delta min= %f", [self zoomScale] - [self minimumZoomScale]);
+    NSLog(@"Zoom Max   = %f", [self maximumZoomScale]);
+    NSLog(@"Num steps  = %d", self.maxDetailLevel + 1);
     NSLog(@"Zoom Step  = %f", detailZoomStep);
     NSLog(@"Detail Lvl = %d", currentDetailLevel);
     NSLog(@"------------------------------------");
     
-    //TODO: to be done by node view
     for (id view in timeView.subviews)
     {
-        UIView *theView = (UIView*)view;
-        if ([theView isKindOfClass:[NodeView class]])
-         {
-            if (currentDetailLevel == 0)
-                theView.backgroundColor = [UIColor yellowColor];
-            else if (currentDetailLevel == 1)
-                theView.backgroundColor = [UIColor greenColor];
-            else if (currentDetailLevel == 2)
-                theView.backgroundColor = [UIColor redColor];
-            else if (currentDetailLevel == 3)
-                theView.backgroundColor = [UIColor purpleColor];
-            else if (currentDetailLevel == 4)
-                theView.backgroundColor = [UIColor blueColor];
-         }
+        if ([view isKindOfClass:[NodeView class]])
+           [(NodeView*)view displayDetailLevel:currentDetailLevel];
     }
 }
 

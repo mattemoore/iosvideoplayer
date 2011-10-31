@@ -12,4 +12,8 @@
 @interface NodeView : UIView
 {}
 
+@property (nonatomic, assign) int maxDetailLevel;
+
+-(void)displayDetailLevel:(int)detailLevel;
+
 @end
