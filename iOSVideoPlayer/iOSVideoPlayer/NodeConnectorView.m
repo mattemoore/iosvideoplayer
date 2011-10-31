@@ -16,8 +16,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        self.connectLineType = LineTypeDown;
+        
     }
     return self;
 }
@@ -25,7 +24,20 @@
 - (id)awakeAfterUsingCoder:(NSCoder *)aDecoder
 {
     self.backgroundColor = [UIColor clearColor];
-    self.connectLineType = LineTypeDown;
+    switch (self.tag) {
+        case 0:
+            self.connectLineType = LineTypeStraight;
+            break;
+        case 1:
+            self.connectLineType = LineTypeUp;
+            break;
+        case 2:
+            self.connectLineType = LineTypeDown;
+            break;
+        default:
+            self.connectLineType = LineTypeStraight;
+            break;
+    }
     return self;
 }
 
@@ -59,7 +71,7 @@
     }
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(ctx, 0,0,0,1);   
+    CGContextSetRGBStrokeColor(ctx, 1,1,1,1);   
     CGContextSetLineWidth(ctx, 5.0);
     CGContextMoveToPoint(ctx, startPointX, startPointY);
     CGContextAddLineToPoint(ctx, endPointX, endPointY);

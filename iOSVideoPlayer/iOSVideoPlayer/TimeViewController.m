@@ -46,26 +46,41 @@
             timeView = (TimeView*)object;
     }
     [timeScrollView setTimeView:timeView];
-    timeScrollView.delegate = timeScrollView;
     timeScrollView.contentSize = timeView.frame.size;
+    timeScrollView.currentDetailLevel = 0;
+    timeScrollView.maxDetailLevel = 3;
+    
+    timeScrollView.delegate = timeScrollView;
     timeScrollView.scrollEnabled = YES;
     timeScrollView.bouncesZoom = YES;
     
-    //max zoom in is show full node
-    CGSize nodeSize = CGSizeMake(300,300);  
-    float factor = timeScrollView.frame.size.width / nodeSize.width;
-    timeScrollView.maximumZoomScale = factor;
-    
-    //max zoom out is show full view
-    factor = timeScrollView.frame.size.width / timeView.frame.size.width;
+    //max ZOOM OUT is show full width of view regardless of orientation
+    //TODO: change to height so as to show all all root nodes instead of all children of
+    //visible root nodes?
+    float factor = timeScrollView.frame.size.width / timeView.frame.size.width;
     timeScrollView.minimumZoomScale = factor;
     timeScrollView.zoomScale = factor;
     
-    timeScrollView.currentDetailLevel = 0;
-    timeScrollView.maxDetailLevel = 3;
+    [self setScrollViewMaxZoom];
+    
+}
+
+//called to set initial max zoom as well as after rotations
+- (void)setScrollViewMaxZoom
+{
+    //max ZOOM IN is show frame of node, dependant on orientation
+    float scrollViewSizeConstraint;
+    if (self.interfaceOrientation == UIInterfaceOrientationPortrait ||
+        self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+        scrollViewSizeConstraint = timeScrollView.bounds.size.width;
+    else
+        scrollViewSizeConstraint = timeScrollView.bounds.size.height;
+    
+    CGSize nodeSize = CGSizeMake(300,300);  
+    float factor = scrollViewSizeConstraint / nodeSize.width;
+    timeScrollView.maximumZoomScale = factor;
+    
     timeScrollView.detailZoomStep = (timeScrollView.maximumZoomScale - timeScrollView.minimumZoomScale)  / (timeScrollView.maxDetailLevel);
-    
-    
 }
 
 - (void)viewDidUnload
@@ -85,8 +100,8 @@
 // Notifies when rotation begins, reaches halfway point and ends.
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     
-    //TODO: factor out to a 'reset' type of method if needed
     timeScrollView.contentSize = [timeScrollView timeView].frame.size;
+    [self setScrollViewMaxZoom];
 }
 
 @end

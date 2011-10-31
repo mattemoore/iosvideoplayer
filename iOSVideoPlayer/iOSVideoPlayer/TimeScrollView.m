@@ -32,11 +32,11 @@
     //TODO: is zoomScale linear, i.e. is is same amount of "zoom" to get to detail level 1
     //as it is to get to from detail level n-1 to n?  Doesn't "feel" that way in the simulator
     currentDetailLevel = (([self zoomScale] - [self minimumZoomScale]) / detailZoomStep);
-    //NSLog(@"Zoom Scale = %f", [self zoomScale]);
-    //NSLog(@"Z delta min= %f", [self zoomScale] - [self minimumZoomScale]);
-    //NSLog(@"Zoom Step  = %f", detailZoomStep);
-    //NSLog(@"Detail Lvl = %d", currentDetailLevel);
-    //NSLog(@"------------------------------------");
+    NSLog(@"Zoom Scale = %f", [self zoomScale]);
+    NSLog(@"Z delta min= %f", [self zoomScale] - [self minimumZoomScale]);
+    NSLog(@"Zoom Step  = %f", detailZoomStep);
+    NSLog(@"Detail Lvl = %d", currentDetailLevel);
+    NSLog(@"------------------------------------");
     
     //TODO: to be done by node view
     for (id view in timeView.subviews)
@@ -45,7 +45,7 @@
         if ([theView isKindOfClass:[NodeView class]])
          {
             if (currentDetailLevel == 0)
-                theView.backgroundColor = [UIColor blackColor];
+                theView.backgroundColor = [UIColor yellowColor];
             else if (currentDetailLevel == 1)
                 theView.backgroundColor = [UIColor greenColor];
             else if (currentDetailLevel == 2)
