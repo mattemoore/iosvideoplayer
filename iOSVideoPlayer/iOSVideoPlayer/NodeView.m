@@ -21,7 +21,8 @@
     return self;
 }
 
-//TODO: More than 1 type of node then make this base class...
+//TODO: More than 1 type of node then make this class base class
+//      different sub-nodes could have different detail levels...
 - (id)awakeAfterUsingCoder:(NSCoder *)aDecoder
 {
     maxDetailLevel = 2;  

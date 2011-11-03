@@ -16,17 +16,21 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
     }
     return self;
 }
 
-- (void) initGestureRecognizers
+
+- (id)awakeAfterUsingCoder:(NSCoder *)aDecoder
 {
-        
+    [self initGestureRecognizers];
+    return self;
+}
+
+- (void) initGestureRecognizers
+{       
     for (id view in self.subviews)
     {
-        //TODO: only hook up node views for clicks
         if ([view isKindOfClass:[NodeView class]])
         {
             UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];

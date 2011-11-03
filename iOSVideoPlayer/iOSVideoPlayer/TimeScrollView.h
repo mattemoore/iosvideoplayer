@@ -14,14 +14,16 @@
     TimeView *timeView;
 }
 
-@property (nonatomic, assign) TimeView *timeView;
 @property (nonatomic, assign) int maxDetailLevel;
 @property (nonatomic, assign) int currentDetailLevel;
 @property (nonatomic, assign) float detailZoomStep;
+@property (nonatomic, assign) float maxZoomScalePortrait;
+@property (nonatomic, assign) float maxZoomScaleLandscape;
 
-
+- (void) setTimeView:(TimeView*)theTimeView forOrientation:(UIInterfaceOrientation)orientation;
+- (void)handleRotation:(UIInterfaceOrientation)orientation;
+- (void)setMaxZoomScaleForOrientation:(UIInterfaceOrientation)orientation;
 - (void)updateCurrentDetailLevel;
-
 
 
 @end

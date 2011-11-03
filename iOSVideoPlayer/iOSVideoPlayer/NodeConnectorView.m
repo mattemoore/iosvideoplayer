@@ -41,11 +41,6 @@
     return self;
 }
 
-//TODO: override drawing, context, currentpoint, line, fill line
-//      then make this view into a plugin so that you can use in custom object in IB
-//      be great if it actually drew itself in IB too!
-
-
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect

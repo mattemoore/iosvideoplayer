@@ -15,6 +15,5 @@
 
 @property (strong, nonatomic) IBOutlet TimeScrollView *timeScrollView;
 
-- (void)setScrollViewMaxZoom;
 
 @end
