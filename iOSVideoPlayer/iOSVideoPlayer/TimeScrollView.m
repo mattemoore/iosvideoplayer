@@ -9,13 +9,15 @@
 #import "TimeScrollView.h"
 #import "TimeView.h"
 #import "NodeView.h"
+#import "Math.h"
 
 #define NODE_WIDTH 300
+#define NODE_HEIGHT 300
 
 @implementation TimeScrollView
     
 @synthesize maxDetailLevel, currentDetailLevel, detailZoomStep;
-@synthesize maxZoomScalePortrait, maxZoomScaleLandscape;
+@synthesize maxZoomScalePortrait, maxZoomScaleLandscape, minZoomScalePortrait, minZoomScaleLandscape;
 
 
 - (id)initWithFrame:(CGRect)frame
@@ -32,53 +34,31 @@
     [self addSubview:timeView];
     self.contentSize = timeView.frame.size;
     self.currentDetailLevel = -1; 
-    self.maxDetailLevel = 2; //TODO: maxDetailLevel belong to TimeView
+    self.maxDetailLevel = 2; //TODO: maxDetailLevel belongs to TimeView
     self.delegate = self;
     self.scrollEnabled = YES;
     self.bouncesZoom = YES;
     
-    //TODO:below won't work if setTimeView is called at zoomScale other than 1.0 as frame size won't be correct
-    
-    //max ZOOM OUT is show full WIDTH of view 
-    self.minimumZoomScale = self.frame.size.width / timeView.frame.size.width;
-    
-    //TODO: calc min zoom for landscape too
-    //      we don't zoom out for landscape change unless,
-    //      current zoomScale is minPortraitZoom scale as that means
-    //      we started app in landscape or have rotated when zoomed fully out
-    
-    //max ZOOM IN is limited to frame size of a node
-    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        maxZoomScalePortrait = self.frame.size.width / NODE_WIDTH;
-        maxZoomScaleLandscape = (self.frame.size.width - 20.0) / NODE_WIDTH; //status bar
-        self.maximumZoomScale = maxZoomScalePortrait;
-    }
-    else
-    {
-        maxZoomScaleLandscape = self.frame.size.height / NODE_WIDTH; 
-        maxZoomScalePortrait = (self.frame.size.height + 20) / NODE_WIDTH;
-        self.maximumZoomScale = maxZoomScaleLandscape;
-    }
+    //set min and max zoom levels
+    [self setZoomExtentsForOrientation:orientation];  
     
     //start fully zoomed out
     self.zoomScale = self.minimumZoomScale;
-    
-    //set max zoom scale and detail zoom step
-    [self setMaxZoomScaleForOrientation:orientation];  
     
     //select level of detail with which to render nodes
     [self updateCurrentDetailLevel];
 }
 
-- (void)setMaxZoomScaleForOrientation:(UIInterfaceOrientation)orientation
+- (void)setZoomExtentsForOrientation:(UIInterfaceOrientation)orientation
 {
-    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
-        self.maximumZoomScale = maxZoomScalePortrait;
-    else
-        self.maximumZoomScale = maxZoomScaleLandscape;
+    self.minimumZoomScale = fminf(self.bounds.size.width / timeView.bounds.size.width, self.bounds.size.height / timeView.bounds.size.height);
     
-    //detail zoom step is amount of zoom required before changing detail levels, value changes based on orientation
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
+        self.maximumZoomScale = self.bounds.size.width / NODE_WIDTH;
+    else
+        self.maximumZoomScale = self.bounds.size.height / NODE_HEIGHT;
+    
+    //detail zoom step is amount of zoom required before changing detail levels
     self.detailZoomStep = (self.maximumZoomScale - self.minimumZoomScale)  / (self.maxDetailLevel);
 }
 
@@ -90,7 +70,7 @@
     //TODO: Is zoomScale linear??
     //      i.e. is is same amount of "zoom" to get to detail level 1
     //      as it is to get to from detail level n-1 to n?  
-    //      Doesn't "feel" that way in the simulator; device?
+    //      Doesn't "feel" that way in the simulator; device same?
     
     /*
     NSLog(@"Zoom Scale = %f", [self zoomScale]);
@@ -103,7 +83,7 @@
     NSLog(@"------------------------------------");
     */
     
-    int newDetailLevel = ([self zoomScale] - [self minimumZoomScale]) / detailZoomStep;
+    int newDetailLevel = (self.zoomScale - self.minimumZoomScale) / detailZoomStep;
     if (newDetailLevel != currentDetailLevel)
     {
         currentDetailLevel = newDetailLevel;
@@ -115,11 +95,15 @@
     }
 }
 
+//TODO: if rotate when tap zoomed in we should rotate and keep tap zoom extents
 - (void)handleRotation:(UIInterfaceOrientation)orientation
 {
     self.contentSize = timeView.frame.size;
-    [self setMaxZoomScaleForOrientation:orientation];
-}
+    bool isFullyZoomedOut = (self.zoomScale == self.minimumZoomScale);
+    [self setZoomExtentsForOrientation:orientation];
+    if (isFullyZoomedOut)
+        [self zoomToRect:timeView.bounds animated:YES];
+    }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {

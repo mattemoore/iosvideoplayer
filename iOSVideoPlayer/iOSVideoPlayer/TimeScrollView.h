@@ -19,10 +19,13 @@
 @property (nonatomic, assign) float detailZoomStep;
 @property (nonatomic, assign) float maxZoomScalePortrait;
 @property (nonatomic, assign) float maxZoomScaleLandscape;
+@property (nonatomic, assign) float minZoomScalePortrait;
+@property (nonatomic, assign) float minZoomScaleLandscape;
+
 
 - (void) setTimeView:(TimeView*)theTimeView forOrientation:(UIInterfaceOrientation)orientation;
 - (void)handleRotation:(UIInterfaceOrientation)orientation;
-- (void)setMaxZoomScaleForOrientation:(UIInterfaceOrientation)orientation;
+- (void)setZoomExtentsForOrientation:(UIInterfaceOrientation)orientation;
 - (void)updateCurrentDetailLevel;
 
 
