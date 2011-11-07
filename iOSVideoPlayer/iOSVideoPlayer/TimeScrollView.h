@@ -21,6 +21,7 @@
 @property (nonatomic, assign) float maxZoomScaleLandscape;
 @property (nonatomic, assign) float minZoomScalePortrait;
 @property (nonatomic, assign) float minZoomScaleLandscape;
+@property (nonatomic, assign) CGPoint centerPreRotate;
 
 
 - (void) setTimeView:(TimeView*)theTimeView forOrientation:(UIInterfaceOrientation)orientation;

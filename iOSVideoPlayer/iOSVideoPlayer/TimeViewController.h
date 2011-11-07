@@ -15,5 +15,4 @@
 
 @property (strong, nonatomic) IBOutlet TimeScrollView *timeScrollView;
 
-
 @end

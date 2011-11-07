@@ -17,7 +17,7 @@
 @implementation TimeScrollView
     
 @synthesize maxDetailLevel, currentDetailLevel, detailZoomStep;
-@synthesize maxZoomScalePortrait, maxZoomScaleLandscape, minZoomScalePortrait, minZoomScaleLandscape;
+@synthesize maxZoomScalePortrait, maxZoomScaleLandscape, minZoomScalePortrait, minZoomScaleLandscape, centerPreRotate;
 
 
 - (id)initWithFrame:(CGRect)frame
@@ -95,15 +95,27 @@
     }
 }
 
-//TODO: if rotate when tap zoomed in we should rotate and keep tap zoom extents
 - (void)handleRotation:(UIInterfaceOrientation)orientation
 {
     self.contentSize = timeView.frame.size;
     bool isFullyZoomedOut = (self.zoomScale == self.minimumZoomScale);
+    bool isFullyZoomedIn = (self.zoomScale == self.maximumZoomScale);
     [self setZoomExtentsForOrientation:orientation];
+  
+    //TODO: this doesn't work right when started in upside down portrait mode?????
     if (isFullyZoomedOut)
         [self zoomToRect:timeView.bounds animated:YES];
+    else
+    {
+        //TODO: if fully zoomed in, need to go to max zoom if max zoom of new orientation
+        //is more than old orientation and vice versa
+        CGPoint newOrigin = CGPointMake(centerPreRotate.x - (self.frame.size.width/2), centerPreRotate.y - (self.frame.size.height/2));
+        [self setContentOffset:newOrigin animated:YES];
     }
+   
+    
+}
+    
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {

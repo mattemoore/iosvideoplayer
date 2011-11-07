@@ -61,8 +61,11 @@
 	return YES;
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    timeScrollView.centerPreRotate = CGPointMake(CGRectGetMidX(timeScrollView.bounds), CGRectGetMidY(timeScrollView.bounds));
+}
 
-// Notifies when rotation begins, reaches halfway point and ends.
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation 
 {
     [timeScrollView handleRotation:self.interfaceOrientation];
