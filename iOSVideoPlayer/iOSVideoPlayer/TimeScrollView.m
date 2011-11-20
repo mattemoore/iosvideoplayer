@@ -16,9 +16,7 @@
 
 @implementation TimeScrollView
     
-@synthesize maxDetailLevel, currentDetailLevel, detailZoomStep;
-@synthesize maxZoomScalePortrait, maxZoomScaleLandscape, minZoomScalePortrait, minZoomScaleLandscape, centerPreRotate;
-
+@synthesize maxDetailLevel, currentDetailLevel, detailZoomStep, centerPreRotate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -59,18 +57,24 @@
         self.maximumZoomScale = self.bounds.size.height / NODE_HEIGHT;
     
     //detail zoom step is amount of zoom required before changing detail levels
-    self.detailZoomStep = (self.maximumZoomScale - self.minimumZoomScale)  / (self.maxDetailLevel);
+    self.detailZoomStep = (self.maximumZoomScale - self.minimumZoomScale)  / (self.maxDetailLevel + 1);
+    
+    //remove '+1' from denominator to 'snap' switching to maxDetailLevel to maxZoomScale
 }
 
-//TODO: currently only can switch LoD based on zooming, may need overload of this method with parameter
-//      to directly set LoD without zooming
 - (void)updateCurrentDetailLevel
-{
-    
-    //TODO: Is zoomScale linear??
-    //      i.e. is is same amount of "zoom" to get to detail level 1
-    //      as it is to get to from detail level n-1 to n?  
-    //      Doesn't "feel" that way in the simulator; device same?
+{   
+    int newDetailLevel = ((self.zoomScale - self.minimumZoomScale) / detailZoomStep);
+    if (newDetailLevel > maxDetailLevel) newDetailLevel = maxDetailLevel; 
+    if (newDetailLevel != currentDetailLevel)
+    {
+        currentDetailLevel = newDetailLevel;
+        for (id view in timeView.subviews)
+        {
+            if ([view isKindOfClass:[NodeView class]])
+                [(NodeView*)view displayDetailLevel:currentDetailLevel];
+        }
+    }
     
     /*
     NSLog(@"Zoom Scale = %f", [self zoomScale]);
@@ -82,17 +86,7 @@
     NSLog(@"Detail Lvl = %d", currentDetailLevel);
     NSLog(@"------------------------------------");
     */
-    
-    int newDetailLevel = (self.zoomScale - self.minimumZoomScale) / detailZoomStep;
-    if (newDetailLevel != currentDetailLevel)
-    {
-        currentDetailLevel = newDetailLevel;
-        for (id view in timeView.subviews)
-        {
-            if ([view isKindOfClass:[NodeView class]])
-                [(NodeView*)view displayDetailLevel:currentDetailLevel];
-        }
-    }
+
 }
 
 - (void)handleRotation:(UIInterfaceOrientation)orientation
@@ -107,13 +101,12 @@
         [self zoomToRect:timeView.bounds animated:YES];
     else
     {
-        //TODO: if fully zoomed in, need to go to max zoom if max zoom of new orientation
-        //is more than old orientation and vice versa
         CGPoint newOrigin = CGPointMake(centerPreRotate.x - (self.frame.size.width/2), centerPreRotate.y - (self.frame.size.height/2));
         [self setContentOffset:newOrigin animated:YES];
+        
+        if (isFullyZoomedIn)
+            self.zoomScale = self.maximumZoomScale;
     }
-   
-    
 }
     
 

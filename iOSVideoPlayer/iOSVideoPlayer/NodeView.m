@@ -25,10 +25,9 @@
 //      different sub-nodes could have different detail levels...
 - (id)awakeAfterUsingCoder:(NSCoder *)aDecoder
 {
-    maxDetailLevel = 2;  
+    maxDetailLevel = 5;  
     return self;
 }
-
 
 -(void)displayDetailLevel:(int)detailLevel
 {
@@ -39,7 +38,13 @@
     else if (detailLevel == 1)
         self.backgroundColor = [UIColor greenColor];
     else if (detailLevel == 2)
-        self.backgroundColor = [UIColor redColor];
+        self.backgroundColor = [UIColor whiteColor];
+    else if (detailLevel == 3)
+        self.backgroundColor = [UIColor purpleColor];
+    else if (detailLevel == 4)
+        self.backgroundColor = [UIColor grayColor];
+    else if (detailLevel == 5)
+        self.backgroundColor = [UIColor brownColor];
 }
 
 /*

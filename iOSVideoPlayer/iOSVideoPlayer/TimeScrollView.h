@@ -17,10 +17,6 @@
 @property (nonatomic, assign) int maxDetailLevel;
 @property (nonatomic, assign) int currentDetailLevel;
 @property (nonatomic, assign) float detailZoomStep;
-@property (nonatomic, assign) float maxZoomScalePortrait;
-@property (nonatomic, assign) float maxZoomScaleLandscape;
-@property (nonatomic, assign) float minZoomScalePortrait;
-@property (nonatomic, assign) float minZoomScaleLandscape;
 @property (nonatomic, assign) CGPoint centerPreRotate;
 
 
