@@ -32,7 +32,7 @@
     [self addSubview:timeView];
     self.contentSize = timeView.frame.size;
     self.currentDetailLevel = -1; 
-    self.maxDetailLevel = 2; //TODO: maxDetailLevel belongs to TimeView
+    self.maxDetailLevel = 1; //TODO: maxDetailLevel belongs to TimeView
     self.delegate = self;
     self.scrollEnabled = YES;
     self.bouncesZoom = YES;

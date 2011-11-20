@@ -13,7 +13,10 @@
 {}
 
 @property (nonatomic, assign) int maxDetailLevel;
+@property (nonatomic, strong) UIWebView *webView;
 
 -(void)displayDetailLevel:(int)detailLevel;
+-(void)showVideo;
+-(void)showThumbnail;
 
 @end

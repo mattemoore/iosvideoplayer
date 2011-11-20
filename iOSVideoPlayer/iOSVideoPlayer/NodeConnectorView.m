@@ -21,6 +21,7 @@
     return self;
 }
 
+//TODO: implement a vertical connector
 - (id)awakeAfterUsingCoder:(NSCoder *)aDecoder
 {
     self.backgroundColor = [UIColor clearColor];

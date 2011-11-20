@@ -29,6 +29,8 @@
 
 - (void) initGestureRecognizers
 {       
+    //TODO: tapping a node when the video is showing doesn't register
+    //TODO: pinching doesn't work when 
     for (id view in self.subviews)
     {
         if ([view isKindOfClass:[NodeView class]])
