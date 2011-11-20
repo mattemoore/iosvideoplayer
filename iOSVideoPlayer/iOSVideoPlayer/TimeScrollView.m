@@ -92,19 +92,23 @@
 - (void)handleRotation:(UIInterfaceOrientation)orientation
 {
     self.contentSize = timeView.frame.size;
-    bool isFullyZoomedOut = (self.zoomScale == self.minimumZoomScale);
-    bool isFullyZoomedIn = (self.zoomScale == self.maximumZoomScale);
+    
+    bool wasFullyZoomedOut = (self.zoomScale == self.minimumZoomScale);
+    bool wasFullyZoomedIn = (self.zoomScale == self.maximumZoomScale);
+    
     [self setZoomExtentsForOrientation:orientation];
-  
-    //TODO: this doesn't work right when started in upside down portrait mode?????
-    if (isFullyZoomedOut)
-        [self zoomToRect:timeView.bounds animated:YES];
+    
+    if (wasFullyZoomedOut)
+    {
+        self.zoomScale = self.minimumZoomScale;
+        [self setContentOffset:CGPointMake(0,0) animated:YES];
+    }
     else
     {
         CGPoint newOrigin = CGPointMake(centerPreRotate.x - (self.frame.size.width/2), centerPreRotate.y - (self.frame.size.height/2));
         [self setContentOffset:newOrigin animated:YES];
         
-        if (isFullyZoomedIn)
+        if (wasFullyZoomedIn)
             self.zoomScale = self.maximumZoomScale;
     }
 }
