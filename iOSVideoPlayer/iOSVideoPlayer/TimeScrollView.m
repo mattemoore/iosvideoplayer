@@ -59,7 +59,7 @@
     //detail zoom step is amount of zoom required before changing detail levels
     self.detailZoomStep = (self.maximumZoomScale - self.minimumZoomScale)  / (self.maxDetailLevel + 1);
     
-    //remove '+1' from denominator to 'snap' switching to maxDetailLevel to maxZoomScale
+    //remove '+1' from denominator to 'snap' switching to maxDetailLevel at maxZoomScale
 }
 
 - (void)updateCurrentDetailLevel

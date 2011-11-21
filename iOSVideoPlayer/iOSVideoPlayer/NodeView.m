@@ -21,14 +21,12 @@
     return self;
 }
 
-//TODO: More than 1 type of node then make this class base class
-//      different sub-nodes could have different detail levels...
 - (id)awakeAfterUsingCoder:(NSCoder *)aDecoder
 {
     //TODO: get TimeView parent from here, plist of videos should be loaded there
-    //      also maxDetailLevel should be gotten from TimeView parent
-    maxDetailLevel = 1;  
+    self.maxDetailLevel = 1; //this does not have to match parent as some nodes could have more levels of details then other nodes in same TimeView 
     self.webView = [[UIWebView alloc] initWithFrame:self.bounds];
+    self.webView.mediaPlaybackRequiresUserAction = NO;
     [self addSubview:self.webView];
     self.backgroundColor = [UIColor whiteColor];  //TODO:thumbnail instead
     return self;
@@ -59,37 +57,12 @@
      */
 }
 
-
 -(void)showVideo
 {
-    //TODO: don't load embed code if already had been loaded before (i.e. show it)
-    //load via JS here:http://code.google.com/apis/youtube/iframe_api_reference.html
-    //then stop function will work
     self.webView.hidden = NO;
-    
     if (self.webView.request == nil) 
     {
-        /*
-        NSString* embedHTML = @"\
-        <html><head>\
-        <style type=\"text/css\">\
-        body {\
-        background-color: transparent;\
-        color: black;\
-        }\
-        #video {\
-        margin:1px;\
-        }\
-        </style>\
-        </head><body style=\"margin:0; padding:0\">\
-        <div id=\"video\">\
-        <iframe id=\"player\" width=\"%0.0f\" height=\"%0.0f\" src=\"http://www.youtube.com/embed/%@?rel=0&amp;hd=1 frameborder=\"0\" allowfullscreen enablejsapi></iframe>\
-        </div>\
-        </body></html>";  
-        */
-    
-        //TODO: when zoom out video doesn't stop
-        //      this example code should auto-stop after 6 seconds but doesn't
+        //TODO: Youtube iFrame API bug or Apple won't allow events to fire
         //      add border around frame here
         NSString *embedHTML = @"\
         <html>\
@@ -107,21 +80,14 @@
             height: '%0.0f',\
             width: '%0.0f',\
             videoId: '%@',\
-            events: {\
-                'onReady': onPlayerReady,\
-                'onStateChange': onPlayerStateChange\
-            }\
+            events: {'onReady':onPlayerReady,'onStateChange':onPlayerStateChange,'onError': onPlayerError }\
             });\
         }\
         function onPlayerReady(event) {\
-            event.target.playVideo();\
         }\
-        var done = false;\
         function onPlayerStateChange(event) {\
-            if (event.data == YT.PlayerState.PLAYING && !done) {\
-                setTimeout(stopVideo, 6000);\
-                done = true;\
-            }\
+        }\
+        function onPlayerError(event) { \
         }\
         function stopVideo() {\
             player.stopVideo();\
@@ -129,6 +95,25 @@
         </script>\
         </body>\
         </html>";
+        
+        /*
+         NSString* embedHTML = @"\
+         <html><head>\
+         <style type=\"text/css\">\
+         body {\
+         background-color: transparent;\
+         color: black;\
+         }\
+         #video {\
+         margin:1px;\
+         }\
+         </style>\
+         </head><body style=\"margin:0; padding:0\">\
+         <div id=\"video\">\
+         <iframe id=\"player\" width=\"%0.0f\" height=\"%0.0f\" src=\"http://www.youtube.com/embed/%@?rel=0&amp;hd=1 frameborder=\"0\" allowfullscreen enablejsapi></iframe>\
+         </div>\
+         </body></html>";  
+         */
         
         NSString *filePath = [[NSBundle mainBundle] pathForResource:@"TimeViewData" ofType:@"plist"];  
         NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:filePath];
@@ -138,7 +123,6 @@
         [self.webView loadHTMLString:html baseURL:nil]; 
     }
 }
-
 
 -(void)showThumbnail
 {
