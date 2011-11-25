@@ -18,7 +18,7 @@
 @property (nonatomic, assign) CGPoint centerPreRotate;
 
 
-- (void) setTimeView:(TimeView*)theTimeView forOrientation:(UIInterfaceOrientation)orientation;
+- (void)setTimeView:(TimeView*)theTimeView forOrientation:(UIInterfaceOrientation)orientation;
 - (void)handleRotation:(UIInterfaceOrientation)orientation;
 - (void)setZoomExtentsForOrientation:(UIInterfaceOrientation)orientation;
 - (void)updateCurrentDetailLevel;

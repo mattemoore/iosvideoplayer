@@ -26,7 +26,7 @@
     return self;
 }
 
-- (void) setTimeView:(TimeView*)theTimeView forOrientation:(UIInterfaceOrientation)orientation
+- (void)setTimeView:(TimeView*)theTimeView forOrientation:(UIInterfaceOrientation)orientation
 {
     timeView = theTimeView;
     [self addSubview:timeView];

@@ -6,14 +6,40 @@
 	<dict>
 		<key>FN11</key>
 		<array>
-			<string>yHXjv15KRV4</string>
-			<string>6vyOJmSriaY</string>
-			<string>RUaHYW1j8Mk</string>
-			<string>0k0lMqbnj8c</string>
-			<string>sKLnoFrSVB4</string>
-			<string>IeAype_Mhxg</string>
-			<string>Zubs0poqTn</string>
-			<string>wVHgMDZtEzU</string>
+			<array>
+				<string>yHXjv15KRV4</string>
+				<string>kickboxing_icon.jpg</string>
+				<string>ff11_1.png</string>
+			</array>
+			<array>
+				<string>6vyOJmSriaY</string>
+				<string>grappling_icon.jpg</string>
+				<string>ff11_2.png</string>
+			</array>
+			<array>
+				<string>RUaHYW1j8Mk</string>
+				<string>kickboxing_icon.png</string>
+			</array>
+			<array>
+				<string>0k0lMqbnj8c</string>
+				<string>kickboxing_icon.png</string>
+			</array>
+			<array>
+				<string>sKLnoFrSVB4</string>
+				<string>grappling_icon.jpg</string>
+			</array>
+			<array>
+				<string>IeAype_Mhxg</string>
+				<string>grappling_icon.png</string>
+			</array>
+			<array>
+				<string>Zubs0poqTn</string>
+				<string>kickboxing_icon.png</string>
+			</array>
+			<array>
+				<string>wVHgMDZtEzU</string>
+				<string>kickboxing_icon.png</string>
+			</array>
 		</array>
 	</dict>
 </dict>
