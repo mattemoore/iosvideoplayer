@@ -16,7 +16,7 @@
 
 @implementation TimeScrollView
     
-@synthesize maxDetailLevel, currentDetailLevel, detailZoomStep, centerPreRotate;
+@synthesize detailZoomStep, centerPreRotate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -31,8 +31,6 @@
     timeView = theTimeView;
     [self addSubview:timeView];
     self.contentSize = timeView.frame.size;
-    self.currentDetailLevel = -1; 
-    self.maxDetailLevel = 1; //TODO: maxDetailLevel belongs to TimeView
     self.delegate = self;
     self.scrollEnabled = YES;
     self.bouncesZoom = YES;
@@ -57,23 +55,19 @@
         self.maximumZoomScale = self.bounds.size.height / NODE_HEIGHT;
     
     //detail zoom step is amount of zoom required before changing detail levels
-    self.detailZoomStep = (self.maximumZoomScale - self.minimumZoomScale)  / (self.maxDetailLevel + 1);
+    self.detailZoomStep = (self.maximumZoomScale - self.minimumZoomScale)  / (timeView.maxDetailLevel + 1);
     
     //remove '+1' from denominator to 'snap' switching to maxDetailLevel at maxZoomScale
 }
 
+//after zooming is done check if we need to change detail level
 - (void)updateCurrentDetailLevel
 {   
     int newDetailLevel = ((self.zoomScale - self.minimumZoomScale) / detailZoomStep);
-    if (newDetailLevel > maxDetailLevel) newDetailLevel = maxDetailLevel; 
-    if (newDetailLevel != currentDetailLevel)
+    if (newDetailLevel > timeView.maxDetailLevel) newDetailLevel = timeView.maxDetailLevel; 
+    if (newDetailLevel != timeView.currentDetailLevel)
     {
-        currentDetailLevel = newDetailLevel;
-        for (id view in timeView.subviews)
-        {
-            if ([view isKindOfClass:[NodeView class]])
-                [(NodeView*)view displayDetailLevel:currentDetailLevel];
-        }
+        [timeView updateCurrentDetailLevel:newDetailLevel];
     }
     
     /*

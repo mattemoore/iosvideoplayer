@@ -14,8 +14,6 @@
     TimeView *timeView;
 }
 
-@property (nonatomic, assign) int maxDetailLevel;
-@property (nonatomic, assign) int currentDetailLevel;
 @property (nonatomic, assign) float detailZoomStep;
 @property (nonatomic, assign) CGPoint centerPreRotate;
 

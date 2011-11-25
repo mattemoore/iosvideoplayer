@@ -7,6 +7,7 @@
 //
 
 #import "NodeView.h"
+#import "TimeView.h"
 
 @implementation NodeView
 
@@ -23,8 +24,7 @@
 
 - (id)awakeAfterUsingCoder:(NSCoder *)aDecoder
 {
-    //TODO: get TimeView parent from here, plist of videos should be loaded there
-    self.maxDetailLevel = 1; //this does not have to match parent as some nodes could have more levels of details then other nodes in same TimeView 
+    self.maxDetailLevel = 1; 
     self.webView = [[UIWebView alloc] initWithFrame:self.bounds];
     self.webView.mediaPlaybackRequiresUserAction = NO;
     [self addSubview:self.webView];
@@ -57,6 +57,11 @@
      */
 }
 
+//TODO: -try this instead of Youtube Video
+//      -zoom from top level detail to second level detail which is thumbnail 
+//      and play button, thumbnail doesn't necessarily have to be fetched from     youtube
+//      -pipe to MPMovie Player
+
 -(void)showVideo
 {
     self.webView.hidden = NO;
@@ -64,6 +69,7 @@
     {
         //TODO: Youtube iFrame API bug or Apple won't allow events to fire
         //      add border around frame here
+        
         NSString *embedHTML = @"\
         <html>\
         <body style=\"margin:0; padding:0\">\
@@ -115,9 +121,8 @@
          </body></html>";  
          */
         
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"TimeViewData" ofType:@"plist"];  
-        NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:filePath];
-        NSArray *videos = [plist objectForKey:@"Videos"];
+        TimeView* timeView = (TimeView*)self.superview;
+        NSArray *videos = timeView.videos;
         NSString *youtubeId = [videos objectAtIndex:self.tag];
         NSString* html = [NSString stringWithFormat:embedHTML, self.frame.size.width, self.frame.size.height, youtubeId];  
         [self.webView loadHTMLString:html baseURL:nil]; 

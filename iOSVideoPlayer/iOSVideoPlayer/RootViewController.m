@@ -66,8 +66,8 @@
     //UserUploadsFetcher *youtubeFetcher = [[UserUploadsFetcher alloc] init];
     //youtubeFetcher.delegate = self;
     //[youtubeFetcher connectAndParse];
-    
     [self loadTestData];
+    
     [self initScrollViews];
     
 }

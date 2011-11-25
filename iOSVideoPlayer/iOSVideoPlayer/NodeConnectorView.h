@@ -11,7 +11,7 @@
 @interface NodeConnectorView : UIView
 {}
 
-enum LineType {LineTypeStraight, LineTypeUp, LineTypeDown};
+enum LineType {Horizontal, AngleUp, AngleDown, Vertical};
 
 @property (atomic, assign) enum LineType connectLineType;
 

@@ -21,22 +21,24 @@
     return self;
 }
 
-//TODO: implement a vertical connector
 - (id)awakeAfterUsingCoder:(NSCoder *)aDecoder
 {
     self.backgroundColor = [UIColor clearColor];
     switch (self.tag) {
         case 0:
-            self.connectLineType = LineTypeStraight;
+            self.connectLineType = Horizontal;
             break;
         case 1:
-            self.connectLineType = LineTypeUp;
+            self.connectLineType = Vertical;
             break;
         case 2:
-            self.connectLineType = LineTypeDown;
+            self.connectLineType = AngleUp;
+            break;
+        case 3:
+            self.connectLineType = AngleDown;
             break;
         default:
-            self.connectLineType = LineTypeStraight;
+            self.connectLineType = Horizontal;
             break;
     }
     return self;
@@ -51,16 +53,21 @@
     int startPointY, endPointY;
     
     switch (self.connectLineType) {
-        case LineTypeUp:
+        case AngleUp:
             startPointY = self.frame.size.height;
             endPointY = 0;
             break;
-        case LineTypeDown:
+        case AngleDown:
             startPointY = 0;
             endPointY = self.frame.size.height;
             break;
-            
-        default: //LineTypeStraight
+        case Vertical:
+            startPointX = self.frame.size.width / 2;
+            endPointX = self.frame.size.width / 2;
+            startPointY = 0;
+            endPointY = self.frame.size.height;
+            break;
+        default: //Horizontal
             startPointY = self.frame.size.height / 2;
             endPointY = self.frame.size.height / 2;
             break;

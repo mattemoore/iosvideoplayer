@@ -12,6 +12,8 @@
 
 @implementation TimeView
 
+@synthesize maxDetailLevel, currentDetailLevel, videos;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -24,6 +26,13 @@
 - (id)awakeAfterUsingCoder:(NSCoder *)aDecoder
 {
     [self initGestureRecognizers];
+    self.maxDetailLevel = 1;
+    self.currentDetailLevel = -1; 
+    
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"TimeViewData" ofType:@"plist"];  
+    NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:filePath];
+    NSDictionary *videoDictionary = [plist objectForKey:@"Videos"];
+    self.videos = [videoDictionary objectForKey:@"FN11"];
     return self;
 }
 
@@ -53,6 +62,15 @@
     } 
 }
 
+- (void)updateCurrentDetailLevel:(int)newDetailLevel
+{   
+    currentDetailLevel = newDetailLevel;
+    for (id view in self.subviews)
+    {
+        if ([view isKindOfClass:[NodeView class]])
+            [(NodeView*)view displayDetailLevel:currentDetailLevel];
+    }  
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.
