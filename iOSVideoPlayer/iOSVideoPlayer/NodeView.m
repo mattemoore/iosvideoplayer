@@ -42,8 +42,11 @@
         NSString *screenshotImage = [nodeInfo objectAtIndex:2];
         self.thumbnail = [[UIImageView alloc] initWithImage:[UIImage imageNamed:thumbnailImage]];  
         self.screenshot = [[UIImageView alloc] initWithImage:[UIImage imageNamed:screenshotImage]];
+        self.playButton = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"playbutton.png"]];
+        self.playButton.frame = CGRectMake(self.frame.size.width/2 - self.playButton.frame.size.width/2, self.frame.size.height/2 - self.playButton.frame.size.height/2, self.playButton.frame.size.width, self.playButton.frame.size.height);
         [self addSubview:thumbnail];
         [self addSubview:screenshot];
+        [self.screenshot addSubview:self.playButton];
     }
     
     if (detailLevel > maxDetailLevel) return;
@@ -68,21 +71,22 @@
      */
 }
 
-
 -(void)showThumbnail
 {
     self.layer.borderWidth = 0;
-    self.thumbnail.hidden = NO;
-    self.screenshot.hidden = YES;
+    [UIView animateWithDuration:1.0 animations:^{
+        self.thumbnail.alpha = 1.0;
+        self.screenshot.alpha = 0.0;
+    }];
 }
-
-//TODO: animate between detail levels
 
 -(void)showScreenshot
 {
     self.layer.borderWidth = BORDER_WIDTH;
-    self.thumbnail.hidden = YES;
-    self.screenshot.hidden = NO;
+    [UIView animateWithDuration:1.0 animations:^{
+        self.thumbnail.alpha = 0.0;
+        self.screenshot.alpha = 1.0;
+    }];
 }
 
 -(void)playMovie //TODO: hit detector for TimeViewViewController 
