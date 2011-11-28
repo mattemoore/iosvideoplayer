@@ -8,6 +8,7 @@
 
 #import "TimeViewController.h"
 #import "TimeView.h"
+#import "TimeViewVideoController.h"
 
 @implementation TimeViewController
 
@@ -44,6 +45,7 @@
         if ([object isKindOfClass:[TimeView class]])
             timeView = (TimeView*)object;
     }
+    timeView.delegate = self;
     [timeScrollView setTimeView:timeView forOrientation:self.interfaceOrientation];
 }
 
@@ -71,4 +73,13 @@
     [timeScrollView handleRotation:self.interfaceOrientation];
 }
 
+- (void)showVideoWithYoutubeId:(NSString*)youtubeId
+{
+    TimeViewVideoController *timeViewVideoController = [[TimeViewVideoController alloc] init];
+    timeViewVideoController.view.frame = self.view.frame;
+    self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    self.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentModalViewController:timeViewVideoController animated:YES];
+    [timeViewVideoController showVideoWithYoutubeId:youtubeId];
+}
 @end

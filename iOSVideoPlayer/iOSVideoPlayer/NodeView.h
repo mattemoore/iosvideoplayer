@@ -15,7 +15,7 @@
 @property (nonatomic, assign) int maxDetailLevel;
 @property (nonatomic, strong) UIImageView *thumbnail;
 @property (nonatomic, strong) UIImageView *screenshot;
-@property (nonatomic, strong) UIImageView *playButton; //TODO: hook up play button
+@property (nonatomic, strong) UIImageView *playButton;
 
 -(void)displayDetailLevel:(int)detailLevel;
 -(void)showScreenshot;

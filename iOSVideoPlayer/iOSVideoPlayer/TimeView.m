@@ -12,7 +12,7 @@
 
 @implementation TimeView
 
-@synthesize maxDetailLevel, currentDetailLevel, videos;
+@synthesize maxDetailLevel, currentDetailLevel, videos, delegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -38,8 +38,6 @@
 
 - (void) initGestureRecognizers
 {       
-    //TODO: tapping a node when the video is showing doesn't register
-    //TODO: pinching doesn't work when 
     for (id view in self.subviews)
     {
         if ([view isKindOfClass:[NodeView class]])
@@ -55,10 +53,28 @@
 {     
     if (sender.state == UIGestureRecognizerStateEnded)     
     {   
-        CGPoint pointInTimeView = [sender locationInView:self];
-        UIView *viewThatWasTapped = [self hitTest:pointInTimeView withEvent:nil];
+        CGPoint pointOfTap = [sender locationInView:self];
+        UIView *viewThatWasTapped = [self hitTest:pointOfTap withEvent:nil];
+        
+        //play or zoom
         if ([viewThatWasTapped isKindOfClass:[NodeView class]])
-            [(TimeScrollView*)self.superview zoomToRect:viewThatWasTapped.frame animated:YES];
+        {
+            NodeView *nodeView = (NodeView*)viewThatWasTapped;
+            CGPoint pointOfTapInNodeView = [self convertPoint:pointOfTap toView:nodeView];
+            CGRect rectOfTapInNodeView = CGRectMake(pointOfTapInNodeView.x, pointOfTapInNodeView.y,1,1);
+            
+            if (CGRectIntersectsRect(nodeView.playButton.frame, rectOfTapInNodeView) &&
+                    self.maxDetailLevel == self.currentDetailLevel)
+            {
+                NSString *youtubeId = [[self.videos objectAtIndex:nodeView.tag] objectAtIndex:0];
+                [delegate showVideoWithYoutubeId:youtubeId];
+            }
+            else
+            {
+                [(TimeScrollView*)self.superview zoomToRect:viewThatWasTapped.frame animated:YES];
+            }
+        }
+            
     } 
 }
 

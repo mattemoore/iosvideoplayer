@@ -10,7 +10,7 @@
 
 @implementation TimeViewVideoController
 
-@synthesize webView;
+@synthesize webView, youtubeId, embedHTML;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,66 +43,31 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.webView = [[UIWebView alloc] initWithFrame:self.view.frame];
-    [self.view addSubview:webView];
+    self.embedHTML = @"\
+    <html><head>\
+    <style type=\"text/css\">\
+    body {\
+    ;: #333333;\
+    }\
+    #video {margin:0; padding:0;}\
+    </style>\
+    </head><body style=\"margin:0; padding:0\">\
+    <div id=\"video\">\
+    <iframe id=\"player\" width=\"%0.0f\" height=\"%0.0f\" src=\"http://www.youtube.com/embed/%@?rel=0&amp;hd=1 frameborder=\"0\"></iframe>\
+    </div>\
+    </body></html>";  
 }
 
--(void)playVideo:(NSString*)youtubeId
+-(void)showVideoWithYoutubeId:(NSString*)youtubeVideoId;
+{       
+    self.youtubeId = [youtubeVideoId copy];
+    [self loadVideo];
+}
+
+-(void)loadVideo
 {
-    NSString *embedHTML = @"\
-    <html>\
-    <body style=\"margin:0; padding:0\">\
-    <!-- 1. The <div> tag will contain the <iframe> (and video player) -->\
-    <div id=\"player\"></div>\
-    <script>\
-    var tag = document.createElement('script');\
-    tag.src = \"http://www.youtube.com/player_api\";\
-    var firstScriptTag = document.getElementsByTagName('script')[0];\
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);\
-    var player;\
-    function onYouTubePlayerAPIReady() {\
-    player = new YT.Player('player', {\
-    height: '%0.0f',\
-    width: '%0.0f',\
-    videoId: '%@',\
-    events: {'onReady':onPlayerReady,'onStateChange':onPlayerStateChange,'onError': onPlayerError }\
-    });\
-    }\
-    function onPlayerReady(event) {\
-    }\
-    function onPlayerStateChange(event) {\
-    }\
-    function onPlayerError(event) { \
-    }\
-    function stopVideo() {\
-    player.stopVideo();\
-    }\
-    </script>\
-    </body>\
-    </html>";
-    
-    /*
-     NSString* embedHTML = @"\
-     <html><head>\
-     <style type=\"text/css\">\
-     body {\
-     background-color: transparent;\
-     color: black;\
-     }\
-     #video {\
-     margin:1px;\
-     }\
-     </style>\
-     </head><body style=\"margin:0; padding:0\">\
-     <div id=\"video\">\
-     <iframe id=\"player\" width=\"%0.0f\" height=\"%0.0f\" src=\"http://www.youtube.com/embed/%@?rel=0&amp;hd=1 frameborder=\"0\" allowfullscreen enablejsapi></iframe>\
-     </div>\
-     </body></html>";  
-     */
-    
-   NSString* html = [NSString stringWithFormat:embedHTML, self.view.frame.size.width, self.view.frame.size.height, youtubeId];  
-    [self.webView loadHTMLString:html baseURL:nil]; 
+    NSString* html = [NSString stringWithFormat:embedHTML, self.webView.bounds.size.width, self.webView.bounds.size.height, self.youtubeId];  
+    [self.webView loadHTMLString:html baseURL:nil];
 }
 
 - (void)viewDidUnload
@@ -116,6 +81,12 @@
 {
     // Return YES for supported orientations
 	return YES;
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation 
+{
+    [self loadVideo];
 }
 
 @end

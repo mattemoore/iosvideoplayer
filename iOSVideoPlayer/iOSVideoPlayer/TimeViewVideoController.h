@@ -11,8 +11,11 @@
 @interface TimeViewVideoController : UIViewController
 {}
 
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) IBOutlet UIWebView *webView;
+@property (nonatomic, strong) NSString *youtubeId;
+@property (nonatomic, strong) NSString *embedHTML;
 
--(void)playVideo:(NSString*)youtubeId;
+-(void)showVideoWithYoutubeId:(NSString*)youtubeId;
+-(void)loadVideo;
 
 @end
