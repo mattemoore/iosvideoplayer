@@ -7,6 +7,7 @@
 //
 
 #import "TimeViewVideoController.h"
+#import "DSActivityView.h"
 
 #define IFRAME_PAD 3.0
 
@@ -49,6 +50,7 @@
     self.webView.mediaPlaybackRequiresUserAction = YES;
     self.webView.mediaPlaybackAllowsAirPlay = YES;
     self.webView.scrollView.scrollEnabled = NO;
+    self.webView.delegate = self;
     self.toolBar.barStyle = UIBarStyleBlack;
     self.toolBar.translucent = YES;
     self.doneButton.style = UIBarButtonItemStyleDone;
@@ -65,11 +67,17 @@
 
 -(void)showVideoWithYoutubeId:(NSString*)youtubeVideoId
 {       
+    [DSBezelActivityView newActivityViewForView:self.view withLabel:@"Loading video..."];
+    
     self.youtubeId = [youtubeVideoId copy];
     NSString* html = [NSString stringWithFormat:embedHTML, self.webView.bounds.size.width - IFRAME_PAD, self.webView.bounds.size.height - IFRAME_PAD, self.youtubeId]; 
     [self.webView loadHTMLString:html baseURL:nil];
-    //TODO: show loading until load completed, should be part of delegate
-    //TODO: put background image
+   
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+   [DSBezelActivityView removeViewAnimated:YES];
 }
 
 -(IBAction)close:(id)sender
