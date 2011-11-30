@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol TimeViewProtocol <NSObject>
+@protocol TimeViewDelegate <NSObject>
 
 -(void)showVideoWithYoutubeId:(NSString*)youtubeId;
 
@@ -21,7 +21,7 @@
 @property (nonatomic, assign) int maxDetailLevel;
 @property (nonatomic, assign) int currentDetailLevel;
 @property (nonatomic, strong) NSArray *videos;
-@property (nonatomic, assign) id <TimeViewProtocol> delegate;
+@property (nonatomic, assign) id <TimeViewDelegate> delegate;
 
 - (void) initGestureRecognizers;
 - (void)handleTap:(UITapGestureRecognizer *)sender;

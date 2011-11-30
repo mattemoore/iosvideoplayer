@@ -10,7 +10,7 @@
 #import "TimeView.h"
 #import "TimeScrollView.h"
 
-@interface TimeViewController : UIViewController <TimeViewProtocol>
+@interface TimeViewController : UIViewController <TimeViewDelegate>
 {}
 
 @property (strong, nonatomic) IBOutlet TimeScrollView *timeScrollView;

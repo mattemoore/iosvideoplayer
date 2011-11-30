@@ -8,14 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TimeViewVideoController : UIViewController
+@interface TimeViewVideoController : UIViewController <UIWebViewDelegate>
 {}
 
 @property (nonatomic, strong) IBOutlet UIWebView *webView;
 @property (nonatomic, strong) NSString *youtubeId;
 @property (nonatomic, strong) NSString *embedHTML;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *doneButton;
+@property (nonatomic, strong) IBOutlet UIToolbar *toolBar;
 
 -(void)showVideoWithYoutubeId:(NSString*)youtubeId;
--(void)loadVideo;
-
+-(IBAction)close:(id)sender;
 @end

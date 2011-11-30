@@ -22,7 +22,6 @@
     return self;
 }
 
-
 - (id)awakeAfterUsingCoder:(NSCoder *)aDecoder
 {
     [self initGestureRecognizers];
