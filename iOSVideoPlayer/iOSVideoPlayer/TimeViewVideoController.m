@@ -46,10 +46,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.webView.allowsInlineMediaPlayback = NO;
     self.webView.mediaPlaybackRequiresUserAction = YES;
-    self.webView.mediaPlaybackAllowsAirPlay = YES;
-    self.webView.scrollView.scrollEnabled = NO;
+   
+    //ios5
+    if ([UIWebView respondsToSelector:@selector(setMediaPlaybackAllowsAirPlay:)])
+    {
+        self.webView.mediaPlaybackAllowsAirPlay = YES;
+        self.webView.scrollView.scrollEnabled = NO;
+    }
+    
     self.webView.delegate = self;
     self.toolBar.barStyle = UIBarStyleBlack;
     self.toolBar.translucent = YES;
@@ -103,7 +110,7 @@
 {
     NSString *script = [NSString stringWithFormat:@"var player=document.getElementById('player');player.width='%0.0f'; player.height='%0.0f';", self.webView.bounds.size.width- IFRAME_PAD, self.webView.bounds.size.height- IFRAME_PAD];
     [self.webView stringByEvaluatingJavaScriptFromString:script];
-    self.webView.scrollView.contentSize = self.webView.bounds.size;
+    //self.webView.scrollView.contentSize = self.webView.bounds.size;
 }
 
 @end

@@ -21,10 +21,11 @@
 @property (nonatomic, assign) int maxDetailLevel;
 @property (nonatomic, assign) int currentDetailLevel;
 @property (nonatomic, strong) NSArray *videos;
-@property (nonatomic, assign) id <TimeViewDelegate> delegate;
+@property (nonatomic, assign) id <TimeViewDelegate> delegate;  //TODO: timeview video delegate and timeviewscrolldelegate
 
 - (void) initGestureRecognizers;
-- (void)handleTap:(UITapGestureRecognizer *)sender;
+- (void)handleOneFingerTap:(UITapGestureRecognizer *)sender;
+- (void)handleTwoFingerTap:(UITapGestureRecognizer *)sender;
 - (void)updateCurrentDetailLevel:(int)newDetailLevel;
 
 @end

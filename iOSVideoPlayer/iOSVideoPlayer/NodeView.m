@@ -74,19 +74,19 @@
 -(void)showThumbnail
 {
     self.layer.borderWidth = 0;
-    [UIView animateWithDuration:1.0 animations:^{
+    [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         self.thumbnail.alpha = 1.0;
         self.screenshot.alpha = 0.0;
-    }];
+    } completion:nil];
 }
 
 -(void)showScreenshot
 {
     self.layer.borderWidth = BORDER_WIDTH;
-    [UIView animateWithDuration:1.0 animations:^{
+    [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         self.thumbnail.alpha = 0.0;
         self.screenshot.alpha = 1.0;
-    }];
+    }completion:nil];
 }
 
 /*

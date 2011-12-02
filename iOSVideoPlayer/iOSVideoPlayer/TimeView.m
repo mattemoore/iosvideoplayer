@@ -41,14 +41,17 @@
     {
         if ([view isKindOfClass:[NodeView class]])
         {
-            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-
-            [(UIView*) view addGestureRecognizer:tapGestureRecognizer];
+            UITapGestureRecognizer *oneFingerTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleOneFingerTap:)];
+            [(UIView*) view addGestureRecognizer:oneFingerTapGestureRecognizer];
+            
+            UITapGestureRecognizer *twoFingerTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTwoFingerTap:)];
+            twoFingerTapGestureRecognizer.numberOfTouchesRequired = 2;
+            [(UIView*) view addGestureRecognizer:twoFingerTapGestureRecognizer];
         }
     }
 }
 
-- (void)handleTap:(UITapGestureRecognizer *)sender 
+- (void)handleOneFingerTap:(UITapGestureRecognizer *)sender 
 {     
     if (sender.state == UIGestureRecognizerStateEnded)     
     {   
@@ -62,19 +65,62 @@
             CGPoint pointOfTapInNodeView = [self convertPoint:pointOfTap toView:nodeView];
             CGRect rectOfTapInNodeView = CGRectMake(pointOfTapInNodeView.x, pointOfTapInNodeView.y,1,1);
             
-            if (CGRectIntersectsRect(nodeView.playButton.frame, rectOfTapInNodeView) &&
-                    self.maxDetailLevel == self.currentDetailLevel)
-            {
-                NSString *youtubeId = [[self.videos objectAtIndex:nodeView.tag] objectAtIndex:0];
-                [delegate showVideoWithYoutubeId:youtubeId];
+            //TODO:refactor each of these blocks into functions
+            if (self.maxDetailLevel == self.currentDetailLevel)
+            {   
+                if (CGRectIntersectsRect(nodeView.playButton.frame, rectOfTapInNodeView))            
+                {
+                    NSString *youtubeId = [[self.videos objectAtIndex:nodeView.tag] objectAtIndex:0];
+                    [delegate showVideoWithYoutubeId:youtubeId];
+                }
+                else
+                {
+                    //TODO: this should be done by delegate, lazy
+                     TimeScrollView *timeScrollView = (TimeScrollView*)self.superview;
+                    [timeScrollView setZoomScale:timeScrollView.zoomScale/2 animated:YES]; 
+                }
+                
             }
             else
             {
-                [(TimeScrollView*)self.superview zoomToRect:viewThatWasTapped.frame animated:YES];
+                //TODO: this should be done by delegate, lazy
+                [(TimeScrollView*)self.superview zoomToRect:viewThatWasTapped.frame animated:YES]; 
             }
         }
             
     } 
+}
+
+-(void)handleTwoFingerTap:(UITapGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateEnded)     
+    {   
+        CGPoint pointOfTap = [sender locationInView:self];
+        UIView *viewThatWasTapped = [self hitTest:pointOfTap withEvent:nil];
+        
+        //play or zoom
+        if ([viewThatWasTapped isKindOfClass:[NodeView class]]  && self.maxDetailLevel == self.currentDetailLevel)
+        {
+            //TODO: this should be done by delegate, lazy
+            TimeScrollView *timeScrollView = (TimeScrollView*)self.superview;
+            NodeView *nextView = nil;
+            for (UIView *view in self.subviews)
+            {
+                if ([view isKindOfClass:[NodeView class]] && (view.tag == viewThatWasTapped.tag + 1))
+                    nextView = (NodeView*)view;
+            }
+            if (nextView == nil)
+            {
+                for (UIView *view in self.subviews)
+                {
+                    if ([view isKindOfClass:[NodeView class]] && (view.tag == 0))
+                        nextView = (NodeView*)view;
+                }
+            }
+            if (nextView != nil)
+                [timeScrollView zoomToRect:nextView.frame animated:YES];
+        }
+    }
 }
 
 - (void)updateCurrentDetailLevel:(int)newDetailLevel
