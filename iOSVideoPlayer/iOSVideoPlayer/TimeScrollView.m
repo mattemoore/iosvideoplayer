@@ -43,6 +43,7 @@
     
     //select level of detail with which to render nodes
     [self updateCurrentDetailLevel];
+    
 }
 
 - (void)setZoomExtentsForOrientation:(UIInterfaceOrientation)orientation
@@ -57,7 +58,7 @@
     //detail zoom step is amount of zoom required before changing detail levels
     self.detailZoomStep = (self.maximumZoomScale - self.minimumZoomScale)  / (timeView.maxDetailLevel + 1);
     
-    //remove '+1' from denominator to 'snap' switching to maxDetailLevel at maxZoomScale
+    //remove '+1' from denominator to 'snap' switching to maxDetailLevel at maximumZoomScale
 }
 
 //after zooming is done check if we need to change detail level
@@ -95,7 +96,6 @@
     if (wasFullyZoomedOut)
     {
         self.zoomScale = self.minimumZoomScale;
-        [self setContentOffset:CGPointMake(0,0) animated:YES];
     }
     else
     {
@@ -106,7 +106,18 @@
             self.zoomScale = self.maximumZoomScale;
     }
 }
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView 
+{
+    //if zoom scale makes content smaller than size of scrollView we need to center the content in scrollView
+    CGFloat offsetX = (scrollView.bounds.size.width > scrollView.contentSize.width)? 
+    (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
+    CGFloat offsetY = (scrollView.bounds.size.height > scrollView.contentSize.height)? 
+    (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
+    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(offsetY, offsetX, offsetY, offsetX);
+    self.contentInset = edgeInsets;
     
+}
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {

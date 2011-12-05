@@ -55,6 +55,7 @@
         [self showThumbnail];
     else if (detailLevel == 1)
         [self showScreenshot];
+    
     /*
     if (detailLevel == 0)
         self.backgroundColor = [UIColor yellowColor];

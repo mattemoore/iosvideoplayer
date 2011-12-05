@@ -15,7 +15,6 @@
 @synthesize timeScrollView;
 
 //TODO:check network before loading video
-//TODO:start centered when zoomed out max
 //TODO:show title of view somewhere
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -69,7 +68,6 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    //TODO: simply with frame.center
     timeScrollView.centerPreRotate = CGPointMake(CGRectGetMidX(timeScrollView.bounds), CGRectGetMidY(timeScrollView.bounds));
 }
 

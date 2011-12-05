@@ -58,32 +58,31 @@
         CGPoint pointOfTap = [sender locationInView:self];
         UIView *viewThatWasTapped = [self hitTest:pointOfTap withEvent:nil];
         
-        //play or zoom
         if ([viewThatWasTapped isKindOfClass:[NodeView class]])
         {
             NodeView *nodeView = (NodeView*)viewThatWasTapped;
             CGPoint pointOfTapInNodeView = [self convertPoint:pointOfTap toView:nodeView];
             CGRect rectOfTapInNodeView = CGRectMake(pointOfTapInNodeView.x, pointOfTapInNodeView.y,1,1);
             
-            //TODO:refactor each of these blocks into functions
-            if (self.maxDetailLevel == self.currentDetailLevel)
+            //TODO: this should be done by delegate 
+            TimeScrollView *timeScrollView = (TimeScrollView*)self.superview;
+            
+            //show vid
+            if ((self.maxDetailLevel == self.currentDetailLevel) && 
+                (CGRectIntersectsRect(nodeView.playButton.frame, rectOfTapInNodeView)))
             {   
-                if (CGRectIntersectsRect(nodeView.playButton.frame, rectOfTapInNodeView))            
-                {
-                    NSString *youtubeId = [[self.videos objectAtIndex:nodeView.tag] objectAtIndex:0];
-                    [delegate showVideoWithYoutubeId:youtubeId];
-                }
-                else
-                {
-                    //TODO: this should be done by delegate, lazy
-                     TimeScrollView *timeScrollView = (TimeScrollView*)self.superview;
-                    [timeScrollView setZoomScale:timeScrollView.zoomScale/2 animated:YES]; 
-                }
-                
+               NSString *youtubeId = [[self.videos objectAtIndex:nodeView.tag] objectAtIndex:0];
+                [delegate showVideoWithYoutubeId:youtubeId];
             }
+            //zoom out to start of last detail level
+            else if (timeScrollView.zoomScale == timeScrollView.maximumZoomScale)
+            {
+                 TimeScrollView *timeScrollView = (TimeScrollView*)self.superview;
+                [timeScrollView setZoomScale:timeScrollView.minimumZoomScale + (timeScrollView.detailZoomStep * self.currentDetailLevel) animated:YES]; 
+            }
+            //zoom in
             else
             {
-                //TODO: this should be done by delegate, lazy
                 [(TimeScrollView*)self.superview zoomToRect:viewThatWasTapped.frame animated:YES]; 
             }
         }
@@ -98,11 +97,10 @@
         CGPoint pointOfTap = [sender locationInView:self];
         UIView *viewThatWasTapped = [self hitTest:pointOfTap withEvent:nil];
         
-        //play or zoom
-        if ([viewThatWasTapped isKindOfClass:[NodeView class]]  && self.maxDetailLevel == self.currentDetailLevel)
+        //TODO: this should be done by delegate "zoom to next video"
+        TimeScrollView *timeScrollView = (TimeScrollView*)self.superview;
+        if ([viewThatWasTapped isKindOfClass:[NodeView class]]  && timeScrollView.zoomScale == timeScrollView.maximumZoomScale)
         {
-            //TODO: this should be done by delegate, lazy
-            TimeScrollView *timeScrollView = (TimeScrollView*)self.superview;
             NodeView *nextView = nil;
             for (UIView *view in self.subviews)
             {
