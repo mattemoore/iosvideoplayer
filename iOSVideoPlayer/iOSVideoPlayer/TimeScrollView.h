@@ -16,6 +16,7 @@
 
 @property (nonatomic, assign) float detailZoomStep;
 @property (nonatomic, assign) CGPoint centerPreRotate;
+@property (nonatomic, strong) UIView *titleView;
 
 
 - (void)setTimeView:(TimeView*)theTimeView forOrientation:(UIInterfaceOrientation)orientation;

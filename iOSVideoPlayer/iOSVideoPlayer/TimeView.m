@@ -12,7 +12,7 @@
 
 @implementation TimeView
 
-@synthesize maxDetailLevel, currentDetailLevel, videos, delegate;
+@synthesize maxDetailLevel, currentDetailLevel, videos, delegate, title;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -27,7 +27,7 @@
     [self initGestureRecognizers];
     self.maxDetailLevel = 1;
     self.currentDetailLevel = -1; 
-    
+    self.title = @"Fight Night 11";
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"TimeViewData" ofType:@"plist"];  
     NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:filePath];
     NSDictionary *videoDictionary = [plist objectForKey:@"Videos"];

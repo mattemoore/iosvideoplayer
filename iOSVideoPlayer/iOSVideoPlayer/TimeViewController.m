@@ -12,10 +12,7 @@
 
 @implementation TimeViewController
 
-@synthesize timeScrollView;
-
-//TODO:check network before loading video
-//TODO:show title of view somewhere
+@synthesize timeScrollView, titleLabel, helpButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -49,6 +46,7 @@
             timeView = (TimeView*)object;
     }
     timeView.delegate = self;
+    self.titleLabel.text = timeView.title;
     [timeScrollView setTimeView:timeView forOrientation:self.interfaceOrientation];
 }
 
@@ -68,13 +66,20 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    timeScrollView.centerPreRotate = CGPointMake(CGRectGetMidX(timeScrollView.bounds), CGRectGetMidY(timeScrollView.bounds));
+    timeScrollView.centerPreRotate = CGPointMake(timeScrollView.contentOffset.x + timeScrollView.bounds.size.width/2, timeScrollView.contentOffset.y + timeScrollView.bounds.size.height/2);
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation 
 {
     [timeScrollView handleRotation:self.interfaceOrientation];
 }
+
+-(IBAction)showHelp:(id)sender
+{
+    
+}
+
+//TimeView delegate methods
 
 - (void)showVideoWithYoutubeId:(NSString*)youtubeId
 {

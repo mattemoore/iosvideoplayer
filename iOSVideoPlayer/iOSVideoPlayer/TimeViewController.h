@@ -13,8 +13,14 @@
 @interface TimeViewController : UIViewController <TimeViewDelegate>
 {}
 
-@property (strong, nonatomic) IBOutlet TimeScrollView *timeScrollView;
+//TODO: help screen content
+//TODO: add new level of detail whereby the play button isn't shown until max
 
+@property (strong, nonatomic) IBOutlet TimeScrollView *timeScrollView;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UIButton *helpButton;
+
+-(IBAction)showHelp:(id)sender;
 
 
 @end

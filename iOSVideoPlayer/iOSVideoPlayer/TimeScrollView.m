@@ -16,12 +16,13 @@
 
 @implementation TimeScrollView
     
-@synthesize detailZoomStep, centerPreRotate;
+@synthesize detailZoomStep, centerPreRotate, titleView;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
     }
     return self;
 }
@@ -44,6 +45,7 @@
     //select level of detail with which to render nodes
     [self updateCurrentDetailLevel];
     
+   
 }
 
 - (void)setZoomExtentsForOrientation:(UIInterfaceOrientation)orientation
@@ -86,7 +88,7 @@
 
 - (void)handleRotation:(UIInterfaceOrientation)orientation
 {
-    self.contentSize = timeView.frame.size;
+    //self.contentSize = timeView.frame.size;
     
     bool wasFullyZoomedOut = (self.zoomScale == self.minimumZoomScale);
     bool wasFullyZoomedIn = (self.zoomScale == self.maximumZoomScale);
@@ -99,11 +101,15 @@
     }
     else
     {
+        
         CGPoint newOrigin = CGPointMake(centerPreRotate.x - (self.frame.size.width/2), centerPreRotate.y - (self.frame.size.height/2));
         [self setContentOffset:newOrigin animated:YES];
         
         if (wasFullyZoomedIn)
+        {
             self.zoomScale = self.maximumZoomScale;
+            //TODO: for some reason this is off a few pixels x and y.
+        }
     }
 }
 
@@ -115,7 +121,7 @@
     CGFloat offsetY = (scrollView.bounds.size.height > scrollView.contentSize.height)? 
     (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(offsetY, offsetX, offsetY, offsetX);
-    self.contentInset = edgeInsets;
+    [self setContentInset:edgeInsets];
     
 }
 
