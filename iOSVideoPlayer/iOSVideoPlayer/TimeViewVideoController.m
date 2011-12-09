@@ -47,8 +47,9 @@
 {
     [super viewDidLoad];
     
-    self.webView.allowsInlineMediaPlayback = NO;
-    self.webView.mediaPlaybackRequiresUserAction = YES;
+    
+    //self.webView.allowsInlineMediaPlayback = NO;
+    self.webView.mediaPlaybackRequiresUserAction = NO;
    
     //ios5
     if ([UIWebView respondsToSelector:@selector(setMediaPlaybackAllowsAirPlay:)])
@@ -64,11 +65,11 @@
     
     self.embedHTML = @"\
     <html><head>\
-    <style type=\"text/css\">\
+    <style type='text/css'>\
     body {background: #000000;margin:0;padding:0;}\
     </style>\
     </head><body>\
-    <iframe id=\"player\" width='%0.0f' height='%0.0f' src=\"http://www.youtube.com/embed/%@?rel=0&amp;hd=1 frameborder=\"1\"></iframe>\
+    <iframe id='player' type='text/html' width='%0.0f' height='%0.0f' src='http://www.youtube.com/embed/%@?rel=0&amp;autoplay=1' frameborder='0' allowFullScreen></iframe>\
     </body></html>";  
 }
 
