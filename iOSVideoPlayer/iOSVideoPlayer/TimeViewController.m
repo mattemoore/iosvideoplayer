@@ -8,7 +8,8 @@
 
 #import "TimeViewController.h"
 #import "TimeView.h"
-#import "TimeViewVideoController.h"
+#import "VideoViewController.h"
+#import "HelpViewController.h"
 
 @implementation TimeViewController
 
@@ -76,18 +77,22 @@
 
 -(IBAction)showHelp:(id)sender
 {
-    
+    HelpViewController *helpViewController = [[HelpViewController alloc] initWithNibName:@"HelpViewController" bundle:[NSBundle mainBundle]];
+    helpViewController.view.frame = self.view.frame;
+    self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    self.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentModalViewController:helpViewController animated:YES];
 }
 
 //TimeView delegate methods
 
 - (void)showVideoWithYoutubeId:(NSString*)youtubeId
 {
-    TimeViewVideoController *timeViewVideoController = [[TimeViewVideoController alloc] init];
-    timeViewVideoController.view.frame = self.view.frame;
+    VideoViewController *videoViewController = [[VideoViewController alloc] initWithNibName:@"VideoViewController" bundle:[NSBundle mainBundle]];
+    videoViewController.view.frame = self.view.frame;
     self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     self.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentModalViewController:timeViewVideoController animated:YES];
-    [timeViewVideoController showVideoWithYoutubeId:youtubeId];
+    [self presentModalViewController:videoViewController animated:YES];
+    [videoViewController showVideoWithYoutubeId:youtubeId];
 }
 @end

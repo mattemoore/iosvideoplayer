@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TimeViewVideoController : UIViewController <UIWebViewDelegate>
+@interface VideoViewController : UIViewController <UIWebViewDelegate>
 {}
 
 @property (nonatomic, strong) IBOutlet UIWebView *webView;

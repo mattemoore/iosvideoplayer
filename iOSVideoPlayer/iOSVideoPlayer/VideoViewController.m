@@ -6,12 +6,12 @@
 //  Copyright (c) 2011 Matt Moore. All rights reserved.
 //
 
-#import "TimeViewVideoController.h"
+#import "VideoViewController.h"
 #import "DSActivityView.h"
 
 #define IFRAME_PAD 3.0
 
-@implementation TimeViewVideoController
+@implementation VideoViewController
 
 @synthesize webView, youtubeId, embedHTML, doneButton, toolBar;
 
@@ -47,9 +47,8 @@
 {
     [super viewDidLoad];
     
-    
-    //self.webView.allowsInlineMediaPlayback = NO;
-    self.webView.mediaPlaybackRequiresUserAction = NO;
+    self.webView.allowsInlineMediaPlayback = NO; //disregarded by iPad
+    self.webView.mediaPlaybackRequiresUserAction = NO; //can't seem to get this to work
    
     //ios5
     if ([UIWebView respondsToSelector:@selector(setMediaPlaybackAllowsAirPlay:)])

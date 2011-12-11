@@ -44,8 +44,6 @@
     
     //select level of detail with which to render nodes
     [self updateCurrentDetailLevel];
-    
-   
 }
 
 - (void)setZoomExtentsForOrientation:(UIInterfaceOrientation)orientation
